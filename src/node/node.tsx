@@ -1,10 +1,6 @@
 import { NodeProps } from "../helpers/raw_node"
 import "./node.scss"
 
-const RIGHT_ARROW = "&#9654;"
-const DOWN_ARROW = "&#9660;"
-const DOT = "&#9679;"
-
 function Node(props: NodeProps) {
   console.log(`Given props: ${JSON.stringify(props)}`)
 
@@ -40,41 +36,36 @@ function Node(props: NodeProps) {
 
   function arrowDiv(): JSX.Element {
     if (props.children !== undefined && props.children!!.length > 0) {
-      return <div className="node-arrow noselect">${nodeArrow()}</div>
+      return (
+        <div className="node-arrow noselect">
+          {props.isExpanded ? <>&#9660;</> : <>&#9654;</>}
+        </div>
+      )
     } else {
       return <div className="no-node-arrow noselect"></div>
     }
   }
 
-  function nodeArrow() {
-    return props.isExpanded ? DOWN_ARROW : RIGHT_ARROW
-  }
-
-  console.log("UH?")
-  console.log(`Node children: ${props.children && props.children.length}`)
-
+  // If its ugly and it works?
   return (
-    <div className="node-row">
-      {arrowDiv()}
-      <div className="no-node-arrow noselect"></div>
-      {/* TODO: this linking doesn't work  */}
-      <a href="/#/${node.id}" className="node-bullet noselect">
-        &#9679;
-      </a>
-      {/* TODO: content editable doesn't work well here with react. */}
-      <div className="node-text" contentEditable="true" tabIndex={-1}>
-        {props.text}
+    <div className="node">
+      <div className="node-row">
+        {arrowDiv()}
+        <div className="no-node-arrow noselect"></div>
+        {/* TODO: this linking doesn't work  */}
+        <a href="/#/${node.id}" className="node-bullet noselect">
+          &#9679;
+        </a>
+        {/* TODO: content editable doesn't work well here with react. */}
+        <div className="node-text" contentEditable="true" tabIndex={-1}>
+          {props.text}
+        </div>
       </div>
       {props.children !== undefined && props.children?.length > 0 ? (
         <div className="node-children">
           {props.children.map((x) => {
-            console.log("NESTED")
             return <Node {...x}></Node>
-            // return <div>Nest</div>
           })}
-          {/* hello */}
-          {/* <Node {...x}></Node */}
-          {/* props.children.forEach((x) => <div></div> */}
         </div>
       ) : (
         <></>
@@ -84,4 +75,3 @@ function Node(props: NodeProps) {
 }
 
 export default Node
-// export { NodeProps }

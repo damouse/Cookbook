@@ -25,7 +25,7 @@ function Editor(props: EditorProps) {
   return (
     <div id="listContainer">
       <div id="currentFilters"></div>
-      <div id="list">
+      <div id="list" className="root-children">
         <Node {...state.editorState}></Node>
         {/* <div className="loader"></div> */}
         {/* <Node text="This is my text" isExpanded={true}></Node> */}

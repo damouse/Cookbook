@@ -4,13 +4,13 @@
 //   adjustHasChildren,
 // } from './tree_utils';
 
-import RawNode from "../helpers/raw_node"
-
 // import { makeCorrectionsToNodeAndItsDescendants } from './make_corrections_to_node_and_its_descendants';
 // import { moveCurrentBlockUp, moveCurrentBlockDown } from './move';
 // import { collapseBlock, expandBlock } from './collapse_expand_block';
 // import { ROOT_KEY, MAX_DEPTH } from '../constants';
 // import { onTab } from './tab';
+
+import RawNode from "../helpers/raw_node"
 
 export const LOAD = "LOAD"
 export const CHANGE = "CHANGE"
@@ -39,7 +39,6 @@ export interface EditorState {
 
 interface LoadAction {
   type: typeof LOAD
-  // editorState: EditorState
   source: string
 }
 
