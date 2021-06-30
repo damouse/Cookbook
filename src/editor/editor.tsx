@@ -33,6 +33,7 @@ function Editor() {
     <div id="listContainer">
       <div id="currentFilters"></div>
       <div id="list">
+        <Node {...editorState}></Node>
         {/* <div className="loader"></div> */}
         {/* <Node text="This is my text" isExpanded={true}></Node> */}
       </div>

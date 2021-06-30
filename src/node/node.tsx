@@ -1,19 +1,21 @@
-import React from "react";
-import logo from "../assets/logo.svg";
-import "./node.scss";
+import React from "react"
+import logo from "../assets/logo.svg"
+import "./node.scss"
 
-interface Props {
-  text: string;
-  id: string;
-  isExpanded: boolean | undefined;
-  children: [Node] | undefined;
+interface NodeProps {
+  text: string
+  id: string
+  isExpanded: boolean | undefined
+  children: NodeProps[] | undefined
 }
 
-const RIGHT_ARROW = "&#9654;";
-const DOWN_ARROW = "&#9660;";
-const DOT = "&#9679;";
+const RIGHT_ARROW = "&#9654;"
+const DOWN_ARROW = "&#9660;"
+const DOT = "&#9679;"
 
-function Node(props: Props) {
+function Node(props: NodeProps) {
+  console.log(`Given props: ${JSON.stringify(props)}`)
+
   function toggleCompleted() {
     // return produce(this, draft => {
     // draft.isCompleted = !draft.isCompleted;
@@ -44,17 +46,17 @@ function Node(props: Props) {
     // });
   }
 
-  function arrowDiv() {
-    // if (props.children.length > 0) {
-    //   return <div className="node-arrow noselect">${nodeArrow()}</div>;
-    // } else {
-    //   return `<div class="no-node-arrow noselect"></div>`;
-    // }
-    return <div className="no-node-arrow noselect"></div>;
+  function arrowDiv(): JSX.Element {
+    if (props.children !== undefined || props.children!!.length > 0) {
+      return <div className="node-arrow noselect">${nodeArrow()}</div>
+    } else {
+      return <div className="no-node-arrow noselect"></div>
+    }
+    // return <div className="no-node-arrow noselect"></div>;
   }
 
   function nodeArrow() {
-    return props.isExpanded ? DOWN_ARROW : RIGHT_ARROW;
+    return props.isExpanded ? DOWN_ARROW : RIGHT_ARROW
   }
 
   return (
@@ -65,11 +67,13 @@ function Node(props: Props) {
       <a href="/#/${node.id}" className="node-bullet noselect">
         &#9679;
       </a>
+      {/* TODO: content editable doesn't work well here with react. */}
       <div className="node-text" contentEditable="true" tabIndex={-1}>
         {props.text}
       </div>
     </div>
-  );
+  )
 }
 
-export default Node;
+export default Node
+// export { NodeProps }
