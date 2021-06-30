@@ -1,7 +1,22 @@
-import React from "react";
-import logo from "../assets/logo.svg";
+import React, { useState } from "react"
+import RawNode from "../helpers/raw_node"
 // import "./Editor2.scss";
 
-function State() {}
+function State(source: string): RawNode {
+  //   const [nodes, setNodes] = useState<Node[]>(new Array<Node>());
 
-export default State;
+  let root = new RawNode("", "")
+  // const [activeNode, setActiveNode] = useState<RawNode>(root)
+
+  let payload = JSON.parse(source) as RawNode
+  console.log(`Payload: ${JSON.stringify(payload)}`)
+  root = payload
+  // setActiveNode(root)
+
+  return root
+  // return activeNode
+
+  return new RawNode("", "")
+}
+
+export default State
