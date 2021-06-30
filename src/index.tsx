@@ -6,7 +6,21 @@ import reportWebVitals from "./reportWebVitals"
 import App from "./app/app"
 import Editor from "./editor/editor"
 
-ReactDOM.render(<Editor />, document.getElementById("root"))
+const rawJson = `{
+  "id": "asdf",
+  "text": "first",
+  "children": [{
+      "id": "b",
+      "text": "1"
+    },
+    {
+      "id": "c",
+      "text": "2"
+    }
+  ]
+}`
+
+ReactDOM.render(<Editor source={rawJson} />, document.getElementById("root"))
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

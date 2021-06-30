@@ -10,35 +10,17 @@ const initialState: EditorState = {
   zoomedInItemId: "",
 }
 
-function Editor() {
-  const [state, dispatch] = useReducer<
-    React.Reducer<EditorState, EditorActions>
-  >(stateReducer, initialState)
+interface EditorProps {
+  source: string
+}
 
-  // editorState.loadText();
-  // const editorState = State(rawJson)
+function Editor(props: EditorProps) {
+  const [state, dispatch] = useReducer(stateReducer, initialState)
 
-  // TODO: use this to download/sync state
+  // This should only run once, on startup
   useEffect(() => {
-    // Update the document title using the browser API
-    document.title = `You clicked Hello`
-
-    const rawJson = `{
-      "id": "asdf",
-      "text": "first",
-      "children": [{
-          "id": "b",
-          "text": "1"
-        },
-        {
-          "id": "c",
-          "text": "2"
-        }
-      ]
-    }`
-
-    dispatch({ type: LOAD, source: rawJson })
-  })
+    dispatch({ type: LOAD, source: props.source })
+  }, [props.source])
 
   return (
     <div id="listContainer">

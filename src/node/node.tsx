@@ -39,7 +39,7 @@ function Node(props: NodeProps) {
   }
 
   function arrowDiv(): JSX.Element {
-    if (props.children !== undefined || props.children!!.length > 0) {
+    if (props.children !== undefined && props.children!!.length > 0) {
       return <div className="node-arrow noselect">${nodeArrow()}</div>
     } else {
       return <div className="no-node-arrow noselect"></div>
@@ -50,9 +50,12 @@ function Node(props: NodeProps) {
     return props.isExpanded ? DOWN_ARROW : RIGHT_ARROW
   }
 
+  console.log("UH?")
+  console.log(`Node children: ${props.children && props.children.length}`)
+
   return (
     <div className="node-row">
-      {/* {arrowDiv()} */}
+      {arrowDiv()}
       <div className="no-node-arrow noselect"></div>
       {/* TODO: this linking doesn't work  */}
       <a href="/#/${node.id}" className="node-bullet noselect">
@@ -62,6 +65,20 @@ function Node(props: NodeProps) {
       <div className="node-text" contentEditable="true" tabIndex={-1}>
         {props.text}
       </div>
+      {props.children !== undefined && props.children?.length > 0 ? (
+        <div className="node-children">
+          {props.children.map((x) => {
+            console.log("NESTED")
+            return <Node {...x}></Node>
+            // return <div>Nest</div>
+          })}
+          {/* hello */}
+          {/* <Node {...x}></Node */}
+          {/* props.children.forEach((x) => <div></div> */}
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   )
 }
