@@ -1,14 +1,11 @@
-import { Children } from "react"
-
-interface NodeProps {
+export interface NodeProps {
   text: string
   id: string
   isExpanded: boolean | undefined
-  children: [NodeProps] | undefined
+  children: NodeProps[] | undefined
 }
 
-// TODO: move to own file. State probably also doesn't need sass?
-class RawNode {
+class RawNode implements NodeProps {
   public id: string
   public text: string
   public isExpanded: boolean | undefined
@@ -27,9 +24,10 @@ class RawNode {
     }
   }
 
-  // public addChild = (id: string, text: string) => {
-  //   this.children.push(new RawNode(id, text))
-  // }
+  public addChild = (id: string, text: string) => {
+    this.children.push(new RawNode(id, text))
+  }
 }
 
+// export default RawNode
 export default RawNode

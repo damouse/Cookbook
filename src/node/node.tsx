@@ -1,13 +1,5 @@
-import React from "react"
-import logo from "../assets/logo.svg"
+import { NodeProps } from "../helpers/raw_node"
 import "./node.scss"
-
-interface NodeProps {
-  text: string
-  id: string
-  isExpanded: boolean | undefined
-  children: NodeProps[] | undefined
-}
 
 const RIGHT_ARROW = "&#9654;"
 const DOWN_ARROW = "&#9660;"
@@ -52,7 +44,6 @@ function Node(props: NodeProps) {
     } else {
       return <div className="no-node-arrow noselect"></div>
     }
-    // return <div className="no-node-arrow noselect"></div>;
   }
 
   function nodeArrow() {
