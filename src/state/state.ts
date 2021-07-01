@@ -10,31 +10,32 @@
 // import { ROOT_KEY, MAX_DEPTH } from '../constants';
 // import { onTab } from './tab';
 
-import RawNode from "../node/raw_node"
+import RawNode, { NodeInterface } from '../node/raw_node'
 
-export const LOAD = "LOAD"
-export const CHANGE = "CHANGE"
-export const SET_ROOT_EDITOR_STATE = "SET_ROOT_EDITOR_STATE"
-export const SET_EDITOR_STATE = "SET_EDITOR_STATE"
-export const SET_STATE = "SET_STATE"
-export const INSERT_SOFT_NEWLINE = "INSERT_SOFT_NEWLINE"
-export const ZOOM = "ZOOM"
-export const COLLAPSE_ITEM = "COLLAPSE_ITEM"
-export const EXPAND_ITEM = "EXPAND_ITEM"
-export const EXPAND_ALL = "EXPAND_ALL"
-export const COLLAPSE_ALL = "COLLAPSE_ALL"
-export const MOVE_UP = "MOVE_UP"
-export const MOVE_DOWN = "MOVE_DOWN"
-export const TOGGLE_COMPLETION = "TOGGLE_COMPLETION"
-export const DELETE_CURRENT_ITEM = "DELETE_CURRENT_ITEM "
-export const INDENT = "INDENT"
-export const DEDENT = "DEDENT"
-export const BOOKMARK = "BOOKMARK"
+export const LOAD = 'LOAD'
+export const CHANGE = 'CHANGE'
+export const SET_ROOT_EDITOR_STATE = 'SET_ROOT_EDITOR_STATE'
+export const SET_EDITOR_STATE = 'SET_EDITOR_STATE'
+export const SET_STATE = 'SET_STATE'
+export const INSERT_SOFT_NEWLINE = 'INSERT_SOFT_NEWLINE'
+export const ZOOM = 'ZOOM'
+export const COLLAPSE_ITEM = 'COLLAPSE_ITEM'
+export const EXPAND_ITEM = 'EXPAND_ITEM'
+export const EXPAND_ALL = 'EXPAND_ALL'
+export const COLLAPSE_ALL = 'COLLAPSE_ALL'
+export const MOVE_UP = 'MOVE_UP'
+export const MOVE_DOWN = 'MOVE_DOWN'
+export const TOGGLE_COMPLETION = 'TOGGLE_COMPLETION'
+export const DELETE_CURRENT_ITEM = 'DELETE_CURRENT_ITEM '
+export const INDENT = 'INDENT'
+export const DEDENT = 'DEDENT'
+export const BOOKMARK = 'BOOKMARK'
 
 export interface EditorState {
-  rootEditorState: RawNode
-  editorState: RawNode
+  root: NodeInterface
+  active: NodeInterface
   zoomedInItemId: string
+  ancestors: Map<string, NodeInterface | null>
 }
 
 interface LoadAction {
@@ -44,7 +45,7 @@ interface LoadAction {
 
 interface ChangeAction {
   type: typeof CHANGE
-  editorState: EditorState
+  active: NodeInterface
 }
 
 interface InsertSoftNewlineAction {
@@ -137,22 +138,47 @@ export type EditorActions =
   | ExpandItemAction
   | LoadAction
 
-export function stateReducer(
-  state: EditorState,
-  action: EditorActions
-): EditorState {
+/**
+ * Build a mapping of node_id -> parent node
+ */
+function parseAncestors(root: NodeInterface, ancestors: Map<string, NodeInterface | null>) {
+  // console.log(`A Parse on ${root.id}, ${root.children}`)
+
+  if (root.children !== undefined) {
+    root.children.forEach((node: NodeInterface) => {
+      ancestors.set(node.id, root)
+      console.log(`Setting ${node.id} ${JSON.stringify(ancestors)} ${ancestors.entries.length}`)
+      parseAncestors(node, ancestors)
+    })
+  }
+}
+
+export function stateReducer(state: EditorState, action: EditorActions): EditorState {
   switch (action.type) {
     case LOAD:
+      // Mmh I'm not sure if this is the best way to do this. Setting the parent in the array
+      // means that the whole node gets copied into the ancestors map-- n^2 complexity.
+      const node = JSON.parse(action.source) as RawNode
+      let newAncestors = new Map<string, NodeInterface | null>()
+      // newAncestors.set(node.id, null)
+      // parseAncestors(node, newAncestors)
+
+      // console.log(`After setting root: ${newAncestors.size} ${newAncestors}`)
+      // console.log(`Node: ${JSON.stringify(node)}`)
+      // console.log(`Ancestors: ${JSON.stringify(Array.from(newAncestors.entries()))}`)
+
       return {
         ...state,
-        editorState: JSON.parse(action.source) as RawNode,
+        active: node,
+        root: node,
+        ancestors: newAncestors
       }
 
-    // case CHANGE:
-    //   return {
-    //     ...state,
-    //     editorState: action.editorState,
-    //   }
+    case CHANGE:
+      return {
+        ...state,
+        active: action.active
+      }
     // // case INSERT_SOFT_NEWLINE:
     // //   return {
     // //     ...state,
@@ -171,7 +197,7 @@ export function stateReducer(
     case SET_STATE:
       return {
         ...state,
-        [action.prop]: action.val,
+        [action.prop]: action.val
       }
     // case MOVE_UP:
     //   return {

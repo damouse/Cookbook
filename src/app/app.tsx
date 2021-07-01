@@ -6,15 +6,15 @@ import { GlobalStyles } from '../theme/global_styles'
 import { useTheme } from '../theme/theme'
 
 const rawJson = `{
-  "id": "asdf",
-  "text": "first",
+  "id": "a",
+  "text": "a",
   "children": [{
       "id": "b",
-      "text": "1"
+      "text": "b"
     },
     {
       "id": "c",
-      "text": "2"
+      "text": "c"
     },
     {
       "id": "d",
@@ -23,7 +23,17 @@ const rawJson = `{
     },
     {
       "id": "e",
-      "text": "2"
+      "text": "e",
+      "children": [
+        {
+          "id": "f",
+          "text": "f"
+        },
+        {
+          "id": "g",
+          "text": "g"
+        }
+      ]
     }
   ]
 }`

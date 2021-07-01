@@ -1,9 +1,9 @@
-import { NodeProps } from './raw_node'
+import { NodeInterface } from './raw_node'
 import { Link } from 'react-router-dom'
-import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
+import { ContentEditableEvent } from 'react-contenteditable'
 import './node.scss'
 
-function Node(props: NodeProps) {
+function Node(props: NodeInterface) {
   // console.log(`Given props: ${JSON.stringify(props)}`)
   const hasChildren = props.children !== undefined && props.children!!.length > 0
   const body = props.isCode ? <code>{props.text}</code> : <>{props.text}</>
@@ -31,7 +31,9 @@ function Node(props: NodeProps) {
     <div className="node">
       <div className="node-row">
         {hasChildren ? (
-          <div className="node-arrow noselect">{props.isExpanded ? <>&#9660;</> : <>&#9654;</>}</div>
+          <div className="node-arrow noselect">
+            {props.isExpanded ? <>&#9660;</> : <>&#9654;</>}
+          </div>
         ) : (
           <div className="no-node-arrow noselect"></div>
         )}

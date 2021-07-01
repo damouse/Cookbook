@@ -1,23 +1,19 @@
-export interface NodeProps {
+export interface NodeInterface {
   text: string
   id: string
   isExpanded: boolean
   isCode: boolean
-  children: NodeProps[]
+  children: NodeInterface[]
 }
 
-class RawNode implements NodeProps {
+class RawNode implements NodeInterface {
   public id: string
   public text: string
   public isExpanded: boolean = false
   public isCode: boolean = false
-  public children = new Array<NodeProps>()
+  public children = new Array<NodeInterface>()
 
-  constructor(
-    id: string,
-    text: string,
-    children: NodeProps[] | undefined = undefined
-  ) {
+  constructor(id: string, text: string, children: NodeInterface[] | undefined = undefined) {
     this.id = id
     this.text = text
 

@@ -1,17 +1,19 @@
 import { useEffect, useReducer } from 'react'
-import RawNode from '../node/raw_node'
+import RawNode, { NodeInterface } from '../node/raw_node'
 import Node from '../node/node'
 import { EditorState, LOAD, stateReducer } from '../state/state'
 import './editor.scss'
 import Menu from '../menu/menu'
 
 const initialState: EditorState = {
-  rootEditorState: new RawNode('', ''),
-  editorState: new RawNode('', ''),
-  zoomedInItemId: ''
+  root: new RawNode('', ''),
+  active: new RawNode('', ''),
+  zoomedInItemId: '',
+  ancestors: new Map<string, NodeInterface | null>()
 }
 
 interface EditorProps {
+  // TODO: move this somewhere else?
   source: string
   hash: string | undefined
   onThemeChange: () => void
@@ -20,9 +22,10 @@ interface EditorProps {
 function Editor(props: EditorProps) {
   const [state, dispatch] = useReducer(stateReducer, initialState)
 
-  // Detect the currently loading page
+  // Detect the currently loading page. TODO: forward to State and activate the correct
+  // node for this path. TODO: this should probably be done lazily.
   // const { hash } = props
-  //   console.log(`Hash: ${hash}`)
+  // console.log(`Hash: ${hash}`)
 
   // This should only run once, on startup. Its not.
   useEffect(() => {
@@ -38,13 +41,13 @@ function Editor(props: EditorProps) {
       </div>
 
       <div id="listHeader">
-        <Menu onThemeChange={props.onThemeChange}></Menu>
+        <Menu onThemeChange={props.onThemeChange} state={state}></Menu>
       </div>
 
       <div id="listContainer">
         <div id="currentFilters"></div>
         <div id="list" className="root-children">
-          <Node {...state.editorState}></Node>
+          <Node {...state.active}></Node>
           {/* <div className="loader"></div> */}
         </div>
       </div>
