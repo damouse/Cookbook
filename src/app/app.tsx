@@ -33,13 +33,10 @@ const App = () => {
   const [selectedTheme, setSelectedTheme] = useState(theme)
 
   useEffect(() => {
-    console.log(`Theme: ${JSON.stringify(theme)}`)
     setSelectedTheme(theme)
   }, [themeLoaded])
 
   function onThemeChange() {
-    console.log('Theme change')
-
     if (theme.name == 'light') {
       setMode('dark')
     } else {
@@ -47,11 +44,12 @@ const App = () => {
     }
   }
 
+  console.log(`Theme changed: ${theme}`)
+
   return (
     <>
       {themeLoaded && (
         <ThemeProvider theme={selectedTheme}>
-          <h1>Hello</h1>
           <GlobalStyles />
           <Router>
             <Route

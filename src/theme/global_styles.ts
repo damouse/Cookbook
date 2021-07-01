@@ -16,6 +16,8 @@ export const GlobalStyles = createGlobalStyle`
 h1 {
   color: ${(x: any) => x.theme.colors.main_text_color};
 }
+
+// Ok, I'm going to need a better way of doing this.
 `
 
 // body {
