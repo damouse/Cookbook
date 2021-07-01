@@ -29,6 +29,14 @@ export function stateReducer(state: EditorState, action: EditorActions): EditorS
     case CLEAR_FOCUS:
       return { ...state, focus: null }
 
+    case CLEAR_FOCUS:
+      return { ...state, focus: null }
+
+    case EDIT:
+      let node = state.nodes.get(action.id)
+      node!.text = action.text
+      return state
+
     case FOCUS:
       return {
         ...state,
@@ -121,6 +129,13 @@ export const BOOKMARK = 'BOOKMARK'
 export const CREATE = 'CREATE'
 export const FOCUS = 'FOCUS'
 export const CLEAR_FOCUS = 'CLEAR_FOCUS'
+export const EDIT = 'EDIT'
+
+interface EditAction {
+  type: typeof EDIT
+  id: string
+  text: string
+}
 
 interface FocusAction {
   type: typeof FOCUS
@@ -240,6 +255,7 @@ export type EditorActions =
   | CreateAction
   | FocusAction
   | ClearFocusAction
+  | EditAction
 
 // import {
 //   getBlocksWithItsDescendants,

@@ -69,7 +69,6 @@ export function loadEditorState(source: string, target: string): EditorState {
     target: target,
     nodes: nodes,
     parents: parents,
-    // siblingIndex: siblingIndex,
     focus: null
   }
 }
@@ -111,7 +110,7 @@ export function indent(state: EditorState, node_id: string): EditorState {
   }
 
   const newParent = parent!.children[idx - 1]
-  console.log(`Index ${idx} New Parent ${JSON.stringify(newParent)}`)
+  console.log(`Index ${idx} New Parent ${JSON.stringify(newParent)} Node text ${node.text}`)
   parent?.children.splice(idx, 1)
   newParent.children.push(node)
 

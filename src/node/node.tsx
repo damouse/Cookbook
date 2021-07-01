@@ -1,9 +1,9 @@
 import { NodeInterface } from './raw_node'
 import { Link } from 'react-router-dom'
-import { ContentEditableEvent } from 'react-contenteditable'
+import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 import './node.scss'
-import { CLEAR_FOCUS, CREATE, DEDENT, EditorActions, INDENT } from '../state/state_resolver'
-import { useEffect, useRef } from 'react'
+import { CLEAR_FOCUS, CREATE, DEDENT, EDIT, EditorActions, INDENT } from '../state/state_resolver'
+import React, { useEffect, useRef } from 'react'
 
 interface NodeProps extends NodeInterface {
   dispatch: React.Dispatch<EditorActions>
@@ -24,13 +24,6 @@ function Node(props: NodeProps) {
     <></>
   )
 
-  // I'm actually not sure this is going to work. Hitting enter will add divs within the
-  // editing div, and I probably want newlines?
-  const handleChange = (evt: ContentEditableEvent) => {
-    console.log(`On change: ${evt.target.value}`)
-    // text.current = evt.target.value
-  }
-
   function onFocus() {
     console.log(`Focus on ${props.id}`)
     return props.dispatch({ type: CLEAR_FOCUS })
@@ -40,6 +33,7 @@ function Node(props: NodeProps) {
     console.log(`Keypress: ${event.key}`)
 
     if (event.shiftKey && event.keyCode == 9) {
+      event.preventDefault()
       return props.dispatch({ type: DEDENT, id: props.id })
     }
 
@@ -53,6 +47,18 @@ function Node(props: NodeProps) {
       default:
         console.log(`Some other key: ${event.key}`)
     }
+  }
+
+  function onInput(event: React.FormEvent<HTMLDivElement>) {
+    // console.log(`Input Event: ${event.}`)
+  }
+
+  // I'm actually not sure this is going to work. Hitting enter will add divs within the
+  // editing div, and I probably want newlines?
+  const handleChange = (evt: ContentEditableEvent) => {
+    console.log(`On change: ${evt.target.value}`)
+    return props.dispatch({ type: EDIT, id: props.id, text: evt.target.value })
+    // text.current = evt.target.value
   }
 
   // If its ugly and it works?
@@ -72,7 +78,7 @@ function Node(props: NodeProps) {
         </Link>
 
         {/* TODO: content editable doesn't play nicely with react. */}
-        <div
+        {/* <div
           className="node-text"
           key={`node-body-${props.id}`}
           contentEditable="true"
@@ -86,16 +92,25 @@ function Node(props: NodeProps) {
               input?.focus()
             }
           }}
-          // onInput={e => console.log('Text inside div', e.currentTarget.textContent)}
+          onInput={onInput}
         >
           {body}
-        </div>
+        </div> */}
 
-        {/* <ContentEditable
+        <ContentEditable
           className="node-text"
+          key={`node-body-${props.id}`}
           html={props.text}
-          onChange={handleChange} 
-          />*/}
+          onChange={handleChange}
+          onFocus={onFocus}
+          onKeyDown={onKeyDown}
+          // ref={(input: any) => {
+          //   // Focus on this node if state indicates
+          //   if (props.id === props.focus) {
+          //     input?.focus()
+          //   }
+          // }}
+        />
       </div>
       {children}
     </div>
