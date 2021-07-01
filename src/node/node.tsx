@@ -46,6 +46,14 @@ function Node(props: NodeProps) {
     }
   }
 
+  let body = <></>
+
+  if (props.isCode) {
+    body = <code>{props.text}</code>
+  } else {
+    body = <>{props.text}</>
+  }
+
   // If its ugly and it works?
   return (
     <div className="node">
@@ -58,7 +66,7 @@ function Node(props: NodeProps) {
         </a>
         {/* TODO: content editable doesn't work well here with react. */}
         <div className="node-text" contentEditable="true" tabIndex={-1}>
-          {props.text}
+          {body}
         </div>
       </div>
       {props.children !== undefined && props.children?.length > 0 ? (
@@ -72,6 +80,12 @@ function Node(props: NodeProps) {
       )}
     </div>
   )
+}
+
+Node.defaultProps = {
+  isExpanded: true,
+  children: [],
+  isCode: false,
 }
 
 export default Node

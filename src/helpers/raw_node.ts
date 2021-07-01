@@ -1,14 +1,16 @@
 export interface NodeProps {
   text: string
   id: string
-  isExpanded: boolean | undefined
-  children: NodeProps[] | undefined
+  isExpanded: boolean
+  isCode: boolean
+  children: NodeProps[]
 }
 
 class RawNode implements NodeProps {
   public id: string
   public text: string
-  public isExpanded: boolean | undefined
+  public isExpanded: boolean = false
+  public isCode: boolean = false
   public children = new Array<NodeProps>()
 
   constructor(

@@ -5,8 +5,8 @@
   --highlight-color: #6200ee;
   --tag-color: #bb86fc;
   --disabled-tag-color: rgb(187, 134, 252, 0.38);
-  --background-color: #000000;
-  --list-card-color: #121212;
+  --background-color: #1e1f1c;
+  --list-card-color: #272822;
 }
 
 body {
@@ -55,8 +55,14 @@ a:visited {
   width: 700px;
   min-height: 680px;
   padding: 30px;
-  background-color: var(--list-card-color);
+  // background-color: var(--list-card-color);
   border-radius: 25px;
+}
+
+// TODO: how do descendants work in sass?
+code {
+  // background-color: ;
+  background-color: var(--list-card-color);
 }
 
 [contenteditable] {

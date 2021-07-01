@@ -16,6 +16,15 @@ const rawJson = `{
     {
       "id": "c",
       "text": "2"
+    },
+    {
+      "id": "c",
+      "text": "My Code Block",
+      "isCode": true
+    },
+    {
+      "id": "c",
+      "text": "2"
     }
   ]
 }`
