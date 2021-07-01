@@ -54,7 +54,7 @@ const App = () => {
     }
   }
 
-  console.log(`Theme changed: ${theme}`)
+  // console.log(`Theme changed: ${theme}`)
 
   return (
     <>

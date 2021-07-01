@@ -2,9 +2,21 @@ import { NodeInterface } from './raw_node'
 import { Link } from 'react-router-dom'
 import { ContentEditableEvent } from 'react-contenteditable'
 import './node.scss'
-import { KeyboardEventHandler } from 'react'
+import { EditorActions, INDENT } from '../state/state_resolver'
 
-function Node(props: NodeInterface) {
+interface NodeProps extends NodeInterface {
+  dispatch: React.Dispatch<EditorActions>
+}
+
+const ENTER = 13
+const BACKSPACE = 8
+const TAB = 9
+const UP_ARROW = 38
+const RIGHT_ARROW = 39
+const DOWN_ARROW = 40
+const LEFT_ARROW = 37
+
+function Node(props: NodeProps) {
   // console.log(`Given props: ${JSON.stringify(props)}`)
   const hasChildren = props.children !== undefined && props.children!!.length > 0
   const body = props.isCode ? <code>{props.text}</code> : <>{props.text}</>
@@ -12,7 +24,7 @@ function Node(props: NodeInterface) {
   const children = hasChildren ? (
     <div className="node-children">
       {props.children.map(x => {
-        return <Node {...x} key={x.id}></Node>
+        return <Node {...x} dispatch={props.dispatch} key={x.id}></Node>
       })}
     </div>
   ) : (
@@ -28,6 +40,15 @@ function Node(props: NodeInterface) {
 
   function onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
     console.log(`Keypress: ${event.key}`)
+    event.preventDefault()
+
+    switch (event.key) {
+      case 'Enter':
+        // console.log('Enter')
+        return props.dispatch({ type: INDENT, id: props.id })
+      default:
+        console.log(`Some other key: ${event.key}`)
+    }
   }
 
   function onFocus() {

@@ -12,21 +12,17 @@ interface Props {
 // TODO: actually make a menu list
 function Menu(props: Props) {
   let menuList: JSX.Element[] = []
-
   let curr: NodeInterface | null = props.state.active
-  console.log('Menu construction')
+  // console.log('Menu construction')
 
   while (curr !== null) {
-    console.log(`On ${curr.id}, ${curr.text}`)
-
     menuList.push(
-      <Link to={{ pathname: `/${curr.id}` }} className="path-link">
+      <Link to={{ pathname: `/${curr.id}` }} key={'menu-link-' + curr.id} className="path-link">
         {curr.text}
       </Link>
     )
 
     menuList.push(<>{'  >  '}</>)
-
     let next = props.state.parents.get(curr.id)
 
     if (next !== undefined) {
@@ -37,7 +33,7 @@ function Menu(props: Props) {
   }
 
   menuList.push(
-    <Link key={'root'} to={{ pathname: '/' }} className="path-link">
+    <Link to={{ pathname: '/' }} key={'root_menu'} className="path-link">
       Home
     </Link>
   )

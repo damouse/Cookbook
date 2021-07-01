@@ -60,11 +60,25 @@ export function loadEditorState(source: string, target: string): EditorState {
     root: node,
     // TODO: validate that the node exists!
     active: active,
-    target: '',
+    target: target,
     nodes: nodes,
     parents: parents,
     siblingIndex: siblingIndex
   }
 }
 
-export function setActive() {}
+export function setActive(state: EditorState, target: string): EditorState {
+  let active = state.active
+
+  if (target != state.target && state.nodes.get(target) !== undefined) {
+    active = state.nodes.get(target)!
+  }
+
+  console.log(`Target ${target} current ${state.target} `)
+
+  return {
+    ...state,
+    active: active,
+    target: target
+  }
+}

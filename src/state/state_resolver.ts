@@ -1,5 +1,4 @@
-import RawNode, { NodeInterface } from '../node/raw_node'
-import { EditorState, loadEditorState } from './editor_state'
+import { EditorState, loadEditorState, setActive } from './editor_state'
 
 export function stateReducer(state: EditorState, action: EditorActions): EditorState {
   switch (action.type) {
@@ -7,27 +6,39 @@ export function stateReducer(state: EditorState, action: EditorActions): EditorS
       return loadEditorState(action.source, state.target)
 
     case CHANGE:
-      let active = state.active
+      return setActive(state, action.target)
+    // let active = state.active
 
-      if (
-        action.target !== undefined &&
-        action.target !== '' &&
-        state.nodes.get(action.target) !== undefined
-      ) {
-        active = state.nodes.get(action.target)!
-      }
+    // if (
+    //   action.target !== undefined &&
+    //   action.target !== '' &&
+    //   state.nodes.get(action.target) !== undefined
+    // ) {
+    //   active = state.nodes.get(action.target)!
+    // }
 
-      return {
-        ...state,
-        active,
-        target: action.target
-      }
+    // return {
+    //   ...state,
+    //   active,
+    //   target: action.target
+    // }
+
     case SET_STATE:
       return {
         ...state,
         [action.prop]: action.val
       }
 
+    // case INDENT:
+    //   return {
+    //     ...state,
+    //     editorState: onTab(state.editorState, MAX_DEPTH, state.zoomedInItemId)
+    //   }
+    // case DEDENT:
+    //   return {
+    //     ...state,
+    //     editorState: onTab(state.editorState, MAX_DEPTH, state.zoomedInItemId, true)
+    //   }
     // // case INSERT_SOFT_NEWLINE:
     // //   return {
     // //     ...state,
@@ -82,21 +93,7 @@ export function stateReducer(state: EditorState, action: EditorActions): EditorS
     //   // TODO: we should always pluck out the id of the thing to zoom to
     //   // and then send it to this reducer
     //   return zoomReducer(state, action.blockKey)
-    // case INDENT:
-    //   return {
-    //     ...state,
-    //     editorState: onTab(state.editorState, MAX_DEPTH, state.zoomedInItemId),
-    //   }
-    // case DEDENT:
-    //   return {
-    //     ...state,
-    //     editorState: onTab(
-    //       state.editorState,
-    //       MAX_DEPTH,
-    //       state.zoomedInItemId,
-    //       true
-    //     ),
-    //   }
+
     // case BOOKMARK:
     //   return {
     //     ...state,
@@ -196,10 +193,12 @@ interface DeleteCurrentItemAction {
 
 interface IndentItemAction {
   type: typeof INDENT
+  id: string
 }
 
 interface DedentItemAction {
   type: typeof DEDENT
+  id: string
 }
 
 interface BookmarkAction {
