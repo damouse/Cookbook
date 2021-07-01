@@ -17,7 +17,7 @@ interface EditorProps {
 function Editor(props: EditorProps) {
   const [state, dispatch] = useReducer(stateReducer, initialState)
 
-  // This should only run once, on startup
+  // This should only run once, on startup. Its not.
   useEffect(() => {
     dispatch({ type: LOAD, source: props.source })
   }, [props.source])
@@ -28,7 +28,6 @@ function Editor(props: EditorProps) {
       <div id="list" className="root-children">
         <Node {...state.editorState}></Node>
         {/* <div className="loader"></div> */}
-        {/* <Node text="This is my text" isExpanded={true}></Node> */}
       </div>
     </div>
   )

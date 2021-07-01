@@ -60,7 +60,6 @@ function Node(props: NodeProps) {
       <div className="node-row">
         {arrowDiv()}
         <div className="no-node-arrow noselect"></div>
-        {/* TODO: this linking doesn't work  */}
         <a href="/#/${node.id}" className="node-bullet noselect">
           &#9679;
         </a>

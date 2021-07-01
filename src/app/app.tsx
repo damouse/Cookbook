@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from '../assets/logo.svg';
-import './App.scss';
+import { BrowserRouter as Router, Route } from "react-router-dom"
+import Editor from "../editor/editor"
 
-function App() {
+const rawJson = `{
+  "id": "asdf",
+  "text": "first",
+  "children": [{
+      "id": "b",
+      "text": "1"
+    },
+    {
+      "id": "c",
+      "text": "2"
+    },
+    {
+      "id": "c",
+      "text": "My Code Block",
+      "isCode": true
+    },
+    {
+      "id": "c",
+      "text": "2"
+    }
+  ]
+}`
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          EditT <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Router>
+        <Route
+          exact
+          path="/"
+          render={(_: any) => <Editor source={rawJson} />}
+        />
+        <Route path="/:hash" render={(_: any) => <Editor source={rawJson} />} />
+      </Router>
+    </>
+  )
 }
 
-export default App;
+export default App
