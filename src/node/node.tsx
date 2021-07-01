@@ -60,7 +60,7 @@ function Node(props: NodeProps) {
       <div className="node-row">
         {arrowDiv()}
         <div className="no-node-arrow noselect"></div>
-        <a href="/#/${node.id}" className="node-bullet noselect">
+        <a href={`/${props.id}`} className="node-bullet noselect">
           &#9679;
         </a>
         {/* TODO: content editable doesn't work well here with react. */}
