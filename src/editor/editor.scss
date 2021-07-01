@@ -1,7 +1,7 @@
 @import '../variables.scss';
 
 #listContainer {
-  @include theme-aware('background-color', 'secondary-background-color');
+  // @include theme-aware('background-color', 'secondary-background-color');
 
   margin: auto;
   width: 700px;

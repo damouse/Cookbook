@@ -36,7 +36,7 @@ const rawJson = `{
 }`
 
 const App = () => {
-  const { theme, themeLoaded, setMode, toggleTheme } = useTheme()
+  const { themeLoaded, toggleTheme } = useTheme()
   // const [selectedTheme, setSelectedTheme] = useState(theme)
 
   return (
