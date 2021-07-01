@@ -2,6 +2,7 @@ import { NodeInterface } from './raw_node'
 import { Link } from 'react-router-dom'
 import { ContentEditableEvent } from 'react-contenteditable'
 import './node.scss'
+import { KeyboardEventHandler } from 'react'
 
 function Node(props: NodeInterface) {
   // console.log(`Given props: ${JSON.stringify(props)}`)
@@ -23,6 +24,14 @@ function Node(props: NodeInterface) {
   const handleChange = (evt: ContentEditableEvent) => {
     console.log(`On change: ${evt.target.value}`)
     // text.current = evt.target.value
+  }
+
+  function onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    console.log(`Keypress: ${event.key}`)
+  }
+
+  function onFocus() {
+    console.log(`Focus on ${props.id}`)
   }
 
   // If its ugly and it works?
@@ -47,6 +56,8 @@ function Node(props: NodeInterface) {
           contentEditable="true"
           tabIndex={-1}
           suppressContentEditableWarning={true}
+          onFocus={onFocus}
+          onKeyDown={onKeyDown}
           onInput={e => console.log('Text inside div', e.currentTarget.textContent)}
         >
           {body}

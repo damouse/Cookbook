@@ -6,14 +6,15 @@ export interface NodeInterface {
   children: NodeInterface[]
 }
 
+// The only thing this class really adds is safe .children access
 class RawNode implements NodeInterface {
   public id: string
   public text: string
   public isExpanded: boolean = false
   public isCode: boolean = false
-  public children = new Array<NodeInterface>()
+  public children = new Array<RawNode>()
 
-  constructor(id: string, text: string, children: NodeInterface[] | undefined = undefined) {
+  constructor(id: string, text: string, children: RawNode[] | undefined = undefined) {
     this.id = id
     this.text = text
 

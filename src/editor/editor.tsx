@@ -1,15 +1,20 @@
 import { useEffect, useReducer } from 'react'
 import RawNode, { NodeInterface } from '../node/raw_node'
 import Node from '../node/node'
-import { EditorState, LOAD, stateReducer } from '../state/state'
+import { CHANGE, LOAD, stateReducer } from '../state/state_resolver'
 import './editor.scss'
 import Menu from '../menu/menu'
+import { EditorState } from '../state/editor_state'
 
+// A little chunky. Why does the editor class have to have all these details?
+// maybe sink this into state somehow?
 const initialState: EditorState = {
   root: new RawNode('', ''),
   active: new RawNode('', ''),
-  zoomedInItemId: '',
-  ancestors: new Map<string, NodeInterface | null>()
+  target: '',
+  nodes: new Map<string, RawNode>(),
+  parents: new Map<string, RawNode | null>(),
+  siblingIndex: new Map<string, number>()
 }
 
 interface EditorProps {
@@ -24,8 +29,12 @@ function Editor(props: EditorProps) {
 
   // Detect the currently loading page. TODO: forward to State and activate the correct
   // node for this path. TODO: this should probably be done lazily.
-  // const { hash } = props
-  // console.log(`Hash: ${hash}`)
+  const { hash } = props
+
+  if (hash !== undefined && hash !== state.target) {
+    console.log(`Hash: ${hash}`)
+    dispatch({ type: CHANGE, target: hash })
+  }
 
   // This should only run once, on startup. Its not.
   useEffect(() => {

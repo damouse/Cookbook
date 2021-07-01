@@ -1,16 +1,110 @@
-// import {
-//   getBlocksWithItsDescendants,
-//   hasChildren,
-//   adjustHasChildren,
-// } from './tree_utils';
-
-// import { makeCorrectionsToNodeAndItsDescendants } from './make_corrections_to_node_and_its_descendants';
-// import { moveCurrentBlockUp, moveCurrentBlockDown } from './move';
-// import { collapseBlock, expandBlock } from './collapse_expand_block';
-// import { ROOT_KEY, MAX_DEPTH } from '../constants';
-// import { onTab } from './tab';
-
 import RawNode, { NodeInterface } from '../node/raw_node'
+import { EditorState, loadEditorState } from './editor_state'
+
+export function stateReducer(state: EditorState, action: EditorActions): EditorState {
+  switch (action.type) {
+    case LOAD:
+      return loadEditorState(action.source, state.target)
+
+    case CHANGE:
+      let active = state.active
+
+      if (
+        action.target !== undefined &&
+        action.target !== '' &&
+        state.nodes.get(action.target) !== undefined
+      ) {
+        active = state.nodes.get(action.target)!
+      }
+
+      return {
+        ...state,
+        active,
+        target: action.target
+      }
+    case SET_STATE:
+      return {
+        ...state,
+        [action.prop]: action.val
+      }
+    // // case INSERT_SOFT_NEWLINE:
+    // //   return {
+    // //     ...state,
+    // //     editorState: RichUtils.insertSoftNewline(state.editorState),
+    // //   }
+    // case SET_ROOT_EDITOR_STATE:
+    //   return {
+    //     ...state,
+    //     rootEditorState: action.editorState,
+    //   }
+    // case SET_EDITOR_STATE:
+    //   return {
+    //     ...state,
+    //     editorState: action.editorState,
+    //   }
+
+    // case MOVE_UP:
+    //   return {
+    //     ...state,
+    //     editorState: moveCurrentBlockUp(
+    //       state.editorState,
+    //       state.zoomedInItemId
+    //     ),
+    //   }
+    // case MOVE_DOWN:
+    //   return {
+    //     ...state,
+    //     editorState: moveCurrentBlockDown(
+    //       state.editorState,
+    //       state.zoomedInItemId
+    //     ),
+    //   }
+    // case COLLAPSE_ITEM:
+    //   return {
+    //     ...state,
+    //     editorState: collapseBlock(state.editorState, action.blockKey),
+    //   }
+    // case EXPAND_ITEM:
+    //   return {
+    //     ...state,
+    //     editorState: expandBlock(state.editorState, action.blockKey),
+    //   }
+    // case EXPAND_ALL:
+    //   return expandCollapseAll(state, false)
+    // case COLLAPSE_ALL:
+    //   return expandCollapseAll(state, true)
+    // case TOGGLE_COMPLETION:
+    //   return toggleCompleteReducer(state)
+    // case DELETE_CURRENT_ITEM:
+    //   return deleteItemWithChildren(state)
+    // case ZOOM:
+    //   // TODO: we should always pluck out the id of the thing to zoom to
+    //   // and then send it to this reducer
+    //   return zoomReducer(state, action.blockKey)
+    // case INDENT:
+    //   return {
+    //     ...state,
+    //     editorState: onTab(state.editorState, MAX_DEPTH, state.zoomedInItemId),
+    //   }
+    // case DEDENT:
+    //   return {
+    //     ...state,
+    //     editorState: onTab(
+    //       state.editorState,
+    //       MAX_DEPTH,
+    //       state.zoomedInItemId,
+    //       true
+    //     ),
+    //   }
+    // case BOOKMARK:
+    //   return {
+    //     ...state,
+    //     editorState: toggleBookmark(state.editorState, state.zoomedInItemId),
+    //   }
+    default:
+      return state
+  }
+}
 
 export const LOAD = 'LOAD'
 export const CHANGE = 'CHANGE'
@@ -31,13 +125,6 @@ export const INDENT = 'INDENT'
 export const DEDENT = 'DEDENT'
 export const BOOKMARK = 'BOOKMARK'
 
-export interface EditorState {
-  root: NodeInterface
-  active: NodeInterface
-  zoomedInItemId: string
-  ancestors: Map<string, NodeInterface | null>
-}
-
 interface LoadAction {
   type: typeof LOAD
   source: string
@@ -45,7 +132,7 @@ interface LoadAction {
 
 interface ChangeAction {
   type: typeof CHANGE
-  active: NodeInterface
+  target: string
 }
 
 interface InsertSoftNewlineAction {
@@ -138,130 +225,17 @@ export type EditorActions =
   | ExpandItemAction
   | LoadAction
 
-/**
- * Build a mapping of node_id -> parent node
- */
-function parseAncestors(root: NodeInterface, ancestors: Map<string, NodeInterface | null>) {
-  // console.log(`A Parse on ${root.id}, ${root.children}`)
+// import {
+//   getBlocksWithItsDescendants,
+//   hasChildren,
+//   adjustHasChildren,
+// } from './tree_utils';
 
-  if (root.children !== undefined) {
-    root.children.forEach((node: NodeInterface) => {
-      ancestors.set(node.id, root)
-      console.log(`Setting ${node.id} ${JSON.stringify(ancestors)} ${ancestors.entries.length}`)
-      parseAncestors(node, ancestors)
-    })
-  }
-}
-
-export function stateReducer(state: EditorState, action: EditorActions): EditorState {
-  switch (action.type) {
-    case LOAD:
-      // Mmh I'm not sure if this is the best way to do this. Setting the parent in the array
-      // means that the whole node gets copied into the ancestors map-- n^2 complexity.
-      const node = JSON.parse(action.source) as RawNode
-      let newAncestors = new Map<string, NodeInterface | null>()
-      // newAncestors.set(node.id, null)
-      // parseAncestors(node, newAncestors)
-
-      // console.log(`After setting root: ${newAncestors.size} ${newAncestors}`)
-      // console.log(`Node: ${JSON.stringify(node)}`)
-      // console.log(`Ancestors: ${JSON.stringify(Array.from(newAncestors.entries()))}`)
-
-      return {
-        ...state,
-        active: node,
-        root: node,
-        ancestors: newAncestors
-      }
-
-    case CHANGE:
-      return {
-        ...state,
-        active: action.active
-      }
-    // // case INSERT_SOFT_NEWLINE:
-    // //   return {
-    // //     ...state,
-    // //     editorState: RichUtils.insertSoftNewline(state.editorState),
-    // //   }
-    // case SET_ROOT_EDITOR_STATE:
-    //   return {
-    //     ...state,
-    //     rootEditorState: action.editorState,
-    //   }
-    // case SET_EDITOR_STATE:
-    //   return {
-    //     ...state,
-    //     editorState: action.editorState,
-    //   }
-    case SET_STATE:
-      return {
-        ...state,
-        [action.prop]: action.val
-      }
-    // case MOVE_UP:
-    //   return {
-    //     ...state,
-    //     editorState: moveCurrentBlockUp(
-    //       state.editorState,
-    //       state.zoomedInItemId
-    //     ),
-    //   }
-    // case MOVE_DOWN:
-    //   return {
-    //     ...state,
-    //     editorState: moveCurrentBlockDown(
-    //       state.editorState,
-    //       state.zoomedInItemId
-    //     ),
-    //   }
-    // case COLLAPSE_ITEM:
-    //   return {
-    //     ...state,
-    //     editorState: collapseBlock(state.editorState, action.blockKey),
-    //   }
-    // case EXPAND_ITEM:
-    //   return {
-    //     ...state,
-    //     editorState: expandBlock(state.editorState, action.blockKey),
-    //   }
-    // case EXPAND_ALL:
-    //   return expandCollapseAll(state, false)
-    // case COLLAPSE_ALL:
-    //   return expandCollapseAll(state, true)
-    // case TOGGLE_COMPLETION:
-    //   return toggleCompleteReducer(state)
-    // case DELETE_CURRENT_ITEM:
-    //   return deleteItemWithChildren(state)
-    // case ZOOM:
-    //   // TODO: we should always pluck out the id of the thing to zoom to
-    //   // and then send it to this reducer
-    //   return zoomReducer(state, action.blockKey)
-    // case INDENT:
-    //   return {
-    //     ...state,
-    //     editorState: onTab(state.editorState, MAX_DEPTH, state.zoomedInItemId),
-    //   }
-    // case DEDENT:
-    //   return {
-    //     ...state,
-    //     editorState: onTab(
-    //       state.editorState,
-    //       MAX_DEPTH,
-    //       state.zoomedInItemId,
-    //       true
-    //     ),
-    //   }
-    // case BOOKMARK:
-    //   return {
-    //     ...state,
-    //     editorState: toggleBookmark(state.editorState, state.zoomedInItemId),
-    //   }
-    default:
-      return state
-  }
-}
-
+// import { makeCorrectionsToNodeAndItsDescendants } from './make_corrections_to_node_and_its_descendants';
+// import { moveCurrentBlockUp, moveCurrentBlockDown } from './move';
+// import { collapseBlock, expandBlock } from './collapse_expand_block';
+// import { ROOT_KEY, MAX_DEPTH } from '../constants';
+// import { onTab } from './tab';
 /*
 function updateSelectionForZoom(
   editorState: EditorState,
@@ -299,6 +273,7 @@ function updateSelectionForZoom(
 
   return EditorState.forceSelection(editorState, newSelectionState)
 }
+
 
 // This function create a new editorState with blocks only in the sub tree rooted at the zoomedInItemId
 // function withBlocksForZoomedInItem(

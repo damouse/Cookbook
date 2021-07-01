@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { NodeInterface } from '../node/raw_node'
-import { EditorState } from '../state/state'
+import { EditorState } from '../state/editor_state'
 import './menu.scss'
 
 interface Props {
