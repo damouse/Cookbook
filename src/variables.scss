@@ -1,0 +1,52 @@
+// Dark
+// :root {
+//   --main-text-color: rgb(255, 255, 255, 0.87);
+//   --secondary-text-color: rgb(255, 255, 255, 0.6);
+//   --disabled-text-color: rgb(255, 255, 255, 0.38);
+//   --highlight-color: #6200ee;
+//   --tag-color: #bb86fc;
+//   --disabled-tag-color: rgb(187, 134, 252, 0.38);
+//   --background-color: #1e1f1c;
+//   --list-card-color: #272822;
+// }
+
+// Light
+:root {
+  --background-color: #ffffff;
+  --secondary-background-color: #f1f3f5;
+  --main-text-color: rgb(42, 49, 53);
+  --secondary-text-color: rgb(42, 49, 53);
+  --disabled-text-color: rgb(42, 49, 53);
+  --highlight-color: #6200ee;
+  --tag-color: #bb86fc;
+  --disabled-tag-color: rgb(187, 134, 252, 0.38);
+  --list-card-color: #f1f3f5;
+}
+
+$themes: (
+  lighty: (
+    color-background: #fafafa,
+    color-card: red
+  ),
+  darky: (
+    color-background: #37474f,
+    color-card: green
+  )
+);
+
+/**
+ * theme-aware - Change color of a css property based on the currently active theme
+ *
+ * @param  {key}     CSS property
+ * @param  {color}   Color name defined in the themes under _color-palette.scss
+ *
+ * @example - @include theme-aware('background', 'color-background');
+ * @returns - background: #FFF;
+ */
+@mixin theme-aware($key, $color) {
+  @each $theme-name, $theme-color in $themes {
+    .theme-#{$theme-name} & {
+      #{$key}: map-get(map-get($themes, $theme-name), $color);
+    }
+  }
+}

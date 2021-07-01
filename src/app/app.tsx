@@ -48,9 +48,13 @@ const App = () => {
 
   function onThemeChange() {
     if (theme.name == 'light') {
-      setMode('dark')
+      // setMode('dark')
+      document.documentElement.className = ''
+      document.documentElement.classList.add(`theme-darky`)
     } else {
-      setMode('light')
+      // setMode('light')
+      document.documentElement.className = ''
+      document.documentElement.classList.add(`theme-lighty`)
     }
   }
 

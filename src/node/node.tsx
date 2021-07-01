@@ -11,6 +11,7 @@ interface NodeProps extends NodeInterface {
 }
 
 function Node(props: NodeProps) {
+  // Check out https://highlightjs.org/
   const hasChildren = props.children !== undefined && props.children!!.length > 0
   const body = props.isCode ? `<code>${props.text}</code>` : props.text
 
@@ -88,7 +89,6 @@ function Node(props: NodeProps) {
           innerRef={(input: any) => {
             // Focus on this node if state indicates
             if (input !== null && props.id === props.focus) {
-              // console.log(`Fields ${Object.getOwnPropertyNames(input)}`)
               input.focus()
             }
           }}
@@ -106,24 +106,3 @@ Node.defaultProps = {
 }
 
 export default Node
-
-/* TODO: content editable doesn't play nicely with react. */
-/* <div
-          className="node-text"
-          key={`node-body-${props.id}`}
-          contentEditable="true"
-          tabIndex={-1}
-          suppressContentEditableWarning={true}
-          onFocus={onFocus}
-          onKeyDown={onKeyDown}
-          ref={input => {
-            // console.log(`${Object.getOwnPropertyNames(input)}`)
-            // Focus on this node if state indicates
-            if (props.id === props.focus) {
-              input?.focus()
-            }
-          }}
-          onInput={onInput}
-        >
-          {body}
-        </div> */
