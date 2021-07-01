@@ -1,4 +1,4 @@
-import { EditorState, loadEditorState, setActive } from './editor_state'
+import { createNode, EditorState, indent, loadEditorState, setActive } from './editor_state'
 
 export function stateReducer(state: EditorState, action: EditorActions): EditorState {
   switch (action.type) {
@@ -7,21 +7,6 @@ export function stateReducer(state: EditorState, action: EditorActions): EditorS
 
     case CHANGE:
       return setActive(state, action.target)
-    // let active = state.active
-
-    // if (
-    //   action.target !== undefined &&
-    //   action.target !== '' &&
-    //   state.nodes.get(action.target) !== undefined
-    // ) {
-    //   active = state.nodes.get(action.target)!
-    // }
-
-    // return {
-    //   ...state,
-    //   active,
-    //   target: action.target
-    // }
 
     case SET_STATE:
       return {
@@ -29,16 +14,27 @@ export function stateReducer(state: EditorState, action: EditorActions): EditorS
         [action.prop]: action.val
       }
 
-    // case INDENT:
-    //   return {
-    //     ...state,
-    //     editorState: onTab(state.editorState, MAX_DEPTH, state.zoomedInItemId)
-    //   }
-    // case DEDENT:
-    //   return {
-    //     ...state,
-    //     editorState: onTab(state.editorState, MAX_DEPTH, state.zoomedInItemId, true)
-    //   }
+    case INDENT:
+      return indent(state, action.id)
+
+    case DEDENT:
+      return indent(state, action.id)
+
+    case CREATE:
+      return createNode(state, action.id)
+
+    case CREATE:
+      return createNode(state, action.id)
+
+    case CLEAR_FOCUS:
+      return { ...state, focus: null }
+
+    case FOCUS:
+      return {
+        ...state,
+        focus: action.id
+      }
+
     // // case INSERT_SOFT_NEWLINE:
     // //   return {
     // //     ...state,
@@ -122,6 +118,23 @@ export const DELETE_CURRENT_ITEM = 'DELETE_CURRENT_ITEM '
 export const INDENT = 'INDENT'
 export const DEDENT = 'DEDENT'
 export const BOOKMARK = 'BOOKMARK'
+export const CREATE = 'CREATE'
+export const FOCUS = 'FOCUS'
+export const CLEAR_FOCUS = 'CLEAR_FOCUS'
+
+interface FocusAction {
+  type: typeof FOCUS
+  id: string
+}
+
+interface ClearFocusAction {
+  type: typeof CLEAR_FOCUS
+}
+
+interface CreateAction {
+  type: typeof CREATE
+  id: string
+}
 
 interface LoadAction {
   type: typeof LOAD
@@ -224,6 +237,9 @@ export type EditorActions =
   | CollapseItemAction
   | ExpandItemAction
   | LoadAction
+  | CreateAction
+  | FocusAction
+  | ClearFocusAction
 
 // import {
 //   getBlocksWithItsDescendants,

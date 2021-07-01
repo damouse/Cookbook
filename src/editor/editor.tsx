@@ -9,12 +9,13 @@ import { EditorState } from '../state/editor_state'
 // A little chunky. Why does the editor class have to have all these details?
 // maybe sink this into state somehow?
 const initialState: EditorState = {
-  root: new RawNode('', ''),
-  active: new RawNode('', ''),
+  root: new RawNode(),
+  active: new RawNode(),
   target: '',
   nodes: new Map<string, RawNode>(),
   parents: new Map<string, RawNode | null>(),
-  siblingIndex: new Map<string, number>()
+  // siblingIndex: new Map<string, number>(),
+  focus: null
 }
 
 interface EditorProps {
@@ -37,7 +38,7 @@ function Editor(props: EditorProps) {
     const { hash } = props
 
     if (hash !== undefined && hash !== state.target) {
-      console.log(`Hash: ${hash}, state target: ${state.target}`)
+      // console.log(`Hash: ${hash}, state target: ${state.target}`)
       dispatch({ type: CHANGE, target: hash })
     }
   }, [props.source])
@@ -66,7 +67,7 @@ function Editor(props: EditorProps) {
       <div id="listContainer">
         <div id="currentFilters"></div>
         <div id="list" className="root-children">
-          <Node {...state.active} dispatch={dispatch}></Node>
+          <Node {...state.active} dispatch={dispatch} focus={state.focus}></Node>
           {/* <div className="loader"></div> */}
         </div>
       </div>

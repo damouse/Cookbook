@@ -2,29 +2,22 @@ import { NodeInterface } from './raw_node'
 import { Link } from 'react-router-dom'
 import { ContentEditableEvent } from 'react-contenteditable'
 import './node.scss'
-import { EditorActions, INDENT } from '../state/state_resolver'
+import { CLEAR_FOCUS, CREATE, DEDENT, EditorActions, INDENT } from '../state/state_resolver'
+import { useEffect, useRef } from 'react'
 
 interface NodeProps extends NodeInterface {
   dispatch: React.Dispatch<EditorActions>
+  focus: string | null
 }
 
-const ENTER = 13
-const BACKSPACE = 8
-const TAB = 9
-const UP_ARROW = 38
-const RIGHT_ARROW = 39
-const DOWN_ARROW = 40
-const LEFT_ARROW = 37
-
 function Node(props: NodeProps) {
-  // console.log(`Given props: ${JSON.stringify(props)}`)
   const hasChildren = props.children !== undefined && props.children!!.length > 0
   const body = props.isCode ? <code>{props.text}</code> : <>{props.text}</>
 
   const children = hasChildren ? (
     <div className="node-children">
       {props.children.map(x => {
-        return <Node {...x} dispatch={props.dispatch} key={x.id}></Node>
+        return <Node {...x} dispatch={props.dispatch} key={x.id} focus={props.focus}></Node>
       })}
     </div>
   ) : (
@@ -38,21 +31,25 @@ function Node(props: NodeProps) {
     // text.current = evt.target.value
   }
 
+  function onFocus() {
+    console.log(`Focus on ${props.id}`)
+    return props.dispatch({ type: CLEAR_FOCUS })
+  }
+
   function onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
     console.log(`Keypress: ${event.key}`)
-    event.preventDefault()
 
     switch (event.key) {
       case 'Enter':
-        // console.log('Enter')
-        return props.dispatch({ type: INDENT, id: props.id })
+        event.preventDefault()
+        return props.dispatch({ type: CREATE, id: props.id })
+      case 'Tab':
+        event.preventDefault()
+        // return props.dispatch({ type: INDENT, id: props.id })
+        return props.dispatch({ type: DEDENT, id: props.id })
       default:
         console.log(`Some other key: ${event.key}`)
     }
-  }
-
-  function onFocus() {
-    console.log(`Focus on ${props.id}`)
   }
 
   // If its ugly and it works?
@@ -74,11 +71,18 @@ function Node(props: NodeProps) {
         {/* TODO: content editable doesn't play nicely with react. */}
         <div
           className="node-text"
+          key={`node-body-${props.id}`}
           contentEditable="true"
           tabIndex={-1}
           suppressContentEditableWarning={true}
           onFocus={onFocus}
           onKeyDown={onKeyDown}
+          ref={input => {
+            // Focus on this node if state indicates
+            if (props.id === props.focus) {
+              input?.focus()
+            }
+          }}
           onInput={e => console.log('Text inside div', e.currentTarget.textContent)}
         >
           {body}

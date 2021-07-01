@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import RawNode from '../node/raw_node'
 
 // Lets assume we're pass by ref
@@ -17,7 +18,9 @@ export interface EditorState {
   parents: Map<string, RawNode | null>
 
   // Node to index in parents children
-  siblingIndex: Map<string, number>
+  // siblingIndex: Map<string, number>
+
+  focus: string | null
 }
 
 /**
@@ -63,10 +66,14 @@ export function loadEditorState(source: string, target: string): EditorState {
     target: target,
     nodes: nodes,
     parents: parents,
-    siblingIndex: siblingIndex
+    // siblingIndex: siblingIndex,
+    focus: null
   }
 }
 
+/**
+ * Set the node identified by the given target string as active, if it exists.
+ */
 export function setActive(state: EditorState, target: string): EditorState {
   let active = state.active
 
@@ -82,3 +89,38 @@ export function setActive(state: EditorState, target: string): EditorState {
     target: target
   }
 }
+
+export function indent(state: EditorState, node_id: string): EditorState {
+  if (state.nodes.get(node_id) === undefined) {
+    return state
+  }
+
+  return state
+}
+
+export function createNode(state: EditorState, node_id: string): EditorState {
+  // const new_id = _.times(6, () => ((Math.random() * 0xf) << 0).toString(6)).join('')
+  const newNode = new RawNode()
+
+  // Find parent and sibling index
+  const node = state.nodes.get(node_id)!
+  const parent = state.parents.get(node_id)
+  const idx = parent?.children.indexOf(node)!
+
+  parent!.children.splice(idx + 1, 0, newNode)
+  state.nodes.set(newNode.id, newNode)
+  state.parents.set(newNode.id, parent!)
+  // console.log(`Created node ${newNode.id}, ${JSON.stringify(newNode)}`)
+
+  return {
+    ...state,
+    active: state.active,
+    focus: newNode.id
+  }
+}
+
+export function deleteNode(state: EditorState, node_id: string): EditorState {
+  return state
+}
+
+// export function delete(state: EditorState, node_id: string): EditorState
