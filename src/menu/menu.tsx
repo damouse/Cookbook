@@ -16,20 +16,25 @@ function Menu(props: Props) {
   let curr: NodeInterface | null = props.state.active
   console.log('Menu construction')
 
-  // while (curr !== null) {
-  //   console.log(`On ${curr.id}, ${curr.text}`)
-  //   menuList.push(
-  //     <Link to={{ pathname: `/${curr.id}` }} className="path-link">
-  //       {curr.text}
-  //     </Link>
-  //   )
+  while (curr !== null) {
+    console.log(`On ${curr.id}, ${curr.text}`)
 
-  //   let next = props.state.ancestors.get(curr.id)
+    menuList.push(
+      <Link to={{ pathname: `/${curr.id}` }} className="path-link">
+        {curr.text}
+      </Link>
+    )
 
-  //   if (next !== undefined) {
-  //     curr = next
-  //   }
-  // }
+    menuList.push(<>{'  >  '}</>)
+
+    let next = props.state.parents.get(curr.id)
+
+    if (next !== undefined) {
+      curr = next
+    } else {
+      break
+    }
+  }
 
   menuList.push(
     <Link key={'root'} to={{ pathname: '/' }} className="path-link">
@@ -37,8 +42,7 @@ function Menu(props: Props) {
     </Link>
   )
 
-  // const menu = menuList.reverse().join('  >  ')
-  // console.log(`Len ${menuList.length}, menu: ${JSON.stringify(menu)}`)
+  menuList.reverse()
 
   return (
     <div id="listHeader">

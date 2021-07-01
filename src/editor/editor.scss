@@ -1,24 +1,3 @@
-#listHeader {
-  margin: auto;
-  width: 700px;
-  padding: 10px 0px 10px 0px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--secondary-text-color);
-  font-size: 0.75em;
-}
-
-.path-link,
-.path-link:visited {
-  text-decoration: none;
-  color: inherit;
-}
-
-.path-link:hover {
-  color: var(--main-text-color);
-}
-
 #listContainer {
   margin: auto;
   width: 700px;

@@ -27,6 +27,7 @@ export function stateReducer(state: EditorState, action: EditorActions): EditorS
         ...state,
         [action.prop]: action.val
       }
+
     // // case INSERT_SOFT_NEWLINE:
     // //   return {
     // //     ...state,
