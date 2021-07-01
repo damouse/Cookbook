@@ -10,7 +10,7 @@
 // import { ROOT_KEY, MAX_DEPTH } from '../constants';
 // import { onTab } from './tab';
 
-import RawNode from "../helpers/raw_node"
+import RawNode from "../node/raw_node"
 
 export const LOAD = "LOAD"
 export const CHANGE = "CHANGE"
