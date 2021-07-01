@@ -1,6 +1,5 @@
-import { plainToClass } from 'class-transformer'
 import _ from 'lodash'
-import RawNode from '../node/raw_node'
+import RawNode, { deserializeNodes, NodeInterface } from '../node/raw_node'
 
 // Lets assume we're pass by ref
 export interface EditorState {
@@ -28,8 +27,9 @@ export interface EditorState {
  * Construct editor state from loaded content. TODO-- does not take target into account!
  */
 export function loadEditorState(source: string, target: string): EditorState {
-  const json = JSON.parse(source) as RawNode
-  const node = plainToClass(RawNode, json)
+  const json = JSON.parse(source) as NodeInterface
+  // const node = plainToClass(RawNode, json)
+  const node = deserializeNodes(json)
 
   let nodes = new Map<string, RawNode>()
   let parents = new Map<string, RawNode | null>()
@@ -111,10 +111,51 @@ export function indent(state: EditorState, node_id: string): EditorState {
   }
 
   const newParent = parent!.children[idx - 1]
-  // console.log(`Index ${idx} New Parent ${JSON.stringify(newParent)}`)
+  console.log(`Index ${idx} New Parent ${JSON.stringify(newParent)}`)
   parent?.children.splice(idx, 1)
   newParent.children.push(node)
 
+  state.parents.set(node.id, newParent)
+
+  return {
+    ...state,
+    active: state.active,
+    focus: node.id
+  }
+}
+
+/**
+ * Decrease indentation by 1
+ */
+export function dedent(state: EditorState, node_id: string): EditorState {
+  if (state.nodes.get(node_id) === undefined) {
+    return state
+  }
+
+  const parent = state.parents.get(node_id)
+
+  // Top level node
+  if (parent === undefined || parent === null) {
+    return state
+  }
+
+  // New Parent
+  const newParent = state.parents.get(parent!!.id)
+
+  // Nothing to move to
+  if (newParent === undefined || newParent === null) {
+    return state
+  }
+
+  const parentIndex = newParent!.children.indexOf(parent!)
+  const node = state.nodes.get(node_id)!
+  const idx = parent?.children.indexOf(node)!
+
+  // Move the node to parent
+  parent?.children.splice(idx, 1)
+  newParent!.children.splice(parentIndex + 1, 0, node)
+
+  // Update the parent mapping
   state.parents.set(node.id, newParent)
 
   return {

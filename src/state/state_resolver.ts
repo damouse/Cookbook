@@ -1,4 +1,4 @@
-import { createNode, EditorState, indent, loadEditorState, setActive } from './editor_state'
+import { createNode, dedent, EditorState, indent, loadEditorState, setActive } from './editor_state'
 
 export function stateReducer(state: EditorState, action: EditorActions): EditorState {
   switch (action.type) {
@@ -18,7 +18,7 @@ export function stateReducer(state: EditorState, action: EditorActions): EditorS
       return indent(state, action.id)
 
     case DEDENT:
-      return indent(state, action.id)
+      return dedent(state, action.id)
 
     case CREATE:
       return createNode(state, action.id)

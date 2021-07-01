@@ -39,14 +39,17 @@ function Node(props: NodeProps) {
   function onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
     console.log(`Keypress: ${event.key}`)
 
+    if (event.shiftKey && event.keyCode == 9) {
+      return props.dispatch({ type: DEDENT, id: props.id })
+    }
+
     switch (event.key) {
       case 'Enter':
         event.preventDefault()
         return props.dispatch({ type: CREATE, id: props.id })
       case 'Tab':
         event.preventDefault()
-        // return props.dispatch({ type: INDENT, id: props.id })
-        return props.dispatch({ type: DEDENT, id: props.id })
+        return props.dispatch({ type: INDENT, id: props.id })
       default:
         console.log(`Some other key: ${event.key}`)
     }
@@ -83,7 +86,7 @@ function Node(props: NodeProps) {
               input?.focus()
             }
           }}
-          onInput={e => console.log('Text inside div', e.currentTarget.textContent)}
+          // onInput={e => console.log('Text inside div', e.currentTarget.textContent)}
         >
           {body}
         </div>

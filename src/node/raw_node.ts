@@ -1,10 +1,11 @@
+import { Type } from 'class-transformer'
 import _, { random } from 'lodash'
 
 export interface NodeInterface {
-  text: string
   id: string
-  isExpanded: boolean
+  text: string
   isCode: boolean
+  isExpanded: boolean
   children: NodeInterface[]
 }
 
@@ -16,27 +17,38 @@ class RawNode implements NodeInterface {
   public isCode: boolean = false
   public children = new Array<RawNode>()
 
-  // constructor(children: RawNode[] | undefined = undefined) {
-  //   this.children = new Array<RawNode>()
-  //   // this.id = randomId()
-  //   // this.text = ''
-  //   //
-  //   // if (children !== undefined) {
-  //   // this.children = children
-  //   // }
-  // }
+  constructor(
+    id: string | undefined = undefined,
+    text: string | undefined = undefined,
+    isCode: boolean | undefined = undefined
+  ) {
+    // this.children = new Array<RawNode>()
+    if (id !== undefined) {
+      this.id = id
+    }
 
-  // public addChild = (node: RawNode) => {
-  //   if (this.children === undefined) {
-  //     this.children = new Array<RawNode>()
-  //   }
+    if (text !== undefined) {
+      this.text = text
+    }
 
-  //   this.children.push(new RawNode())
-  // }
+    if (isCode !== undefined) {
+      this.isCode = isCode
+    }
+  }
 }
 
 function randomId(len: number = 6) {
   return _.times(len, () => ((Math.random() * 0xf) << 0).toString(16)).join('')
+}
+
+export function deserializeNodes(node: NodeInterface): RawNode {
+  let root = new RawNode(node.id, node.text, node.isCode)
+
+  if (node.children !== undefined && node.children.length > 0) {
+    root.children = node.children.map(x => deserializeNodes(x))
+  }
+
+  return root
 }
 
 // export default RawNode
