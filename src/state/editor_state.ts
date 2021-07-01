@@ -16,10 +16,6 @@ export interface EditorState {
 
   // node ids to parents
   parents: Map<string, RawNode | null>
-
-  // Node to index in parents children
-  // siblingIndex: Map<string, number>
-
   focus: string | null
 }
 
@@ -42,8 +38,6 @@ export function loadEditorState(source: string, target: string): EditorState {
     if (root.children !== undefined) {
       root.children.forEach((node: RawNode, index: number) => {
         siblingIndex.set(node.id, index)
-        // let parents = new Map<string, RawNode | null>().set(node.id, root)
-        // console.log(`Setting ${node.id} ${JSON.stringify(ancestors)} ${ancestors.entries.length}`)
         recursiveBuilder(node, root)
       })
     }
@@ -100,6 +94,7 @@ export function indent(state: EditorState, node_id: string): EditorState {
     return state
   }
 
+  // TODO: validation
   const node = state.nodes.get(node_id)!
   const parent = state.parents.get(node_id)!
   const idx = parent?.children.indexOf(node)!
@@ -190,5 +185,3 @@ export function createNode(state: EditorState, node_id: string): EditorState {
 export function deleteNode(state: EditorState, node_id: string): EditorState {
   return state
 }
-
-// export function delete(state: EditorState, node_id: string): EditorState
