@@ -31,9 +31,14 @@ const App = () => {
         <Route
           exact
           path="/"
-          render={(_: any) => <Editor source={rawJson} />}
+          render={(_: any) => <Editor source={rawJson} hash={undefined} />}
         />
-        <Route path="/:hash" render={(_: any) => <Editor source={rawJson} />} />
+        <Route
+          path="/:hash"
+          render={(props) => (
+            <Editor source={rawJson} hash={props.match.params.hash} />
+          )}
+        />
       </Router>
     </>
   )

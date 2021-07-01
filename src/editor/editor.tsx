@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react"
+import { useEffect, useReducer } from "react"
 import RawNode from "../helpers/raw_node"
 import Node from "../node/node"
 import { EditorActions, EditorState, LOAD, stateReducer } from "../state/state"
@@ -12,10 +12,15 @@ const initialState: EditorState = {
 
 interface EditorProps {
   source: string
+  hash: string | undefined
 }
 
 function Editor(props: EditorProps) {
   const [state, dispatch] = useReducer(stateReducer, initialState)
+  const { hash } = props
+
+  // Detect the currently loading page
+  //   console.log(`Hash: ${hash}`)
 
   // This should only run once, on startup. Its not.
   useEffect(() => {
