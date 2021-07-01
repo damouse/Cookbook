@@ -1,30 +1,22 @@
-import { NodeProps } from "./raw_node"
-import { Link } from "react-router-dom"
-import ContentEditable, { ContentEditableEvent } from "react-contenteditable"
-import "./node.scss"
+import { NodeProps } from './raw_node'
+import { Link } from 'react-router-dom'
+import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
+import './node.scss'
 
 function Node(props: NodeProps) {
-  console.log(`Given props: ${JSON.stringify(props)}`)
+  // console.log(`Given props: ${JSON.stringify(props)}`)
+  const hasChildren = props.children !== undefined && props.children!!.length > 0
+  const body = props.isCode ? <code>{props.text}</code> : <>{props.text}</>
 
-  function arrowDiv(): JSX.Element {
-    if (props.children !== undefined && props.children!!.length > 0) {
-      return (
-        <div className="node-arrow noselect">
-          {props.isExpanded ? <>&#9660;</> : <>&#9654;</>}
-        </div>
-      )
-    } else {
-      return <div className="no-node-arrow noselect"></div>
-    }
-  }
-
-  let body = <></>
-
-  if (props.isCode) {
-    body = <code>{props.text}</code>
-  } else {
-    body = <>{props.text}</>
-  }
+  const children = hasChildren ? (
+    <div className="node-children">
+      {props.children.map(x => {
+        return <Node {...x} key={x.id}></Node>
+      })}
+    </div>
+  ) : (
+    <></>
+  )
 
   // I'm actually not sure this is going to work. Hitting enter will add divs within the
   // editing div, and I probably want newlines?
@@ -38,34 +30,33 @@ function Node(props: NodeProps) {
   return (
     <div className="node">
       <div className="node-row">
-        {arrowDiv()}
-        <div className="no-node-arrow noselect"></div>
-        <Link
-          to={{ pathname: `/${props.id}` }}
-          className="node-bullet noselect"
-        >
+        {hasChildren ? (
+          <div className="node-arrow noselect">{props.isExpanded ? <>&#9660;</> : <>&#9654;</>}</div>
+        ) : (
+          <div className="no-node-arrow noselect"></div>
+        )}
+        <Link to={{ pathname: `/${props.id}` }} className="node-bullet noselect">
           &#9679;
         </Link>
 
         {/* TODO: content editable doesn't play nicely with react. */}
-        {/* <div
+        <div
           className="node-text"
           contentEditable="true"
           tabIndex={-1}
-          onInput={(e) =>
-            console.log("Text inside div", e.currentTarget.textContent)
-          }
+          suppressContentEditableWarning={true}
+          onInput={e => console.log('Text inside div', e.currentTarget.textContent)}
         >
           {body}
-        </div> */}
+        </div>
 
-        <ContentEditable
+        {/* <ContentEditable
           className="node-text"
           html={props.text}
-          onChange={handleChange}
-        />
+          onChange={handleChange} 
+          />*/}
       </div>
-      <NodeChildren children={props.children}></NodeChildren>
+      {children}
     </div>
   )
 }
@@ -73,25 +64,7 @@ function Node(props: NodeProps) {
 Node.defaultProps = {
   isExpanded: true,
   children: [],
-  isCode: false,
-}
-
-interface NodeChidlrenProps {
-  children: NodeProps[] | undefined
-}
-
-function NodeChildren(props: NodeChidlrenProps) {
-  if (props.children !== undefined && props.children.length > 0) {
-    return (
-      <div className="node-children">
-        {props.children.map((x) => {
-          return <Node {...x} key={x.id}></Node>
-        })}
-      </div>
-    )
-  } else {
-    return <></>
-  }
+  isCode: false
 }
 
 export default Node

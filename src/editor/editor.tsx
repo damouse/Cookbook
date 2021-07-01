@@ -1,19 +1,20 @@
-import { useEffect, useReducer } from "react"
-import RawNode from "../node/raw_node"
-import Node from "../node/node"
-import { EditorState, LOAD, stateReducer } from "../state/state"
-import "./editor.scss"
-import Menu from "../menu/menu"
+import { useEffect, useReducer } from 'react'
+import RawNode from '../node/raw_node'
+import Node from '../node/node'
+import { EditorState, LOAD, stateReducer } from '../state/state'
+import './editor.scss'
+import Menu from '../menu/menu'
 
 const initialState: EditorState = {
-  rootEditorState: new RawNode("", ""),
-  editorState: new RawNode("", ""),
-  zoomedInItemId: "",
+  rootEditorState: new RawNode('', ''),
+  editorState: new RawNode('', ''),
+  zoomedInItemId: ''
 }
 
 interface EditorProps {
   source: string
   hash: string | undefined
+  onThemeChange: () => void
 }
 
 function Editor(props: EditorProps) {
@@ -35,16 +36,9 @@ function Editor(props: EditorProps) {
           <a href="/">Cookbook</a>
         </h1>
       </div>
-      <div id="listHeader">
-        <Menu></Menu>
 
-        {/* <div>
-          <span>Show Completed</span>
-          <label className="switch">
-            <input id="showCompletedSwitch" type="checkbox">
-            <span className="slider"></span>
-          </label>
-        </div> */}
+      <div id="listHeader">
+        <Menu onThemeChange={props.onThemeChange}></Menu>
       </div>
 
       <div id="listContainer">

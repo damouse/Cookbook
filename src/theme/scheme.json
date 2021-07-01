@@ -1,0 +1,52 @@
+{
+  "data": {
+    "light": {
+      "id": "T_001",
+      "name": "light",
+      "colors": {
+        "background_color": "#FFFFFF",
+        "main_text_color": "#000000",
+        "secondary_text_color": "rgb(255, 255, 255, 0.6)",
+        "disabled_text_color": "rgb(255, 255, 255, 0.38)",
+        "highlight_color": "#6200ee",
+        "tag_color": "#bb86fc",
+        "disabled_tag_color": "rgb(187, 134, 252, 0.38)",
+        "list_card_color": " #272822",
+
+        "button": {
+          "text": "#ffffff",
+          "background": "#0d47a1"
+        },
+        "link": {
+          "text": "#0d47a1",
+          "opacity": 0.8
+        }
+      },
+      "font": "Tinos"
+    },
+    "dark": {
+      "id": "T_002",
+      "name": "dark",
+      "colors": {
+        "background_color": "#1e1f1c",
+        "main_text_color": "rgb(255, 255, 255, 0.87)",
+        "secondary_text_color": "rgb(255, 255, 255, 0.6)",
+        "disabled_text_color": "rgb(255, 255, 255, 0.38)",
+        "highlight_color": "#6200ee",
+        "tag_color": "#bb86fc",
+        "disabled_tag_color": "rgb(187, 134, 252, 0.38)",
+        "list_card_color": " #272822",
+
+        "button": {
+          "text": "#ffffff",
+          "background": "#0d47a1"
+        },
+        "link": {
+          "text": "#0d47a1",
+          "opacity": 0.8
+        }
+      },
+      "font": "Ubuntu"
+    }
+  }
+}

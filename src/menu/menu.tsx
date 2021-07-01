@@ -1,30 +1,31 @@
-import { Link } from "react-router-dom"
-import "./menu.scss"
+import { ChangeEvent } from 'react'
+import { Link } from 'react-router-dom'
+import './menu.scss'
+
+interface Props {
+  onThemeChange: () => void
+}
 
 // TODO: actually make a menu list
-function Menu() {
+function Menu(props: Props) {
   return (
-    <div id="nodePath">
-      <Link to={{ pathname: "/a" }} className="path-link">
-        Page
-      </Link>
+    <div id="listHeader">
+      <div id="nodePath">
+        <Link to={{ pathname: '/a' }} className="path-link">
+          Page
+        </Link>
 
-      {"  >   "}
+        {'  >   '}
 
-      <Link to={{ pathname: "/b" }} className="path-link">
-        Page
-      </Link>
+        <Link to={{ pathname: '/b' }} className="path-link">
+          Page
+        </Link>
+      </div>
+      <label className="switch">
+        <input id="showCompletedSwitch" type="checkbox" onChange={_ => props.onThemeChange()} />
+        <span className="slider"></span>
+      </label>
     </div>
-    // <div>
-    //   <h1>Page Title</h1>
-    //   <p>Other STuff</p>
-    // </div>
-    // <div id="listContainer">
-    //   <div id="currentFilters"></div>
-    //   <div id="list">
-    //     <div className="loader"></div>
-    //   </div>
-    // </div>
   )
 }
 
