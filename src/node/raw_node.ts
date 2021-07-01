@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _, { random } from 'lodash'
 
 export interface NodeInterface {
   text: string
@@ -10,23 +10,28 @@ export interface NodeInterface {
 
 // The only thing this class really adds is safe .children access
 class RawNode implements NodeInterface {
-  public id: string
-  public text: string
+  public id: string = randomId(6)
+  public text: string = ''
   public isExpanded: boolean = false
   public isCode: boolean = false
   public children = new Array<RawNode>()
 
-  constructor(children: RawNode[] | undefined = undefined) {
-    this.id = randomId()
-    this.text = ''
+  // constructor(children: RawNode[] | undefined = undefined) {
+  //   this.children = new Array<RawNode>()
+  //   // this.id = randomId()
+  //   // this.text = ''
+  //   //
+  //   // if (children !== undefined) {
+  //   // this.children = children
+  //   // }
+  // }
 
-    if (children !== undefined) {
-      this.children = children
-    }
-  }
+  // public addChild = (node: RawNode) => {
+  //   if (this.children === undefined) {
+  //     this.children = new Array<RawNode>()
+  //   }
 
-  // public addChild = (id: string, text: string) => {
-  // this.children.push(new RawNode())
+  //   this.children.push(new RawNode())
   // }
 }
 

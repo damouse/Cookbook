@@ -1,3 +1,4 @@
+import { plainToClass } from 'class-transformer'
 import _ from 'lodash'
 import RawNode from '../node/raw_node'
 
@@ -27,7 +28,9 @@ export interface EditorState {
  * Construct editor state from loaded content. TODO-- does not take target into account!
  */
 export function loadEditorState(source: string, target: string): EditorState {
-  const node = JSON.parse(source) as RawNode
+  const json = JSON.parse(source) as RawNode
+  const node = plainToClass(RawNode, json)
+
   let nodes = new Map<string, RawNode>()
   let parents = new Map<string, RawNode | null>()
   let siblingIndex = new Map<string, number>()
@@ -90,27 +93,52 @@ export function setActive(state: EditorState, target: string): EditorState {
   }
 }
 
+/**
+ * Increase indentation by 1
+ */
 export function indent(state: EditorState, node_id: string): EditorState {
   if (state.nodes.get(node_id) === undefined) {
     return state
   }
 
-  return state
+  const node = state.nodes.get(node_id)!
+  const parent = state.parents.get(node_id)!
+  const idx = parent?.children.indexOf(node)!
+
+  // Cant indent a node with nothing above it
+  if (idx < 1) {
+    return state
+  }
+
+  const newParent = parent!.children[idx - 1]
+  // console.log(`Index ${idx} New Parent ${JSON.stringify(newParent)}`)
+  parent?.children.splice(idx, 1)
+  newParent.children.push(node)
+
+  state.parents.set(node.id, newParent)
+
+  return {
+    ...state,
+    active: state.active,
+    focus: node.id
+  }
 }
 
+/**
+ * Create a new node relative to the passed node_id. The new node will follow
+ * that node in the list
+ */
 export function createNode(state: EditorState, node_id: string): EditorState {
-  // const new_id = _.times(6, () => ((Math.random() * 0xf) << 0).toString(6)).join('')
-  const newNode = new RawNode()
-
   // Find parent and sibling index
   const node = state.nodes.get(node_id)!
   const parent = state.parents.get(node_id)
   const idx = parent?.children.indexOf(node)!
 
+  // Create and add new node
+  const newNode = new RawNode()
   parent!.children.splice(idx + 1, 0, newNode)
   state.nodes.set(newNode.id, newNode)
   state.parents.set(newNode.id, parent!)
-  // console.log(`Created node ${newNode.id}, ${JSON.stringify(newNode)}`)
 
   return {
     ...state,

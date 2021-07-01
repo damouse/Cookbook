@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from 'react'
-import RawNode, { NodeInterface } from '../node/raw_node'
+import RawNode from '../node/raw_node'
 import Node from '../node/node'
 import { CHANGE, LOAD, stateReducer } from '../state/state_resolver'
 import './editor.scss'

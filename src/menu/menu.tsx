@@ -1,6 +1,7 @@
 import { ChangeEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { NodeInterface } from '../node/raw_node'
+import RawNode from '../node/raw_node'
+
 import { EditorState } from '../state/editor_state'
 import './menu.scss'
 
@@ -12,7 +13,7 @@ interface Props {
 // TODO: actually make a menu list
 function Menu(props: Props) {
   let menuList: JSX.Element[] = []
-  let curr: NodeInterface | null = props.state.active
+  let curr: RawNode | null = props.state.active
   // console.log('Menu construction')
 
   while (curr !== null) {
