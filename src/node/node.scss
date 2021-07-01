@@ -86,3 +86,28 @@
   // color: var(--tag-color);
   @include theme-aware('color', 'tag-color');
 }
+
+.code-node {
+  // border: 1px solid;
+  border-radius: 3px;
+  display: flex;
+  width: 100%;
+}
+
+// TODO: how do descendants work in sass?
+code {
+  // @include theme-aware('background-color', 'secondary-background-color');
+  // background-color: var(--list-card-color);
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+.code-comment-wrapper {
+  @include theme-aware('background-color', 'secondary-background-color');
+}
+
+.comment-node {
+  border-top: 1px solid;
+  @include theme-aware('border-color', 'background-color');
+}

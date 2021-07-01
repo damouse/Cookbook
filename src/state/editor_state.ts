@@ -1,54 +1,49 @@
 import _ from 'lodash'
-import RawNode, { deserializeNodes, NodeInterface } from '../node/raw_node'
+import NodeModel, { deserializeNodes, INode } from '../node/raw_node'
 
-// Lets assume we're pass by ref
 export interface EditorState {
   // Store the whole parsed data? Maybe not, maybe we don't want to have to reconstitute this
   // OTOH it makes a nice interface with the current structure
-  root: RawNode
+  root: NodeModel
 
   // ID of the currently targeted node
-  active: RawNode
+  active: NodeModel
   target: string
 
   // Node IDS to nodes, possibly without children
-  nodes: Map<string, RawNode>
+  nodes: Map<string, NodeModel>
 
   // node ids to parents
-  parents: Map<string, RawNode | null>
+  parents: Map<string, NodeModel | null>
   focus: string | null
 }
 
 /**
- * Construct editor state from loaded content. TODO-- does not take target into account!
+ * Construct editor state from JSON
  */
 export function loadEditorState(source: string, target: string): EditorState {
-  const json = JSON.parse(source) as NodeInterface
-  // const node = plainToClass(RawNode, json)
+  const json = JSON.parse(source) as INode
   const node = deserializeNodes(json)
 
-  let nodes = new Map<string, RawNode>()
-  let parents = new Map<string, RawNode | null>()
+  let nodes = new Map<string, NodeModel>()
+  let parents = new Map<string, NodeModel | null>()
   let siblingIndex = new Map<string, number>()
 
-  function recursiveBuilder(root: RawNode, parent: RawNode | null) {
+  function recursiveBuilder(root: NodeModel, parent: NodeModel | null) {
     nodes.set(root.id, root)
     parents.set(root.id, parent)
 
     if (root.children !== undefined) {
-      root.children.forEach((node: RawNode, index: number) => {
+      root.children.forEach((node: NodeModel, index: number) => {
         siblingIndex.set(node.id, index)
         recursiveBuilder(node, root)
       })
     }
   }
 
-  recursiveBuilder(node, null)
   // NOTE: root doesn't have an entry in sibling index currently
-  // Debugging
-  //   newState.nodes.forEach((v, k) => { console.log(`Node ${k}: to ${v.id} ${v.text}`)})
-  //   newState.parents.forEach((v, k) => {console.log(`parent ${k}: ${v !== null ? v!.id : 'none'}`)})
-  //   newState.siblingIndex.forEach((v, k) => {console.log(`sibInd ${k}: ${v}`)})
+  // Nodes aren't able to get to the top level as written, this may be why
+  recursiveBuilder(node, null)
 
   let active = node
 
@@ -56,9 +51,9 @@ export function loadEditorState(source: string, target: string): EditorState {
     active = nodes.get(target)!
   }
 
+  // TODO: validate that target and active exist
   return {
     root: node,
-    // TODO: validate that the node exists!
     active: active,
     target: target,
     nodes: nodes,
@@ -170,7 +165,7 @@ export function createNode(state: EditorState, node_id: string): EditorState {
   const idx = parent?.children.indexOf(node)!
 
   // Create and add new node
-  const newNode = new RawNode()
+  const newNode = new NodeModel()
   parent!.children.splice(idx + 1, 0, newNode)
   state.nodes.set(newNode.id, newNode)
   state.parents.set(newNode.id, parent!)

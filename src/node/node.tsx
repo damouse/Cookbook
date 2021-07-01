@@ -1,32 +1,16 @@
-import { NodeInterface } from './raw_node'
-import { Link } from 'react-router-dom'
-import { CLEAR_FOCUS, CREATE, DEDENT, EDIT, EditorActions, INDENT } from '../state/state_resolver'
+import { CLEAR_FOCUS, CREATE, DEDENT, EDIT, INDENT } from '../state/state_resolver'
 import React from 'react'
-import ContentEditable, { ContentEditableEvent } from '../helpers/content_editable'
+import { ContentEditableEvent } from '../helpers/content_editable'
 import './node.scss'
-
-interface NodeProps extends NodeInterface {
-  dispatch: React.Dispatch<EditorActions>
-  focus: string | null
-}
+import TextNode from './text_node'
+import CodeNode from './code_node'
+import { NodeProps } from './node_props'
 
 function Node(props: NodeProps) {
   // Check out https://highlightjs.org/
   const hasChildren = props.children !== undefined && props.children!!.length > 0
-  const body = props.isCode ? `<code>${props.text}</code>` : props.text
-
-  const children = hasChildren ? (
-    <div className="node-children">
-      {props.children.map(x => {
-        return <Node {...x} dispatch={props.dispatch} key={x.id} focus={props.focus}></Node>
-      })}
-    </div>
-  ) : (
-    <></>
-  )
 
   function onFocus() {
-    console.log(`Focus on ${props.id}`)
     return props.dispatch({ type: CLEAR_FOCUS })
   }
 
@@ -59,50 +43,14 @@ function Node(props: NodeProps) {
   // I'm actually not sure this is going to work. Hitting enter will add divs within the
   // editing div, and I probably want newlines?
   const handleChange = (evt: ContentEditableEvent) => {
-    // console.log(`On change: ${evt.target.value}`)
     return props.dispatch({ type: EDIT, id: props.id, text: evt.target.value })
   }
 
-  // If its ugly and it works?
-  // TODO: split out a section and code block portion here
-  return (
-    <div className="node">
-      <div className="node-row">
-        {hasChildren ? (
-          <div className="node-arrow noselect">
-            {props.isExpanded ? <>&#9660;</> : <>&#9654;</>}
-          </div>
-        ) : (
-          <div className="no-node-arrow noselect"></div>
-        )}
-        <Link to={{ pathname: `/${props.id}` }} className="node-bullet noselect">
-          &#9679;
-        </Link>
-
-        <ContentEditable
-          className="node-text"
-          key={`node-body-${props.id}`}
-          html={body}
-          onChange={handleChange}
-          onFocus={onFocus}
-          onKeyDown={onKeyDown}
-          innerRef={(input: any) => {
-            // Focus on this node if state indicates
-            if (input !== null && props.id === props.focus) {
-              input.focus()
-            }
-          }}
-        />
-      </div>
-      {children}
-    </div>
-  )
-}
-
-Node.defaultProps = {
-  isExpanded: true,
-  children: [],
-  isCode: false
+  if (!props.isCode) {
+    return TextNode({ ...props, hasChildren, onFocus, onKeyDown, handleChange })
+  } else {
+    return CodeNode({ ...props, hasChildren, onFocus, onKeyDown, handleChange })
+  }
 }
 
 export default Node

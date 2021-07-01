@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from 'react'
-import RawNode from '../node/raw_node'
+import NodeModel from '../node/raw_node'
 import Node from '../node/node'
 import { CHANGE, LOAD, stateReducer } from '../state/state_resolver'
 import './editor.scss'
@@ -9,12 +9,11 @@ import { EditorState } from '../state/editor_state'
 // A little chunky. Why does the editor class have to have all these details?
 // maybe sink this into state somehow?
 const initialState: EditorState = {
-  root: new RawNode(),
-  active: new RawNode(),
+  root: new NodeModel(),
+  active: new NodeModel(),
   target: '',
-  nodes: new Map<string, RawNode>(),
-  parents: new Map<string, RawNode | null>(),
-  // siblingIndex: new Map<string, number>(),
+  nodes: new Map<string, NodeModel>(),
+  parents: new Map<string, NodeModel | null>(),
   focus: null
 }
 
@@ -28,27 +27,14 @@ interface EditorProps {
 function Editor(props: EditorProps) {
   const [state, dispatch] = useReducer(stateReducer, initialState)
 
-  // Detect the currently loading page. TODO: forward to State and activate the correct
-  // node for this path. TODO: this should probably be done lazily.
-
   // This should only run once, on startup. Its not.
   useEffect(() => {
     dispatch({ type: LOAD, source: props.source })
-
-    const { hash } = props
-
-    if (hash !== undefined && hash !== state.target) {
-      // console.log(`Hash: ${hash}, state target: ${state.target}`)
-      dispatch({ type: CHANGE, target: hash })
-    }
   }, [props.source])
 
   useEffect(() => {
-    const { hash } = props
-
-    if (hash !== undefined && hash !== state.target) {
-      console.log(`Hash: ${hash}, state target: ${state.target}`)
-      dispatch({ type: CHANGE, target: hash })
+    if (props.hash !== undefined && props.hash !== state.target) {
+      dispatch({ type: CHANGE, target: props.hash })
     }
   }, [props.hash])
 

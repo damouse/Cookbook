@@ -1,0 +1,17 @@
+import { INode } from './raw_node'
+import { EditorActions } from '../state/state_resolver'
+import React from 'react'
+import './node.scss'
+import { ContentEditableEvent } from '../helpers/content_editable'
+
+export interface NodeProps extends INode {
+  dispatch: React.Dispatch<EditorActions>
+  focus: string | null
+}
+
+export interface SpecializedNodeProps extends NodeProps {
+  hasChildren: boolean
+  onFocus: () => void
+  handleChange: (ev: ContentEditableEvent) => void
+  onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => void
+}
