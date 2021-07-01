@@ -1,3 +1,5 @@
+@import '../variables.scss';
+
 #listHeader {
   margin: auto;
   width: 700px;
@@ -5,7 +7,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: var(--secondary-text-color);
+  // color: var(--secondary-text-color);
+  @include theme-aware('color', 'secondary-text-color');
   font-size: 0.9em;
 }
 
@@ -16,7 +19,8 @@
 }
 
 .path-link:hover {
-  color: var(--main-text-color);
+  // color: var(--main-text-color);
+  @include theme-aware('color', 'main-text-color');
 }
 
 /*Slider CSS from https://www.w3schools.com/howto/howto_css_switch.asp*/
@@ -34,32 +38,35 @@
 }
 
 .slider {
+  @include theme-aware('background-color', 'secondary-text-color');
+  // background-color: var(--secondary-text-color);
   position: absolute;
   cursor: pointer;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--secondary-text-color);
   -webkit-transition: 0.4s;
   transition: 0.4s;
   border-radius: 34px;
 }
 
 .slider:before {
+  @include theme-aware('background-color', 'main-text-color');
+  // background-color: var(--main-text-color);
   position: absolute;
   content: '';
   height: 0.9em;
   width: 0.9em;
   left: 3px;
   bottom: 3px;
-  background-color: var(--main-text-color);
   -webkit-transition: 0.4s;
   transition: 0.4s;
   border-radius: 50%;
 }
 
 input:checked + .slider {
+  @include theme-aware('background-color', 'highlight-color');
   background-color: var(--highlight-color);
 }
 

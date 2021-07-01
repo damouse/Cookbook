@@ -1,3 +1,5 @@
+@import '../variables.scss';
+
 .node {
   margin: 5px 0px 5px 0px;
 }
@@ -12,30 +14,35 @@
 
 .node-row {
   display: flex;
-  color: var(--main-text-color);
+  @include theme-aware('color', 'main-text-color');
+  // color: var(--main-text-color);
 }
 
 .node-arrow {
-  color: var(--secondary-text-color);
+  // color: var(--secondary-text-color);
+  @include theme-aware('color', 'secondary-text-color');
   cursor: pointer;
   font-size: 0.75em;
   width: 0.8em;
 }
 
 .no-node-arrow {
-  color: var(--secondary-text-color);
+  // color: var(--secondary-text-color);
+  @include theme-aware('color', 'secondary-text-color');
   width: 0.6em;
 }
 
 .node-arrow:hover {
-  color: var(--main-text-color);
+  // color: var(--main-text-color);
+  @include theme-aware('color', 'main-text-color');
 }
 
 .node-bullet {
   padding-left: 5px;
   cursor: pointer;
   text-decoration: none;
-  color: var(--secondary-text-color);
+  // color: var(--secondary-text-color);
+  @include theme-aware('color', 'secondary-text-color');
 }
 
 .node-bullet:visited {
@@ -43,7 +50,8 @@
 }
 
 .node-bullet:hover {
-  color: var(--main-text-color);
+  // color: var(--main-text-color);
+  @include theme-aware('color', 'main-text-color');
 }
 
 .node-text {
@@ -57,14 +65,17 @@
 
 .completed .node-text {
   text-decoration: line-through;
-  color: var(--disabled-text-color);
+  // color: var(--disabled-text-color);
+  @include theme-aware('color', 'disabled-text-color');
 }
 
 .completed .tag:hover {
   color: var(--disabled-tag-color);
+  @include theme-aware('color', 'disabled-tag-color');
 }
 
 .tag {
+  @include theme-aware('color', 'secondary-text-color');
   color: var(--secondary-text-color);
   text-decoration: underline;
   cursor: pointer;
@@ -72,5 +83,6 @@
 }
 
 .tag:hover {
-  color: var(--tag-color);
+  // color: var(--tag-color);
+  @include theme-aware('color', 'tag-color');
 }

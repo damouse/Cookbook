@@ -1,3 +1,25 @@
+// Variables
+
+// $mainTextColor: rgb(255, 255, 255, 0.87);
+// $secondaryTextColor: rgb(255, 255, 255, 0.6);
+// $disabledTextColor: rgb(255, 255, 255, 0.38);
+// $highlightColor: #6200ee;
+// $tagColor: #bb86fc;
+// $disabledTagColor: rgb(187, 134, 252, 0.38);
+// $backgroundColor: #1e1f1c;
+// $listCardColor: #272822;
+
+// :root {
+//   --main-text-color: rgb(255, 255, 255, 0.87);
+//   --secondary-text-color: rgb(255, 255, 255, 0.6);
+//   --disabled-text-color: rgb(255, 255, 255, 0.38);
+//   --highlight-color: #6200ee;
+//   --tag-color: #bb86fc;
+//   --disabled-tag-color: rgb(187, 134, 252, 0.38);
+//   --background-color: #1e1f1c;
+//   --list-card-color: #272822;
+// }
+
 // Dark
 // :root {
 //   --main-text-color: rgb(255, 255, 255, 0.87);
@@ -24,13 +46,28 @@
 }
 
 $themes: (
-  lighty: (
+  light: (
     color-background: #fafafa,
-    color-card: red
+    secondary-background-color: #f1f3f5,
+    main-text-color: rgb(42, 49, 53),
+    secondary-text-color: rgb(42, 49, 53),
+    disabled-text-color: rgb(42, 49, 53),
+    highlight-color: #6200ee,
+    tag-color: #bb86fc,
+    disabled-tag-color: rgba(187, 134, 252, 0.38),
+    // list-card-color: #f1f3f5
   ),
-  darky: (
-    color-background: #37474f,
-    color-card: green
+  dark: (
+    color-background: #1e1f1c,
+    secondary-background-color: #272822,
+    main-text-color: #f8f8f2,
+    secondary-text-color: rgba(255, 255, 255, 0.6),
+    disabled-text-color: rgba(255, 255, 255, 0.38),
+    highlight-color: #6200ee,
+    tag-color: #bb86fc,
+    disabled-tag-color: rgba(187, 134, 252, 0.38),
+    background-color: #1e1f1c,
+    // list-card-color: #272822
   )
 );
 
