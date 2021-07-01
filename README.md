@@ -10,8 +10,7 @@ npm init react-app myapp --use-npm --template typescript
 
 TODO
 
-- Keyboard Shortcuts
-- Persist/Update text changes to modeling
+- Arrow up/down
 - Design and Layout
 
 - Backend
