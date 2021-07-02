@@ -1,13 +1,13 @@
 import Collapse from '../../widgets/collapse/collapse'
 import DotLink from '../../widgets/dot_link/dot_link'
 import Editable from '../../widgets/editible/editable'
-import { NodeChildrenFactory, NodeProps2 } from '../node_factory'
+import { NodeChildrenFactory, NodeComponentProps } from '../node_factory'
 import './header.scss'
 
 /**
  * Top level headers on a page
  */
-function HeaderNode(props: NodeProps2) {
+function HeaderNode(props: NodeComponentProps) {
   return (
     <div className="node">
       <div className="node-row">

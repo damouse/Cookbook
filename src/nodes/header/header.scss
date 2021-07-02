@@ -1,0 +1,12 @@
+@import '../../variables.scss';
+
+// TODO: see how its done on devhints
+.text-header::after {
+  margin-left: 24px;
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(to right, rgba(116, 95, 181, 0.2), transparent 100%);
+}

@@ -2,12 +2,12 @@ import Collapse from '../../widgets/collapse/collapse'
 import Editable from '../../widgets/editible/editable'
 import CommentNode from '../comment/comment_node'
 import './code.scss'
-import { NodeProps2 } from '../node_factory'
+import { NodeComponentProps } from '../node_factory'
 
 /**
  * Editable code block
  */
-function CodeNode(props: NodeProps2) {
+function CodeNode(props: NodeComponentProps) {
   return (
     <div className="node code-node">
       <div className="node-row">

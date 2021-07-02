@@ -1,13 +1,13 @@
 import DotLink from '../../widgets/dot_link/dot_link'
 import Collapse from '../../widgets/collapse/collapse'
-import { NodeChildrenFactory, NodeProps2 } from '../node_factory'
+import { NodeChildrenFactory, NodeComponentProps } from '../node_factory'
 import Editable from '../../widgets/editible/editable'
 import './text.scss'
 
 /**
  * Simple lines of text, no headers
  */
-function TextNode(props: NodeProps2) {
+function TextNode(props: NodeComponentProps) {
   return (
     <div className="node">
       <div className="node-row">

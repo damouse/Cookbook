@@ -1,5 +1,5 @@
 import ContentEditable, { ContentEditableEvent } from '../../helpers/content_editable'
-import { NodeProps2 } from '../../nodes/node_factory'
+import { NodeComponentProps } from '../../nodes/node_factory'
 import {
   CLEAR_FOCUS,
   CREATE,
@@ -10,7 +10,7 @@ import {
 } from '../../state/state_resolver'
 import './editable.scss'
 
-interface Props extends NodeProps2 {
+interface Props extends NodeComponentProps {
   class?: string
 }
 

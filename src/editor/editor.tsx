@@ -1,6 +1,5 @@
 import { useEffect, useReducer } from 'react'
 import NodeData from '../models/node_data'
-import Node from '../nodes/node'
 import { CHANGE, LOAD, stateReducer } from '../state/state_resolver'
 import './editor.scss'
 import Menu from '../menu/menu'
@@ -55,7 +54,6 @@ function Editor(props: EditorProps) {
         <div id="currentFilters"></div>
         <div id="list" className="root-children">
           <NodeFactory data={state.active} dispatch={dispatch} focus={state.focus} depth={0} />
-          {/* <Node {...state.active} dispatch={dispatch} focus={state.focus} depth={0}></Node> */}
           {/* <div className="loader"></div> */}
         </div>
       </div>

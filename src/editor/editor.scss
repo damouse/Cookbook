@@ -95,3 +95,13 @@ footer a:visited {
     transform: rotate(360deg);
   }
 }
+
+// Parent of nodes in editor
+// This probably belongs in editor?
+.root-children {
+  margin-left: 0px;
+}
+
+.root-text {
+  font-size: 2em;
+}
