@@ -3,7 +3,7 @@ import Collapse from '../../widgets/collapse/collapse'
 import { NodeChildrenFactory, NodeComponentProps } from '../node_factory'
 import Editable from '../../widgets/editible/editable'
 import './text.scss'
-import { COLLAPSE_ITEM } from '../../state/state_resolver'
+import { COLLAPSE_ITEM } from '../../services/state/state_resolver'
 
 /**
  * Simple lines of text, no headers

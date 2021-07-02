@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import NodeData, { deserializeNodes, INode } from '../models/node_data'
+import NodeData, { deserializeNodes, INode } from '../../models/node_data'
 
 export interface EditorState {
   // Store the whole parsed data? Maybe not, maybe we don't want to have to reconstitute this

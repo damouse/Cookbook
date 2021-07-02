@@ -1,5 +1,5 @@
 import Masonry from 'react-masonry-css'
-import { COLLAPSE_ITEM } from '../../state/state_resolver'
+import { COLLAPSE_ITEM } from '../../services/state/state_resolver'
 import Collapse from '../../widgets/collapse/collapse'
 import DotLink from '../../widgets/dot_link/dot_link'
 import Editable from '../../widgets/editible/editable'

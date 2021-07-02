@@ -3,7 +3,7 @@ import Editable from '../../widgets/editible/editable'
 import CommentNode from '../comment/comment_node'
 import './code.scss'
 import { NodeComponentProps } from '../node_factory'
-import { COLLAPSE_ITEM } from '../../state/state_resolver'
+import { COLLAPSE_ITEM } from '../../services/state/state_resolver'
 
 /**
  * Editable code block

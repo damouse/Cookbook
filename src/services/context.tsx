@@ -1,9 +1,11 @@
 import { createContext, useContext } from 'react'
 import React from 'react'
 import ApiService from './api'
+import StateService from './state/state_manager'
 
 interface ContextState {
   apiService: ApiService
+  // stateService: StateService
 }
 
 const Context = React.createContext({} as ContextState)
@@ -18,6 +20,9 @@ interface Props {
 
 // Well shoot, this works. There are some warning signs about using this for ALL the
 // rerendering, but it seems pretty damned useful to get global access to State.
+
+// Not working. Do a little more reading
+//  stateService: StateService()
 export function DepsProvider(props: Props) {
   return (
     <Context.Provider value={{ apiService: new ApiService() }}>{props.children}</Context.Provider>

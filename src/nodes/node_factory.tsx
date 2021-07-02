@@ -1,4 +1,4 @@
-import { EditorActions } from '../state/state_resolver'
+import { EditorActions } from '../services/state/state_resolver'
 import React from 'react'
 import TextNode from './text/text_node'
 import CodeNode from './code/code_node'

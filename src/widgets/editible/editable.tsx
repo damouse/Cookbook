@@ -7,7 +7,7 @@ import {
   EDIT,
   EditorActions,
   INDENT
-} from '../../state/state_resolver'
+} from '../../services/state/state_resolver'
 import './editable.scss'
 
 interface Props extends NodeComponentProps {
