@@ -1,13 +1,13 @@
 @import '../../variables.scss';
 
 // TODO: how do descendants work in sass?
-code {
-  // @include theme-aware('background-color', 'secondary-background-color');
-  // background-color: var(--list-card-color);
-  padding: 10px;
-  margin: 10px;
-  border-radius: 5px;
-}
+// code {
+//   // @include theme-aware('background-color', 'secondary-background-color');
+//   // background-color: var(--list-card-color);
+//   padding: 10px;
+//   margin: 10px;
+//   border-radius: 5px;
+// }
 
 .code-node {
   @include theme-aware('background-color', 'secondary-background-color');
@@ -20,18 +20,22 @@ code {
 
 .code-text {
   display: inline-block;
+  padding: 1em;
+  margin-left: 5px;
+  flex-grow: 1;
+  @include theme-aware('background-color', 'secondary-background-color');
 
-  margin: 1em;
-  // color: #15141f;
-  background-color: '#eae9ed';
-  // font-family: 'Monaco,Menlo,Ubuntu Mono,Droid Sans Mono,Consolas,monospace';
-  font-family: 'monospace';
-  font-size: '0.9em';
-  padding: '0 0.25rem';
-  margin: '0 0.0625rem';
-  border-radius: '0.125rem';
+  font-family: monospace;
+  font-size: 1.2em;
+
   overflow-wrap: 'break-word';
   word-wrap: 'break-word';
+  border-radius: 2px;
+
+  // padding: '0 0.25rem';
+  // margin: '0 0.0625rem';
+  // background-color: '#eae9ed';
+  // font-family: 'Monaco,Menlo,Ubuntu Mono,Droid Sans Mono,Consolas,monospace';
 }
 
 // .code-node {

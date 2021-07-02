@@ -10,7 +10,7 @@ import { COLLAPSE_ITEM } from '../../state/state_resolver'
  */
 function CodeNode(props: NodeComponentProps) {
   return (
-    <div className="node code-node">
+    <div className="node">
       <div className="node-row">
         <Collapse
           collapsible={props.data.children.length > 0}
@@ -19,9 +19,8 @@ function CodeNode(props: NodeComponentProps) {
         />
         <Editable {...props} class={'code-text'} />
       </div>
-      {props.data.children.map(x => (
-        <CommentNode {...props} data={x} key={x.id}></CommentNode>
-      ))}
+      {props.data.isExpanded &&
+        props.data.children.map(x => <CommentNode {...props} data={x} key={x.id}></CommentNode>)}
     </div>
   )
 }

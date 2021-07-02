@@ -8,6 +8,7 @@
   cursor: pointer;
   font-size: 0.75em;
   width: 0.8em;
+  margin-top: 3px;
 }
 
 .no-node-arrow {
@@ -17,4 +18,14 @@
 
 .node-arrow:hover {
   @include theme-aware('color', 'main-text-color');
+}
+
+.collapse-arrow {
+  @include theme-aware('fill', 'secondary-text-color');
+  @include theme-aware('stroke', 'secondary-text-color');
+}
+
+.right-arrow-rotation {
+  /* doesn't work in IE/ early Edge */
+  transform: rotate(270deg);
 }

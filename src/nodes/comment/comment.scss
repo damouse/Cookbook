@@ -1,10 +1,13 @@
 @import '../../variables.scss';
 
 .comment-node {
-  border-top: 1px solid var(--secondary-background-color);
   @include theme-aware('border-color', 'background-color');
-}
+  @include theme-aware('background-color', 'tertiary-background-color');
 
-.comment-text {
-  margin: 5px;
+  // This is a little messy. maybe figure out how to space this better?
+  border-top: 1px solid var(--secondary-background-color);
+  padding: 0.5em;
+  padding-left: 0.25em;
+  margin-left: 1em;
+  margin-top: 1px;
 }

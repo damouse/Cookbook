@@ -1,3 +1,5 @@
+import ArrowRight from '../../assets/ArrowRight'
+import DownArrow from './DownArrow'
 import './collapse.scss'
 
 interface Props {
@@ -13,12 +15,15 @@ function Collapse(props: Props) {
       {props.collapsible ? (
         <div
           className="node-arrow noselect"
-          style={{ marginLeft: 10 }}
           onClick={_ => {
             props.onClick(!props.collapsed)
           }}
         >
-          {props.collapsed ? <>&#9654;</> : <>&#9660;</>}
+          {props.collapsed ? (
+            <DownArrow />
+          ) : (
+            <DownArrow className="right-arrow-rotation collapse-arrow" />
+          )}
         </div>
       ) : (
         <div className="no-node-arrow noselect"></div>
