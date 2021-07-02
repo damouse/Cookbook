@@ -1,15 +1,17 @@
-import Masonry from 'react-masonry-css'
 import { COLLAPSE_ITEM } from '../../services/state/state_resolver'
 import Collapse from '../../widgets/collapse/collapse'
 import DotLink from '../../widgets/dot_link/dot_link'
 import Editable from '../../widgets/editible/editable'
-import NodeFactory, { NodeChildrenFactory, NodeComponentProps } from '../node_factory'
+import { NodeChildrenFactory, NodeComponentProps } from '../node_factory'
 import './subheader.scss'
 
 /**
  * Top level headers on a page
  */
 function SubheaderNode(props: NodeComponentProps) {
+  // console.log(`Subheader: ${props.data.id}`)
+  // props.data.children.forEach(x => console.log(`  ${x.id}`))
+
   return (
     <div className="node">
       <div className="node-row subheader-text-row ">

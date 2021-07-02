@@ -10,26 +10,29 @@ npm init react-app myapp --use-npm --template typescript
 
 TODO
 
-- No newlines on empty parent
-- Arrow Keys
-- Code button
-
-- Make intermediate text fields multi-column
-- Persistance
-- Don't allow newlines following a code blcok
-- Decide about rendering levels.
-- Arrow up/down
+- Down arrow
+- Review up arrow
+- Understand cursor position-- need to know when we can delete and move to the
+  next line and arrows and all that jazz
+- Code button, and review button position
 - Delete when empty
 - shift + delete
-- Collapses
 
-- Backend
-- Newline persistence management
+- Service/DI Review
+
+- Menu review: add better buttons
+
+  - Collapse/Expand All
+
+- Make intermediate text fields multi-column
 
 Deferred
 
-- Undo system
 - More testing with columns
+- Persistance
+- Newline persistence management
+- Backend
+- Undo system
 
 BUGS
 

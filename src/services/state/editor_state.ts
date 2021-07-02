@@ -99,7 +99,19 @@ export function indent(state: EditorState, node_id: string): EditorState {
     return state
   }
 
+  // Don't allow indenting of a node beneath a code block
+  // TODO: converting a block TO code should undo this!
+  if (parent.isCode) {
+    return state
+  }
+
   const newParent = parent!.children[idx - 1]
+
+  // Don't allow nodes to be descendants of emtpy nodes
+  if (newParent.text === '') {
+    return state
+  }
+
   console.log(`Index ${idx} New Parent ${JSON.stringify(newParent)} Node text ${node.text}`)
   parent?.children.splice(idx, 1)
   newParent.children.push(node)
@@ -164,6 +176,8 @@ export function createNode(state: EditorState, node_id: string): EditorState {
   const parent = state.parents.get(node_id)
   const idx = parent?.children.indexOf(node)!
 
+  console.log(`Id: ${node_id}, index: ${idx}`)
+
   // Create and add new node
   const newNode = new NodeData()
   parent!.children.splice(idx + 1, 0, newNode)
@@ -179,4 +193,51 @@ export function createNode(state: EditorState, node_id: string): EditorState {
 
 export function deleteNode(state: EditorState, node_id: string): EditorState {
   return state
+}
+
+export function moveUp(state: EditorState, node_id: string): EditorState {
+  const node = state.nodes.get(node_id)!
+  const parent = state.parents.get(node_id)
+  const idx = parent?.children.indexOf(node)!
+
+  // Root element
+  if (node.id == state.active.id) {
+    return state
+  }
+
+  // TODO: root element
+  if (idx == 0) {
+    return {
+      ...state,
+      focus: parent!.id
+    }
+  }
+  return {
+    ...state,
+    focus: parent!.children[idx - 1].id
+  }
+}
+
+export function moveDown(state: EditorState, node_id: string): EditorState {
+  const node = state.nodes.get(node_id)!
+  const parent = state.parents.get(node_id)
+  const idx = parent?.children.indexOf(node)!
+
+  // // Root element
+  // if (node.id == state.active.id) {
+  //   return state
+  // }
+
+  // TODO: get index of parent!
+  if (idx == parent!.children!.length - 1) {
+    return {
+      ...state,
+      focus: parent!.id
+    }
+  }
+
+  return {
+    ...state,
+    focus: parent!.children[idx - 1].id
+  }
 }

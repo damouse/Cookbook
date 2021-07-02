@@ -15,14 +15,17 @@ function replaceCaret(el: HTMLElement) {
   const isTargetFocused = document.activeElement === el
   if (target !== null && target.nodeValue !== null && isTargetFocused) {
     var sel = window.getSelection()
+    // console.log(`Selection: ${sel?.focusOffset} ${sel?.rangeCount}`)
 
     if (sel !== null) {
       var range = document.createRange()
       range.setStart(target, target.nodeValue.length)
+      // range.setStart(target, 0)w
       range.collapse(true)
       sel.removeAllRanges()
       sel.addRange(range)
     }
+
     if (el instanceof HTMLElement) el.focus()
   }
 }
@@ -35,6 +38,10 @@ export default class ContentEditable extends React.Component<Props> {
 
   el: any =
     typeof this.props.innerRef === 'function' ? { current: null } : React.createRef<HTMLElement>()
+
+  // Damn this doesn't work in old-style classes
+  // See here: https://www.npmjs.com/package/react-use-caret-position
+  // caret = useCaretPosition(inputRef)
 
   getEl = () =>
     (this.props.innerRef && typeof this.props.innerRef !== 'function'
@@ -111,6 +118,7 @@ export default class ContentEditable extends React.Component<Props> {
     if (!el) return
 
     const html = el.innerHTML
+
     if (this.props.onChange && html !== this.lastHtml) {
       // Clone event with Object.assign to avoid
       // "Cannot assign to read only property 'target' of object"
@@ -121,6 +129,17 @@ export default class ContentEditable extends React.Component<Props> {
       })
       this.props.onChange(evt)
     }
+
+    // This does really move the range
+    // replaceCaret(el)
+
+    // NOTE: this works to get the current position on the line, but it doesn't tell you
+    // which line it is.
+    var sel = window.getSelection()
+    console.log(
+      `Selection: ${sel?.focusOffset} ${sel?.anchorOffset} ${sel?.anchorNode} ${sel?.focusNode}`
+    )
+
     this.lastHtml = html
   }
 

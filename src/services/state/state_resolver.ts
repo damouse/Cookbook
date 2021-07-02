@@ -1,4 +1,13 @@
-import { createNode, dedent, EditorState, indent, loadEditorState, setActive } from './editor_state'
+import {
+  createNode,
+  dedent,
+  EditorState,
+  indent,
+  loadEditorState,
+  moveDown,
+  moveUp,
+  setActive
+} from './editor_state'
 
 export function stateReducer(state: EditorState, action: EditorActions): EditorState {
   switch (action.type) {
@@ -29,8 +38,11 @@ export function stateReducer(state: EditorState, action: EditorActions): EditorS
     case CLEAR_FOCUS:
       return { ...state, focus: null }
 
-    case CLEAR_FOCUS:
-      return { ...state, focus: null }
+    case MOVE_UP:
+      return moveUp(state, action.id)
+
+    case MOVE_DOWN:
+      return moveDown(state, action.id)
 
     case EDIT:
       let node = state.nodes.get(action.id)
@@ -51,18 +63,6 @@ export function stateReducer(state: EditorState, action: EditorActions): EditorS
         ...state
       }
 
-    // case EXPAND_ITEM:
-    //   let x = state.nodes.get(action.id)
-    //   x!.isExpanded = true
-
-    //   return {
-    //     ...state
-    //   }
-    // // case INSERT_SOFT_NEWLINE:
-    // //   return {
-    // //     ...state,
-    // //     editorState: RichUtils.insertSoftNewline(state.editorState),
-    // //   }
     // case SET_ROOT_EDITOR_STATE:
     //   return {
     //     ...state,
@@ -72,23 +72,6 @@ export function stateReducer(state: EditorState, action: EditorActions): EditorS
     //   return {
     //     ...state,
     //     editorState: action.editorState,
-    //   }
-
-    // case MOVE_UP:
-    //   return {
-    //     ...state,
-    //     editorState: moveCurrentBlockUp(
-    //       state.editorState,
-    //       state.zoomedInItemId
-    //     ),
-    //   }
-    // case MOVE_DOWN:
-    //   return {
-    //     ...state,
-    //     editorState: moveCurrentBlockDown(
-    //       state.editorState,
-    //       state.zoomedInItemId
-    //     ),
     //   }
 
     // case EXPAND_ALL:
@@ -167,20 +150,6 @@ interface ChangeAction {
   target: string
 }
 
-interface InsertSoftNewlineAction {
-  type: typeof INSERT_SOFT_NEWLINE
-}
-
-interface SetRootEditorStateAction {
-  type: typeof SET_ROOT_EDITOR_STATE
-  editorState: EditorState
-}
-
-interface SetEditorStateAction {
-  type: typeof SET_EDITOR_STATE
-  editorState: EditorState
-}
-
 interface SetStateAction {
   type: typeof SET_STATE
   prop: string
@@ -189,10 +158,12 @@ interface SetStateAction {
 
 interface MoveUpAction {
   type: typeof MOVE_UP
+  id: string
 }
 
 interface MoveDownAction {
   type: typeof MOVE_DOWN
+  id: string
 }
 
 interface CollapseItemAction {
@@ -250,9 +221,6 @@ export type EditorActions =
   | ZoomAction
   | SetStateAction
   | ChangeAction
-  | InsertSoftNewlineAction
-  | SetRootEditorStateAction
-  | SetEditorStateAction
   | MoveUpAction
   | MoveDownAction
   | CollapseItemAction

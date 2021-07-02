@@ -1,3 +1,4 @@
+import React from 'react'
 import ContentEditable, { ContentEditableEvent } from '../../helpers/content_editable'
 import { NodeComponentProps } from '../../nodes/node_factory'
 import {
@@ -6,7 +7,9 @@ import {
   DEDENT,
   EDIT,
   EditorActions,
-  INDENT
+  INDENT,
+  MOVE_DOWN,
+  MOVE_UP
 } from '../../services/state/state_resolver'
 import './editable.scss'
 
@@ -19,11 +22,15 @@ interface Props extends NodeComponentProps {
  */
 function Editable(props: Props) {
   function onFocus() {
+    // if (nestedRef !== undefined) {
+    //   console.log(`ref: ${nestedRef.offsetHeight} ${nestedRef.offsetLeft} ${nestedRef.offsetRight}`)
+    // }
+
     return props.dispatch({ type: CLEAR_FOCUS })
   }
 
   function onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
-    console.log(`Keypress: ${event.key}`)
+    // console.log(`Keypress: ${event.key}`)
 
     // Deshifft
     if (event.shiftKey && event.key == 'Tab') {
@@ -46,8 +53,14 @@ function Editable(props: Props) {
       case 'Tab':
         event.preventDefault()
         return props.dispatch({ type: INDENT, id: props.data.id })
+      case 'ArrowUp':
+        event.preventDefault()
+        return props.dispatch({ type: MOVE_UP, id: props.data.id })
+      case 'ArrowDown':
+        event.preventDefault()
+        return props.dispatch({ type: MOVE_DOWN, id: props.data.id })
       default:
-        console.log(`Some other key: ${event.key}`)
+      // console.log(`Some other key: ${event.key}`)
     }
   }
 
@@ -67,9 +80,19 @@ function Editable(props: Props) {
       onChange={handleChange}
       onFocus={onFocus}
       onKeyDown={onKeyDown}
-      innerRef={(input: any) => {
-        if (input !== null && props.data.id === props.focus) {
+      innerRef={(input: HTMLDivElement | null) => {
+        if (input == null) {
+          return
+        }
+
+        // console.log(`Have ref: ${input}`)
+        // TEMP
+        // nestedRef = input
+        // refUpdated(input)
+
+        if (props.data.id === props.focus) {
           input.focus()
+          // console.log(`Input: ${input.selectionStart}`)
         }
       }}
     />
