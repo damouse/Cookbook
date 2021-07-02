@@ -17,7 +17,7 @@ export interface INode {
 class NodeData implements INode {
   public id: string = randomId(6)
   public text: string = ''
-  public isExpanded: boolean = false
+  public isExpanded: boolean = true
   public isCode: boolean = false
   public children = new Array<NodeData>()
 

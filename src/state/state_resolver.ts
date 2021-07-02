@@ -43,6 +43,21 @@ export function stateReducer(state: EditorState, action: EditorActions): EditorS
         focus: action.id
       }
 
+    case COLLAPSE_ITEM:
+      let target = state.nodes.get(action.id)
+      target!.isExpanded = !target!.isExpanded
+
+      return {
+        ...state
+      }
+
+    // case EXPAND_ITEM:
+    //   let x = state.nodes.get(action.id)
+    //   x!.isExpanded = true
+
+    //   return {
+    //     ...state
+    //   }
     // // case INSERT_SOFT_NEWLINE:
     // //   return {
     // //     ...state,
@@ -75,16 +90,7 @@ export function stateReducer(state: EditorState, action: EditorActions): EditorS
     //       state.zoomedInItemId
     //     ),
     //   }
-    // case COLLAPSE_ITEM:
-    //   return {
-    //     ...state,
-    //     editorState: collapseBlock(state.editorState, action.blockKey),
-    //   }
-    // case EXPAND_ITEM:
-    //   return {
-    //     ...state,
-    //     editorState: expandBlock(state.editorState, action.blockKey),
-    //   }
+
     // case EXPAND_ALL:
     //   return expandCollapseAll(state, false)
     // case COLLAPSE_ALL:
@@ -191,12 +197,12 @@ interface MoveDownAction {
 
 interface CollapseItemAction {
   type: typeof COLLAPSE_ITEM
-  blockKey: string
+  id: string
 }
 
 interface ExpandItemAction {
   type: typeof EXPAND_ITEM
-  blockKey: string
+  id: string
 }
 
 interface ExpandAllAction {

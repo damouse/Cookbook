@@ -32,20 +32,21 @@ function NodeFactory(props: NodeComponentProps) {
  * Helper function for creating lists of nodes
  */
 export interface NodeChildrenProps {
-  nodes: INode[]
+  // collapsed: boolean
+  data: INode
   dispatch: React.Dispatch<EditorActions>
   focus: string | null
   depth: number
 }
 
 export function NodeChildrenFactory(props: NodeChildrenProps) {
-  if (props.nodes.length === 0) {
+  if (props.data.children.length === 0 || !props.data.isExpanded) {
     return <></>
   }
 
   return (
     <div className="node-children">
-      {props.nodes.map(x => (
+      {props.data.children.map(x => (
         <NodeFactory
           data={x}
           dispatch={props.dispatch}
