@@ -1,0 +1,22 @@
+@import '../../variables.scss';
+
+// TODO: see how its done on devhints
+.text-subheader-line {
+  flex-grow: 1;
+  align-self: center;
+  margin-left: 24px;
+  display: inline-block;
+  vertical-align: middle;
+  height: 1px;
+  background: linear-gradient(to right, rgba(116, 95, 181, 0.2), transparent 100%);
+}
+
+.text-subheader {
+  font-size: 20px;
+  min-width: 0px !important;
+  flex-grow: 0 !important;
+}
+
+.subheader-text-row {
+  align-items: center;
+}

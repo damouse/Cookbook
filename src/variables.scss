@@ -25,12 +25,14 @@ $themes: (
     tag-color: #bb86fc,
     disabled-tag-color: rgba(187, 134, 252, 0.38),
     // list-card-color: #f1f3f5
-    seperator-color: rgba(85, 102, 119, 0.18)
+    seperator-color: rgba(85, 102, 119, 0.18),
+    // Not sure how to get the box shadow in the right way
+    box-shadow: 0 3px 4px rgba(85, 102, 119, 0.2)
   ),
   dark: (
     color-background: #1e1f1c,
     secondary-background-color: #272822,
-    tertiary-background-color: #ebebeb,
+    tertiary-background-color: #1e1f1c,
     main-text-color: #f8f8f2,
     secondary-text-color: rgba(255, 255, 255, 0.6),
     disabled-text-color: rgba(255, 255, 255, 0.38),
@@ -39,7 +41,8 @@ $themes: (
     disabled-tag-color: rgba(187, 134, 252, 0.38),
     background-color: #1e1f1c,
     // list-card-color: #272822
-    seperator-color: rgba(85, 102, 119, 0.18)
+    seperator-color: rgba(85, 102, 119, 0.18),
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2)
   )
 );
 

@@ -1,10 +1,11 @@
 import { EditorActions } from '../state/state_resolver'
 import React from 'react'
-import './node.scss'
 import TextNode from './text/text_node'
 import CodeNode from './code/code_node'
 import HeaderNode from './header/header_node'
 import { INode } from '../models/node_data'
+import SubheaderNode from './subheader/subheader'
+import './node.scss'
 
 export interface NodeComponentProps {
   data: INode
@@ -16,11 +17,13 @@ export interface NodeComponentProps {
 /**
  * Create appropriate nodes for NodeData
  */
-function NodeFactory(props: NodeComponentProps) {
+function NodeFactory(props: NodeComponentProps): JSX.Element {
   console.log(`Depth: ${props.depth}`)
 
   if (props.depth == 0 && !props.data.isCode) {
     return HeaderNode(props)
+  } else if (props.depth == 1 && !props.data.isCode) {
+    return SubheaderNode(props)
   } else if (!props.data.isCode) {
     return TextNode(props)
   } else {
@@ -32,7 +35,6 @@ function NodeFactory(props: NodeComponentProps) {
  * Helper function for creating lists of nodes
  */
 export interface NodeChildrenProps {
-  // collapsed: boolean
   data: INode
   dispatch: React.Dispatch<EditorActions>
   focus: string | null
