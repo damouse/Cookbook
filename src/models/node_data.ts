@@ -1,5 +1,8 @@
 import _ from 'lodash'
 
+/**
+ * Representation of a serialized node
+ */
 export interface INode {
   id: string
   text: string
@@ -8,13 +11,15 @@ export interface INode {
   children: INode[]
 }
 
-// The only thing this class really adds is safe .children access
-class NodeModel implements INode {
+/**
+ * Wrapper around node data that provides some utility access like safe .children access
+ */
+class NodeData implements INode {
   public id: string = randomId(6)
   public text: string = ''
   public isExpanded: boolean = false
   public isCode: boolean = false
-  public children = new Array<NodeModel>()
+  public children = new Array<NodeData>()
 
   constructor(
     id: string | undefined = undefined,
@@ -39,8 +44,8 @@ function randomId(len: number = 6) {
   return _.times(len, () => ((Math.random() * 0xf) << 0).toString(16)).join('')
 }
 
-export function deserializeNodes(node: INode): NodeModel {
-  let root = new NodeModel(node.id, node.text, node.isCode)
+export function deserializeNodes(node: INode): NodeData {
+  let root = new NodeData(node.id, node.text, node.isCode)
 
   if (node.children !== undefined && node.children.length > 0) {
     root.children = node.children.map(x => deserializeNodes(x))
@@ -50,4 +55,4 @@ export function deserializeNodes(node: INode): NodeModel {
 }
 
 // export default RawNode
-export default NodeModel
+export default NodeData

@@ -1,4 +1,4 @@
-import { INode } from './raw_node'
+import { INode } from '../models/node_data'
 import { EditorActions } from '../state/state_resolver'
 import React from 'react'
 import './node.scss'

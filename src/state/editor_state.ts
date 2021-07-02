@@ -1,20 +1,20 @@
 import _ from 'lodash'
-import NodeModel, { deserializeNodes, INode } from '../node/raw_node'
+import NodeData, { deserializeNodes, INode } from '../models/node_data'
 
 export interface EditorState {
   // Store the whole parsed data? Maybe not, maybe we don't want to have to reconstitute this
   // OTOH it makes a nice interface with the current structure
-  root: NodeModel
+  root: NodeData
 
   // ID of the currently targeted node
-  active: NodeModel
+  active: NodeData
   target: string
 
   // Node IDS to nodes, possibly without children
-  nodes: Map<string, NodeModel>
+  nodes: Map<string, NodeData>
 
   // node ids to parents
-  parents: Map<string, NodeModel | null>
+  parents: Map<string, NodeData | null>
   focus: string | null
 }
 
@@ -25,16 +25,16 @@ export function loadEditorState(source: string, target: string): EditorState {
   const json = JSON.parse(source) as INode
   const node = deserializeNodes(json)
 
-  let nodes = new Map<string, NodeModel>()
-  let parents = new Map<string, NodeModel | null>()
+  let nodes = new Map<string, NodeData>()
+  let parents = new Map<string, NodeData | null>()
   let siblingIndex = new Map<string, number>()
 
-  function recursiveBuilder(root: NodeModel, parent: NodeModel | null) {
+  function recursiveBuilder(root: NodeData, parent: NodeData | null) {
     nodes.set(root.id, root)
     parents.set(root.id, parent)
 
     if (root.children !== undefined) {
-      root.children.forEach((node: NodeModel, index: number) => {
+      root.children.forEach((node: NodeData, index: number) => {
         siblingIndex.set(node.id, index)
         recursiveBuilder(node, root)
       })
@@ -165,7 +165,7 @@ export function createNode(state: EditorState, node_id: string): EditorState {
   const idx = parent?.children.indexOf(node)!
 
   // Create and add new node
-  const newNode = new NodeModel()
+  const newNode = new NodeData()
   parent!.children.splice(idx + 1, 0, newNode)
   state.nodes.set(newNode.id, newNode)
   state.parents.set(newNode.id, parent!)

@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from 'react'
-import NodeModel from '../node/raw_node'
-import Node from '../node/node'
+import NodeData from '../models/node_data'
+import Node from '../nodes/node'
 import { CHANGE, LOAD, stateReducer } from '../state/state_resolver'
 import './editor.scss'
 import Menu from '../menu/menu'
@@ -9,11 +9,11 @@ import { EditorState } from '../state/editor_state'
 // A little chunky. Why does the editor class have to have all these details?
 // maybe sink this into state somehow?
 const initialState: EditorState = {
-  root: new NodeModel(),
-  active: new NodeModel(),
+  root: new NodeData(),
+  active: new NodeData(),
   target: '',
-  nodes: new Map<string, NodeModel>(),
-  parents: new Map<string, NodeModel | null>(),
+  nodes: new Map<string, NodeData>(),
+  parents: new Map<string, NodeData | null>(),
   focus: null
 }
 

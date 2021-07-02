@@ -1,0 +1,20 @@
+@import '../../variables.scss';
+
+//
+// Arrows
+//
+.node-arrow {
+  @include theme-aware('color', 'secondary-text-color');
+  cursor: pointer;
+  font-size: 0.75em;
+  width: 0.8em;
+}
+
+.no-node-arrow {
+  @include theme-aware('color', 'secondary-text-color');
+  width: 0.6em;
+}
+
+.node-arrow:hover {
+  @include theme-aware('color', 'main-text-color');
+}

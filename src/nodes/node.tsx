@@ -29,6 +29,9 @@ function Node(props: NodeProps) {
       return
     }
 
+    // SO it might be possible to get tabs to work without too much trouble
+    // If we're editting a code node and we see a tab, then send the thing over.
+
     switch (event.key) {
       case 'Enter':
         event.preventDefault()

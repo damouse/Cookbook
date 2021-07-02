@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom'
 import ContentEditable from '../helpers/content_editable'
 import { SpecializedNodeProps } from './node_props'
 import Node from './node'
 import './node.scss'
+import DotLink from './dot_link/dot_link'
+import Collapse from './collapse/collapse'
 
 function TextNode(props: SpecializedNodeProps) {
   const children = props.hasChildren ? (
@@ -18,17 +19,8 @@ function TextNode(props: SpecializedNodeProps) {
   return (
     <div className="node">
       <div className="node-row">
-        {props.hasChildren ? (
-          <div className="node-arrow noselect">
-            {props.isExpanded ? <>&#9660;</> : <>&#9654;</>}
-          </div>
-        ) : (
-          <div className="no-node-arrow noselect"></div>
-        )}
-        <Link to={{ pathname: `/${props.id}` }} className="node-bullet noselect">
-          &#9679;
-        </Link>
-
+        <Collapse collapsible={props.hasChildren} collapsed={!props.isExpanded} />
+        <DotLink id={props.id} />
         <ContentEditable
           className="node-text"
           key={`node-body-${props.id}`}
