@@ -15,6 +15,7 @@ Design Notes
 - Play with colums
 
 - Make intermediate text fields multi-column
+- Persistance
 - Don't allow newlines following a code blcok
 - Decide about rendering levels.
 - Arrow up/down

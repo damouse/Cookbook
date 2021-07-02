@@ -7,7 +7,57 @@ const rawJson = `{
   "text": "a",
   "children": [{
       "id": "b",
-      "text": "b"
+      "text": "b",
+      "children": [
+          {
+            "id": "j",
+            "text": "jasdfasdf"
+          },
+          {
+            "id": "k",
+            "text": "kasdfasdf"
+          },
+          {
+              "id": "l",
+              "text": "aasdfl"
+            },
+            {
+              "id": "m",
+              "text": "masdfasdf"
+            },
+            {
+              "id": "n",
+              "text": "nasdfasdf"
+            },
+            {
+              "id": "p",
+              "text": "pasdfasdf"
+            },
+            {
+              "id": "j",
+              "text": "jasdfasdf"
+            },
+            {
+              "id": "k",
+              "text": "kasdfasdf"
+            },
+            {
+                "id": "l",
+                "text": "aasdfl"
+              },
+              {
+                "id": "m",
+                "text": "masdfasdf"
+              },
+              {
+                "id": "n",
+                "text": "nasdfasdf"
+              },
+              {
+                "id": "p",
+                "text": "pasdfasdf"
+              }
+        ]
     },
     {
       "id": "c",
