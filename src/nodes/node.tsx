@@ -2,9 +2,9 @@ import { CLEAR_FOCUS, CREATE, DEDENT, EDIT, INDENT } from '../state/state_resolv
 import React from 'react'
 import { ContentEditableEvent } from '../helpers/content_editable'
 import './node.scss'
-import TextNode from './text_node'
-import CodeNode from './code_node'
-import HeaderNode from './header_node'
+import TextNode from './text/text_node'
+import CodeNode from './code/code_node'
+import HeaderNode from './header/header_node'
 import { NodeProps } from './node_props'
 
 function Node(props: NodeProps) {
@@ -49,21 +49,23 @@ function Node(props: NodeProps) {
     depth: props.depth + 1
   }
 
-  // I'm actually not sure this is going to work. Hitting enter will add divs within the
-  // editing div, and I probably want newlines?
-  const handleChange = (evt: ContentEditableEvent) => {
-    return props.dispatch({ type: EDIT, id: props.id, text: evt.target.value })
-  }
+  return null
 
-  // TODO: Create Subheader Node
+  // // I'm actually not sure this is going to work. Hitting enter will add divs within the
+  // // editing div, and I probably want newlines?
+  // const handleChange = (evt: ContentEditableEvent) => {
+  //   return props.dispatch({ type: EDIT, id: props.id, text: evt.target.value })
+  // }
 
-  if (props.depth == 1 && !props.isCode) {
-    return HeaderNode({ ...props, hasChildren, onFocus, onKeyDown, handleChange })
-  } else if (!props.isCode) {
-    return TextNode({ ...props, hasChildren, onFocus, onKeyDown, handleChange })
-  } else {
-    return CodeNode({ ...props, hasChildren, onFocus, onKeyDown, handleChange })
-  }
+  // // TODO: Create Subheader Node
+
+  // if (props.depth == 1 && !props.isCode) {
+  //   return HeaderNode({ ...props, hasChildren, onFocus, onKeyDown, handleChange })
+  //   // } else if (!props.isCode) {
+  //   // return TextNode({ ...props, hasChildren, onFocus, onKeyDown, handleChange })
+  // } else {
+  //   return CodeNode({ ...props, hasChildren, onFocus, onKeyDown, handleChange })
+  // }
 }
 
 export default Node

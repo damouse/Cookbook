@@ -5,6 +5,7 @@ import { CHANGE, LOAD, stateReducer } from '../state/state_resolver'
 import './editor.scss'
 import Menu from '../menu/menu'
 import { EditorState } from '../state/editor_state'
+import NodeFactory from '../nodes/node_factory'
 
 // A little chunky. Why does the editor class have to have all these details?
 // maybe sink this into state somehow?
@@ -53,7 +54,8 @@ function Editor(props: EditorProps) {
       <div id="listContainer">
         <div id="currentFilters"></div>
         <div id="list" className="root-children">
-          <Node {...state.active} dispatch={dispatch} focus={state.focus} depth={0}></Node>
+          <NodeFactory data={state.active} dispatch={dispatch} focus={state.focus} depth={0} />
+          {/* <Node {...state.active} dispatch={dispatch} focus={state.focus} depth={0}></Node> */}
           {/* <div className="loader"></div> */}
         </div>
       </div>
