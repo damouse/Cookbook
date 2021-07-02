@@ -12,12 +12,12 @@ function CommentNode(props: SpecializedNodeProps) {
       <div className="node-row">
         <div className="no-node-arrow noselect"></div>
 
-        <Link to={{ pathname: `/${props.id}` }} className="node-bullet noselect">
+        {/* <Link to={{ pathname: `/${props.id}` }} className="node-bullet noselect">
           &#9679;
-        </Link>
+        </Link> */}
 
         <ContentEditable
-          className="node-text"
+          className="node-text comment-text"
           key={`node-body-${props.id}`}
           html={props.text}
           onChange={props.handleChange}

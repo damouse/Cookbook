@@ -7,6 +7,7 @@ import { ContentEditableEvent } from '../helpers/content_editable'
 export interface NodeProps extends INode {
   dispatch: React.Dispatch<EditorActions>
   focus: string | null
+  depth: number
 }
 
 export interface SpecializedNodeProps extends NodeProps {

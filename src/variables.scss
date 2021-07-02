@@ -48,9 +48,10 @@
 $themes: (
   light: (
     color-background: #fafafa,
-    secondary-background-color: #f1f3f5,
+    // secondary-background-color: #f1f3f5,
+    secondary-background-color: #fff,
     main-text-color: rgb(42, 49, 53),
-    secondary-text-color: rgb(42, 49, 53),
+    secondary-text-color: rgb(71, 86, 95),
     disabled-text-color: rgb(42, 49, 53),
     highlight-color: #6200ee,
     tag-color: #bb86fc,

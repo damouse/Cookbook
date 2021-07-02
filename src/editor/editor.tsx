@@ -53,7 +53,7 @@ function Editor(props: EditorProps) {
       <div id="listContainer">
         <div id="currentFilters"></div>
         <div id="list" className="root-children">
-          <Node {...state.active} dispatch={dispatch} focus={state.focus}></Node>
+          <Node {...state.active} dispatch={dispatch} focus={state.focus} depth={0}></Node>
           {/* <div className="loader"></div> */}
         </div>
       </div>

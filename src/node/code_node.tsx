@@ -15,22 +15,23 @@ function CodeNode(props: SpecializedNodeProps) {
   //     <></>
   //   )
 
+  // We don't need to link into code (do we)? and the collapse can be inside the block to make
   return (
     <div className="node">
       <div className="node-row">
-        {props.hasChildren ? (
-          <div className="node-arrow noselect">
-            {props.isExpanded ? <>&#9660;</> : <>&#9654;</>}
-          </div>
-        ) : (
-          <div className="no-node-arrow noselect"></div>
-        )}
-        <Link to={{ pathname: `/${props.id}` }} className="node-bullet noselect">
+        {/* <Link to={{ pathname: `/${props.id}` }} className="node-bullet noselect">
           &#9679;
-        </Link>
+        </Link> */}
         <div className="code-comment-wrapper">
+          {props.hasChildren ? (
+            <div className="node-arrow noselect" style={{ marginLeft: 10 }}>
+              {props.isExpanded ? <>&#9660;</> : <>&#9654;</>}
+            </div>
+          ) : (
+            <div className="no-node-arrow noselect"></div>
+          )}
           <ContentEditable
-            className="node-text"
+            className="node-text code-text"
             key={`node-body-${props.id}`}
             // html={`<code class='code-node'>${props.text}</code>`}
             html={props.text}

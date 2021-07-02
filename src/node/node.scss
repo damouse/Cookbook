@@ -14,6 +14,7 @@
 
 .node-row {
   display: flex;
+  width: 100%;
   @include theme-aware('color', 'main-text-color');
   // color: var(--main-text-color);
 }
@@ -105,9 +106,45 @@ code {
 
 .code-comment-wrapper {
   @include theme-aware('background-color', 'secondary-background-color');
+  // padding: 1em;
+
+  .node-arrow {
+    display: inline-block;
+  }
 }
 
 .comment-node {
-  border-top: 1px solid;
+  border-top: 1px solid var(--secondary-background-color);
   @include theme-aware('border-color', 'background-color');
+}
+
+.code-text {
+  display: inline-block;
+
+  margin: 1em;
+  // color: #15141f;
+  background-color: '#eae9ed';
+  // font-family: 'Monaco,Menlo,Ubuntu Mono,Droid Sans Mono,Consolas,monospace';
+  font-family: 'monospace';
+  font-size: '0.9em';
+  padding: '0 0.25rem';
+  margin: '0 0.0625rem';
+  border-radius: '0.125rem';
+  overflow-wrap: 'break-word';
+  word-wrap: 'break-word';
+}
+
+.comment-text {
+  margin: 5px;
+}
+
+// TODO: see how its done on devhints
+.text-header::after {
+  margin-left: 24px;
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(to right, rgba(116, 95, 181, 0.2), transparent 100%);
 }
