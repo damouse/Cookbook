@@ -5,6 +5,7 @@ import './editor.sass'
 import Menu from '../menu/menu'
 import { EditorState } from '../state/editor_state'
 import NodeFactory from '../nodes/node_factory'
+import { useDeps } from '../services/context'
 
 // A little chunky. Why does the editor class have to have all these details?
 // maybe sink this into state somehow?
@@ -25,6 +26,10 @@ interface EditorProps {
 }
 
 function Editor(props: EditorProps) {
+  const { apiService } = useDeps()
+
+  console.log(`Remote service: ${apiService.hello()}`)
+
   const [state, dispatch] = useReducer(stateReducer, initialState)
 
   // This should only run once, on startup. Its not.

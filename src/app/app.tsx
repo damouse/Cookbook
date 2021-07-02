@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Editor from '../editor/editor'
 import { useTheme } from '../helpers/theme'
+import ApiService from '../services/api'
+import { DepsProvider } from '../services/context'
 
 const rawJson = `{
   "id": "a",
@@ -100,7 +102,8 @@ const App = () => {
   // const [selectedTheme, setSelectedTheme] = useState(theme)
 
   return (
-    <>
+    // <>
+    <DepsProvider>
       {themeLoaded && (
         <Router>
           <Route
@@ -118,7 +121,7 @@ const App = () => {
           />
         </Router>
       )}
-    </>
+    </DepsProvider>
   )
 }
 

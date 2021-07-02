@@ -10,9 +10,9 @@ npm init react-app myapp --use-npm --template typescript
 
 TODO
 
-Design Notes
-
-- Play with colums
+- No newlines on empty parent
+- Arrow Keys
+- Code button
 
 - Make intermediate text fields multi-column
 - Persistance
@@ -29,6 +29,7 @@ Design Notes
 Deferred
 
 - Undo system
+- More testing with columns
 
 BUGS
 
