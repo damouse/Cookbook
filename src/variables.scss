@@ -13,9 +13,11 @@
 
 $themes: (
   light: (
-    color-background: #fafafa,
+    // The first one is a little lighter, the second one is cooler
+    // color-background: #fafafa,
+    color-background: #f1f3f5,
     secondary-background-color: #fff,
-    tertiary-background-color: #ebebeb,
+    tertiary-background-color: #f8f9fa,
     main-text-color: rgb(42, 49, 53),
     secondary-text-color: rgb(71, 86, 95),
     disabled-text-color: rgb(42, 49, 53),
@@ -23,6 +25,7 @@ $themes: (
     tag-color: #bb86fc,
     disabled-tag-color: rgba(187, 134, 252, 0.38),
     // list-card-color: #f1f3f5
+    seperator-color: rgba(85, 102, 119, 0.18)
   ),
   dark: (
     color-background: #1e1f1c,
@@ -36,6 +39,7 @@ $themes: (
     disabled-tag-color: rgba(187, 134, 252, 0.38),
     background-color: #1e1f1c,
     // list-card-color: #272822
+    seperator-color: rgba(85, 102, 119, 0.18)
   )
 );
 

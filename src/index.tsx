@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom'
-import './index.scss'
+import './index.sass'
 
 // import * as themes from './theme/scheme.json'
 // import { storage_get, storage_put } from './helpers/local_storage'

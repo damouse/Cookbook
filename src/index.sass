@@ -1,0 +1,35 @@
+@import './variables.scss'
+@import url('//brick.a.ssl.fastly.net/Roboto:400,400i,700')
+// @import './fonts.sass';
+
+body
+  @include theme-aware('background', 'color-background')
+
+  margin: 0
+  // font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+  // 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+  font-family: sans-serif
+  font-family: 'Roboto'
+  font-size: 15px
+
+// code
+  // font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace
+
+#pageHeader
+  width: 100%
+  text-align: center
+
+h1
+  @include theme-aware('color', 'main-text-color')
+
+h1 a,
+a:visited
+  color: inherit
+  text-decoration: none
+
+*:not(pre):not(code)
+  -webkit-font-smoothing: antialiased

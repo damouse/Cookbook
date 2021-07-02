@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from 'react'
 import NodeData from '../models/node_data'
 import { CHANGE, LOAD, stateReducer } from '../state/state_resolver'
-import './editor.scss'
+import './editor.sass'
 import Menu from '../menu/menu'
 import { EditorState } from '../state/editor_state'
 import NodeFactory from '../nodes/node_factory'

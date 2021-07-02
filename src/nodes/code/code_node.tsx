@@ -10,17 +10,19 @@ import { COLLAPSE_ITEM } from '../../state/state_resolver'
  */
 function CodeNode(props: NodeComponentProps) {
   return (
-    <div className="node">
-      <div className="node-row">
-        <Collapse
-          collapsible={props.data.children.length > 0}
-          collapsed={!props.data.isExpanded}
-          onClick={_ => props.dispatch({ type: COLLAPSE_ITEM, id: props.data.id })}
-        />
-        <Editable {...props} class={'code-text'} />
+    <div className="code-flex-wrapper">
+      <Collapse
+        collapsible={props.data.children.length > 0}
+        collapsed={!props.data.isExpanded}
+        onClick={_ => props.dispatch({ type: COLLAPSE_ITEM, id: props.data.id })}
+      />
+      <div className="code-node">
+        <div className="node-row">
+          <Editable {...props} class={'code-text'} />
+        </div>
+        {props.data.isExpanded &&
+          props.data.children.map(x => <CommentNode {...props} data={x} key={x.id}></CommentNode>)}
       </div>
-      {props.data.isExpanded &&
-        props.data.children.map(x => <CommentNode {...props} data={x} key={x.id}></CommentNode>)}
     </div>
   )
 }

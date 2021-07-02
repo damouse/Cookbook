@@ -1,27 +1,14 @@
 @import '../../variables.scss';
 
-// TODO: how do descendants work in sass?
-// code {
-//   // @include theme-aware('background-color', 'secondary-background-color');
-//   // background-color: var(--list-card-color);
-//   padding: 10px;
-//   margin: 10px;
-//   border-radius: 5px;
-// }
-
 .code-node {
-  @include theme-aware('background-color', 'secondary-background-color');
-  // padding: 1em;
-
-  .node-arrow {
-    display: inline-block;
-  }
+  box-shadow: 0 3px 4px rgba(85, 102, 119, 0.2), 0 1px 1px rgba(85, 102, 119, 0.4);
+  margin-left: 5px;
 }
 
 .code-text {
   display: inline-block;
   padding: 1em;
-  margin-left: 5px;
+  // margin-left: 5px;
   flex-grow: 1;
   @include theme-aware('background-color', 'secondary-background-color');
 
@@ -38,9 +25,6 @@
   // font-family: 'Monaco,Menlo,Ubuntu Mono,Droid Sans Mono,Consolas,monospace';
 }
 
-// .code-node {
-// border: 1px solid;
-// border-radius: 3px;
-// display: flex;
-// width: 100%;
-// }
+.code-flex-wrapper {
+  display: flex;
+}
