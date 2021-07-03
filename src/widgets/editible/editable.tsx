@@ -27,14 +27,14 @@ function Editable(props: Props) {
     // console.log(`Keypress: ${event.key}`)
 
     // Deshifft
-    if (event.shiftKey && event.key == 'Tab') {
+    if (event.shiftKey && event.key === 'Tab') {
       event.preventDefault()
       // return props.dispatch({ type: DEDENT, id: props.data.id })
       editorCtrl.dedent(props.data.id)
     }
 
     // Soft newlines
-    if (event.shiftKey && event.key == 'Enter') {
+    if (event.shiftKey && event.key === 'Enter') {
       return
     }
 

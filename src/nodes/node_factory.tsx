@@ -15,9 +15,9 @@ export interface NodeComponentProps {
  * Create appropriate nodes for NodeData
  */
 function NodeFactory(props: NodeComponentProps): JSX.Element {
-  if (props.depth == 0 && !props.data.isCode) {
+  if (props.depth === 0 && !props.data.isCode) {
     return HeaderNode(props)
-  } else if (props.depth == 1 && !props.data.isCode) {
+  } else if (props.depth === 1 && !props.data.isCode) {
     return SubheaderNode(props)
   } else if (!props.data.isCode) {
     return TextNode(props)

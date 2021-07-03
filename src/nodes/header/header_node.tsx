@@ -1,5 +1,5 @@
 import Editable from '../../widgets/editible/editable'
-import NodeFactory, { NodeChildrenFactory, NodeComponentProps } from '../node_factory'
+import NodeFactory, { NodeComponentProps } from '../node_factory'
 import './header.scss'
 
 /**

@@ -1,4 +1,3 @@
-import ArrowRight from '../../assets/ArrowRight'
 import DownArrow from './DownArrow'
 import './collapse.scss'
 import { useDeps } from '../../services/context'

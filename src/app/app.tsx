@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Editor from '../editor/editor'
 import { useTheme } from '../helpers/theme'
-import ApiService from '../services/api'
 import { DepsProvider } from '../services/context'
 
 const rawJson = `{
@@ -103,6 +102,8 @@ const App = () => {
 
   return (
     // <>
+    // TODO: can the controller for this be attached to the editor directly?
+    // I'm not sure I love the use of context here for DI. It seems like overkill.
     <DepsProvider>
       {themeLoaded && (
         <Router>

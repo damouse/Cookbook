@@ -3,7 +3,6 @@ import Editable from '../../widgets/editible/editable'
 import CommentNode from '../comment/comment_node'
 import './code.scss'
 import { NodeComponentProps } from '../node_factory'
-import { useDeps } from '../../services/context'
 
 /**
  * Editable code block

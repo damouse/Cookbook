@@ -252,7 +252,7 @@ function EditorController(): IEditorController {
    */
   function moveUp(node_id: string): void {
     // Current header element. TODO: should this decrease the zoom level?
-    if (node_id == state.active.id) {
+    if (node_id === state.active.id) {
       return
     }
 
@@ -261,7 +261,7 @@ function EditorController(): IEditorController {
     const idx = parent.children.indexOf(node)
 
     // Move to the parent
-    if (idx == 0) {
+    if (idx === 0) {
       setState({ ...state, focus: parent.id })
       return
     }
