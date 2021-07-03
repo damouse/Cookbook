@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import NodeData from '../models/node_data'
-import { EditorState } from '../services/state/editor_state'
+import { EditorState } from '../services/state_controller'
 
 import './menu.scss'
 

@@ -2,16 +2,6 @@ import React from 'react'
 import ContentEditable, { ContentEditableEvent } from '../../helpers/content_editable'
 import { NodeComponentProps } from '../../nodes/node_factory'
 import { useDeps } from '../../services/context'
-import {
-  CLEAR_FOCUS,
-  CREATE,
-  DEDENT,
-  EDIT,
-  EditorActions,
-  INDENT,
-  MOVE_DOWN,
-  MOVE_UP
-} from '../../services/state/state_resolver'
 import './editable.scss'
 
 interface Props extends NodeComponentProps {

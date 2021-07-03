@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 import React from 'react'
 import ApiService, { IApiService } from './api'
-import EditorController, { IEditorController } from './state/state_manager'
+import EditorController, { IEditorController } from './state_controller'
 
 interface ContextState {
   api: IApiService

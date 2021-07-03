@@ -1,7 +1,22 @@
-import React, { useReducer, useState } from 'react'
-import NodeData, { deserializeNodes, INode } from '../../models/node_data'
-import { EditorState } from './editor_state'
-import { EditorActions, stateReducer } from './state_resolver'
+import { useState } from 'react'
+import NodeData, { deserializeNodes, INode } from '../models/node_data'
+
+export interface EditorState {
+  // Store the whole parsed data? Maybe not, maybe we don't want to have to reconstitute this
+  // OTOH it makes a nice interface with the current structure
+  root: NodeData
+
+  // ID of the currently targeted node
+  active: NodeData
+  target: string
+
+  // Node IDS to nodes, possibly without children
+  nodes: Map<string, NodeData>
+
+  // node ids to parents
+  parents: Map<string, NodeData | null>
+  focus: string | null
+}
 
 export interface IEditorController {
   state: EditorState

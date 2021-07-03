@@ -1,12 +1,9 @@
-import { EditorActions } from '../services/state/state_resolver'
-import React from 'react'
 import TextNode from './text/text_node'
 import CodeNode from './code/code_node'
 import HeaderNode from './header/header_node'
 import { INode } from '../models/node_data'
 import SubheaderNode from './subheader/subheader'
 import './node.scss'
-import { IEditorController } from '../services/state/state_manager'
 
 export interface NodeComponentProps {
   data: INode
