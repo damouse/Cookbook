@@ -7,7 +7,6 @@ interface Props {
   id: string
   collapsible: boolean
   collapsed: boolean
-  // onClick: (collapsed: boolean) => void
 }
 
 function Collapse(props: Props) {

@@ -5,18 +5,20 @@ import { EditorActions, stateReducer } from './state_resolver'
 
 export interface IEditorController {
   state: EditorState
-  // dispatch: React.Dispatch<EditorActions>
 
   loadFromJson(src: string): void
+
   setActive(target: string): void
-  indent(node_id: string): void
-  dedent(node_id: string): void
-  createNode(node_id: string): void
-  deleteNode(node_id: string): void
-  moveUp(node_id: string): void
-  moveDown(node_id: string): void
   toggleCollapsed(node_id: string): void
   clearFocus(): void
+
+  indent(node_id: string): void
+  dedent(node_id: string): void
+  moveUp(node_id: string): void
+  moveDown(node_id: string): void
+
+  createNode(node_id: string): void
+  deleteNode(node_id: string): void
   editNode(node_id: string, text: string): void
 }
 
@@ -25,7 +27,6 @@ export interface IEditorController {
  * NOTE: not currently in use. I'm not sure this works super well for what I'm trying to do here.
  */
 function EditorController(): IEditorController {
-  // const [state, dispatch] = useReducer(stateReducer, initialState)
   const [state, setState] = useState<EditorState>({
     root: new NodeData(),
     active: new NodeData(),

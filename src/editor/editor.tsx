@@ -1,22 +1,8 @@
-import { useEffect, useReducer } from 'react'
-import NodeData from '../models/node_data'
-import { CHANGE, LOAD, stateReducer } from '../services/state/state_resolver'
+import { useEffect } from 'react'
 import './editor.sass'
 import Menu from '../menu/menu'
 import NodeFactory from '../nodes/node_factory'
 import { useDeps } from '../services/context'
-import { EditorState } from '../services/state/editor_state'
-
-// A little chunky. Why does the editor class have to have all these details?
-// maybe sink this into state somehow?
-const initialState: EditorState = {
-  root: new NodeData(),
-  active: new NodeData(),
-  target: '',
-  nodes: new Map<string, NodeData>(),
-  parents: new Map<string, NodeData | null>(),
-  focus: null
-}
 
 interface EditorProps {
   // TODO: move this somewhere else?
@@ -26,20 +12,11 @@ interface EditorProps {
 }
 
 function Editor(props: EditorProps) {
-  // Testing api/state service. Oh look it works.
-  // const { apiService } = useDeps()
-  // console.log(`Remote service: ${apiService.hello()}`)
-  // console.log(`Counter: ${apiService.getCounter()}`)
-  // apiService.increment()
-
   const { editorCtrl } = useDeps()
-  const { state, loadFromJson } = editorCtrl
-
-  // const [state, dispatch] = useReducer(stateReducer, initialState)
+  const { state, loadFromJson, setActive } = editorCtrl
 
   // This should only run once, on startup. Its not.
   useEffect(() => {
-    // dispatch({ type: LOAD, source: props.source })
     loadFromJson(props.source)
   }, [props.source])
 
@@ -47,6 +24,7 @@ function Editor(props: EditorProps) {
     // BUG: route changes don't work on the root
     console.log(`On route change: ${props.hash}`)
     if (props.hash !== undefined && props.hash !== state.target) {
+      setActive(props.hash)
       // dispatch({ type: CHANGE, target: props.hash })
     }
   }, [props.hash])
