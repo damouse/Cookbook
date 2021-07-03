@@ -10,8 +10,9 @@ npm init react-app myapp --use-npm --template typescript
 
 TODO
 
-- Down arrow
-- Review up arrow
+- Review Down arrow Algo
+- Review up arrow Algo
+
 - Understand cursor position-- need to know when we can delete and move to the
   next line and arrows and all that jazz
 - Code button, and review button position

@@ -45,19 +45,15 @@ function Editable(props: Props) {
       case 'Enter':
         event.preventDefault()
         return editorCtrl.createNode(props.data.id)
-      // return props.dispatch({ type: CREATE, id: props.data.id })
       case 'Tab':
         event.preventDefault()
         return editorCtrl.indent(props.data.id)
-      // return props.dispatch({ type: INDENT, id: props.data.id })
       case 'ArrowUp':
         event.preventDefault()
         return editorCtrl.moveUp(props.data.id)
-      // return props.dispatch({ type: MOVE_UP, id: props.data.id })
       case 'ArrowDown':
         event.preventDefault()
         return editorCtrl.moveDown(props.data.id)
-      // return props.dispatch({ type: MOVE_DOWN, id: props.data.id })
       default:
       // console.log(`Some other key: ${event.key}`)
     }

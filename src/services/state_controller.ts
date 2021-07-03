@@ -52,11 +52,35 @@ function EditorController(): IEditorController {
   })
 
   //
+  // Utility Functions
+  //
+
+  /**
+   * Utility function to get a node and its parent, else print a warning.
+   */
+  function getNodeAndParent(node_id: string): [INode | undefined, INode | undefined] {
+    const node = state.nodes.get(node_id)
+    const parent = state.parents.get(node_id)
+
+    if (node === undefined) {
+      console.log(`Cant find node ${node_id}`)
+      return [undefined, undefined]
+    }
+
+    if (parent === undefined || parent === null) {
+      console.log(`Cant find node ${node_id}`)
+      return [undefined, undefined]
+    }
+
+    return [node, parent]
+  }
+
+  //
   // Main State Mutator Methods
   //
 
   /**
-   *
+   * Load a tree from JSON string and replace the current data
    */
   function loadFromJson(source: string) {
     const json = JSON.parse(source) as INode
@@ -80,47 +104,63 @@ function EditorController(): IEditorController {
     // NOTE: root doesn't have an entry in sibling index currently
     // Nodes aren't able to get to the top level as written, this may be why
     recursiveBuilder(root, null)
-
     let active = root
 
     if (state.target !== '' && nodes.get(state.target) !== undefined) {
       active = nodes.get(state.target)!
     }
 
-    // TODO: validate that target and active exist
     setState({ ...state, root, active, nodes, parents, focus: null })
   }
 
+  /**
+   * Change the toggle state of the passed id
+   */
   function toggleCollapsed(id: string): void {
     let target = state.nodes.get(id)
-    target!.isExpanded = !target!.isExpanded
-    setState(state)
+
+    if (target === undefined) {
+      return console.log(`Cant find node ${id}`)
+    }
+
+    target.isExpanded = !target.isExpanded
+    setState({ ...state })
   }
 
+  /**
+   * Update the text for a given node. Does not trigger a rerender because content-editable will display the update
+   */
   function editNode(id: string, text: string): void {
     let node = state.nodes.get(id)
-    node!.text = text
+
+    if (node === undefined) {
+      return console.log(`Cant find node ${id}`)
+    }
+
+    node.text = text
   }
 
   /**
    * Set the node identified by the given target string as active, if it exists.
    */
   function setActive(target: string) {
-    let active = state.active
-
-    if (target != state.target && state.nodes.get(target) !== undefined) {
-      active = state.nodes.get(target)!
+    if (target === state.target) {
+      return
     }
 
-    console.log(`Target ${target} current ${state.target} `)
+    let active = state.nodes.get(target)
 
-    setState({
-      ...state,
-      active: active,
-      target: target
-    })
+    if (active === undefined) {
+      return console.log(`Cant find node ${target}`)
+    }
+
+    setState({ ...state, active, target })
   }
 
+  /**
+   * Remove the active focus. This is called when any Editable field is changed to signify that the
+   * user has taken logical ownership over the focus.
+   */
   function clearFocus(): void {
     setState({ ...state, focus: null })
   }
@@ -129,14 +169,9 @@ function EditorController(): IEditorController {
    * Increase indentation by 1
    */
   function indent(node_id: string) {
-    if (state.nodes.get(node_id) === undefined) {
-      return state
-    }
-
-    // TODO: validation
-    const node = state.nodes.get(node_id)!
-    const parent = state.parents.get(node_id)!
-    const idx = parent?.children.indexOf(node)!
+    const [node, parent] = getNodeAndParent(node_id)
+    if (node === undefined || parent === undefined) return
+    const idx = parent.children.indexOf(node)
 
     // Cant indent a node with nothing above it
     if (idx < 1) {
@@ -149,7 +184,7 @@ function EditorController(): IEditorController {
       return state
     }
 
-    const newParent = parent!.children[idx - 1]
+    const newParent = parent.children[idx - 1]
 
     // Don't allow nodes to be descendants of emtpy nodes
     if (newParent.text === '') {
@@ -157,57 +192,35 @@ function EditorController(): IEditorController {
     }
 
     console.log(`Index ${idx} New Parent ${JSON.stringify(newParent)} Node text ${node.text}`)
-    parent?.children.splice(idx, 1)
+    parent.children.splice(idx, 1)
     newParent.children.push(node)
-
     state.parents.set(node.id, newParent)
-
-    setState({
-      ...state,
-      active: state.active,
-      focus: node.id
-    })
+    setState({ ...state, focus: node.id })
   }
 
   /**
    * Decrease indentation by 1
    */
   function dedent(node_id: string) {
-    if (state.nodes.get(node_id) === undefined) {
-      return state
-    }
-
-    const parent = state.parents.get(node_id)
-
-    // Top level node
-    if (parent === undefined || parent === null) {
-      return state
-    }
+    const [node, parent] = getNodeAndParent(node_id)
+    if (node === undefined || parent === undefined) return
 
     // New Parent
-    const newParent = state.parents.get(parent!!.id)
+    const newParent = state.parents.get(parent.id)
 
     // Nothing to move to
     if (newParent === undefined || newParent === null) {
-      return state
+      return console.log(`No parent to move to`)
     }
 
-    const parentIndex = newParent!.children.indexOf(parent!)
-    const node = state.nodes.get(node_id)!
-    const idx = parent?.children.indexOf(node)!
+    const parentIndex = newParent.children.indexOf(parent)
+    const idx = parent?.children.indexOf(node)
 
-    // Move the node to parent
-    parent?.children.splice(idx, 1)
-    newParent!.children.splice(parentIndex + 1, 0, node)
-
-    // Update the parent mapping
+    // Move the node to parent, update the parent mapping
+    parent.children.splice(idx, 1)
+    newParent.children.splice(parentIndex + 1, 0, node)
     state.parents.set(node.id, newParent)
-
-    setState({
-      ...state,
-      active: state.active,
-      focus: node.id
-    })
+    setState({ ...state, focus: node.id })
   }
 
   /**
@@ -215,74 +228,82 @@ function EditorController(): IEditorController {
    * that node in the list
    */
   function createNode(node_id: string) {
-    // Find parent and sibling index
-    const node = state.nodes.get(node_id)!
-    const parent = state.parents.get(node_id)
-    const idx = parent?.children.indexOf(node)!
+    const [node, parent] = getNodeAndParent(node_id)
+    if (node === undefined || parent === undefined) return
 
-    console.log(`Id: ${node_id}, index: ${idx}`)
+    const idx = parent.children.indexOf(node)
+    // console.log(`Id: ${node_id}, index: ${idx}`)
 
     // Create and add new node
     const newNode = new NodeData()
-    parent!.children.splice(idx + 1, 0, newNode)
+    parent.children.splice(idx + 1, 0, newNode)
     state.nodes.set(newNode.id, newNode)
-    state.parents.set(newNode.id, parent!)
-
-    setState({
-      ...state,
-      active: state.active,
-      focus: newNode.id
-    })
+    state.parents.set(newNode.id, parent)
+    setState({ ...state, focus: newNode.id })
   }
 
+  /**
+   * Remove the node from the tree, including its descendants.
+   */
   function deleteNode(node_id: string) {}
 
+  /**
+   * Move focus up the tree. Called by arrow up/down keyboard presses.
+   */
   function moveUp(node_id: string): void {
-    const node = state.nodes.get(node_id)!
-    const parent = state.parents.get(node_id)
-    const idx = parent?.children.indexOf(node)!
-
-    // Root element
-    if (node.id == state.active.id) {
+    // Current header element. TODO: should this decrease the zoom level?
+    if (node_id == state.active.id) {
       return
     }
 
-    // TODO: root element
+    const [node, parent] = getNodeAndParent(node_id)
+    if (node === undefined || parent === undefined) return
+    const idx = parent.children.indexOf(node)
+
+    // Move to the parent
     if (idx == 0) {
-      setState({
-        ...state,
-        focus: parent!.id
-      })
+      setState({ ...state, focus: parent.id })
+      return
     }
 
-    setState({
-      ...state,
-      focus: parent!.children[idx - 1].id
-    })
+    setState({ ...state, focus: parent.children[idx - 1].id })
   }
 
+  /**
+   * Move focus down the tree. Called by arrow up/down keyboard presses.
+   *
+   * If the current node has a next sibling, change focus to that node
+   * Else If the current node has a descendant, focus on their first descendant
+   * If the current node is at the end of its list, change focus to the parent's next sibling
+   */
   function moveDown(node_id: string): void {
-    const node = state.nodes.get(node_id)!
-    const parent = state.parents.get(node_id)
-    const idx = parent?.children.indexOf(node)!
+    const [node, parent] = getNodeAndParent(node_id)
+    if (node === undefined || parent === undefined) return
 
-    // // Root element
-    // if (node.id == state.active.id) {
-    //   return state
-    // }
+    console.log('Move Down')
 
-    // TODO: get index of parent!
-    if (idx == parent!.children!.length - 1) {
-      setState({
-        ...state,
-        focus: parent!.id
-      })
+    while (true) {
+      const [node, parent] = getNodeAndParent(node_id)
+      if (node === undefined || parent === undefined) return
+      const idx = parent.children.indexOf(node)
+
+      // TODO: take collapsed into account!
+      // This node has a descendant
+      // NOTE: this breaks with parents!
+      // if (node.children.length > 0 && node.isExpanded) {
+      //   setState({ ...state, focus: node.children[0].id })
+      //   return
+      // }
+
+      // This node has a sibling in its parents
+      if (idx < parent.children.length - 1) {
+        setState({ ...state, focus: parent.children[idx + 1].id })
+        return
+      }
+
+      // Otherwise step up a level and try again with the parent
+      node_id = parent.id
     }
-
-    setState({
-      ...state,
-      focus: parent!.children[idx - 1].id
-    })
   }
 
   return {
