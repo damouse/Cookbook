@@ -19,11 +19,11 @@ TODO
 - Delete when empty
 - shift + delete
 
-- Service/DI Review
-
 - Menu review: add better buttons
 
   - Collapse/Expand All
+  - Theme button
+  - Columns button
 
 - Make intermediate text fields multi-column
 
