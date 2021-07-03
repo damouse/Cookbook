@@ -12,6 +12,8 @@ const initialState: EditorState = {
   focus: null
 }
 
+interface IStateService {}
+
 /**
  * A global provider of editor state, tucked into a context.
  * NOTE: not currently in use. I'm not sure this works super well for what I'm trying to do here.

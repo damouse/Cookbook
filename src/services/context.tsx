@@ -1,10 +1,10 @@
 import { createContext, useContext } from 'react'
 import React from 'react'
-import ApiService from './api'
+import ApiService, { IApiService } from './api'
 import StateService from './state/state_manager'
 
 interface ContextState {
-  apiService: ApiService
+  apiService: IApiService
   // stateService: StateService
 }
 
@@ -24,7 +24,5 @@ interface Props {
 // Not working. Do a little more reading
 //  stateService: StateService()
 export function DepsProvider(props: Props) {
-  return (
-    <Context.Provider value={{ apiService: new ApiService() }}>{props.children}</Context.Provider>
-  )
+  return <Context.Provider value={{ apiService: ApiService() }}>{props.children}</Context.Provider>
 }

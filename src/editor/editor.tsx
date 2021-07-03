@@ -27,8 +27,8 @@ interface EditorProps {
 
 function Editor(props: EditorProps) {
   // Testing api/state service
-  // const { apiService } = useDeps()
-  // console.log(`Remote service: ${apiService.hello()}`)
+  const { apiService } = useDeps()
+  console.log(`Remote service: ${apiService.hello()}`)
 
   const [state, dispatch] = useReducer(stateReducer, initialState)
 

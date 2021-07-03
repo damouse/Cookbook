@@ -1,8 +1,9 @@
+import Masonry from 'react-masonry-css'
 import { COLLAPSE_ITEM } from '../../services/state/state_resolver'
 import Collapse from '../../widgets/collapse/collapse'
 import DotLink from '../../widgets/dot_link/dot_link'
 import Editable from '../../widgets/editible/editable'
-import { NodeChildrenFactory, NodeComponentProps } from '../node_factory'
+import NodeFactory, { NodeChildrenFactory, NodeComponentProps } from '../node_factory'
 import './subheader.scss'
 
 /**
@@ -25,10 +26,10 @@ function SubheaderNode(props: NodeComponentProps) {
         <div className={'text-subheader-line'} />
       </div>
 
-      <NodeChildrenFactory {...props} />
+      {/* <NodeChildrenFactory {...props} /> */}
 
       {/* So this does work, but have to be careful of element widths */}
-      {/* <div className="node-children">
+      <div className="node-children">
         <Masonry
           breakpointCols={3}
           className="my-masonry-grid"
@@ -43,7 +44,7 @@ function SubheaderNode(props: NodeComponentProps) {
             />
           ))}
         </Masonry>
-      </div> */}
+      </div>
     </div>
   )
 }
