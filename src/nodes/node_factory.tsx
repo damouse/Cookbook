@@ -6,10 +6,10 @@ import HeaderNode from './header/header_node'
 import { INode } from '../models/node_data'
 import SubheaderNode from './subheader/subheader'
 import './node.scss'
+import { IEditorController } from '../services/state/state_manager'
 
 export interface NodeComponentProps {
   data: INode
-  dispatch: React.Dispatch<EditorActions>
   focus: string | null
   depth: number
 }
@@ -34,7 +34,6 @@ function NodeFactory(props: NodeComponentProps): JSX.Element {
  */
 export interface NodeChildrenProps {
   data: INode
-  dispatch: React.Dispatch<EditorActions>
   focus: string | null
   depth: number
 }
@@ -47,12 +46,7 @@ export function NodeChildrenFactory(props: NodeChildrenProps) {
   return (
     <div className="node-children">
       {props.data.children.map(x => (
-        <NodeFactory
-          data={x}
-          dispatch={props.dispatch}
-          focus={props.focus}
-          depth={props.depth + 1}
-        />
+        <NodeFactory data={x} focus={props.focus} depth={props.depth + 1} />
       ))}
     </div>
   )

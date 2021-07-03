@@ -1,6 +1,7 @@
 import React from 'react'
 import ContentEditable, { ContentEditableEvent } from '../../helpers/content_editable'
 import { NodeComponentProps } from '../../nodes/node_factory'
+import { useDeps } from '../../services/context'
 import {
   CLEAR_FOCUS,
   CREATE,
@@ -21,12 +22,15 @@ interface Props extends NodeComponentProps {
  * An editable HTML Element
  */
 function Editable(props: Props) {
+  const { editorCtrl } = useDeps()
+
   function onFocus() {
+    editorCtrl.clearFocus()
     // if (nestedRef !== undefined) {
     //   console.log(`ref: ${nestedRef.offsetHeight} ${nestedRef.offsetLeft} ${nestedRef.offsetRight}`)
     // }
 
-    return props.dispatch({ type: CLEAR_FOCUS })
+    // return props.dispatch({ type: CLEAR_FOCUS })
   }
 
   function onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
@@ -35,7 +39,8 @@ function Editable(props: Props) {
     // Deshifft
     if (event.shiftKey && event.key == 'Tab') {
       event.preventDefault()
-      return props.dispatch({ type: DEDENT, id: props.data.id })
+      // return props.dispatch({ type: DEDENT, id: props.data.id })
+      editorCtrl.dedent(props.data.id)
     }
 
     // Soft newlines
@@ -49,16 +54,20 @@ function Editable(props: Props) {
     switch (event.key) {
       case 'Enter':
         event.preventDefault()
-        return props.dispatch({ type: CREATE, id: props.data.id })
+        return editorCtrl.createNode(props.data.id)
+      // return props.dispatch({ type: CREATE, id: props.data.id })
       case 'Tab':
         event.preventDefault()
-        return props.dispatch({ type: INDENT, id: props.data.id })
+        return editorCtrl.indent(props.data.id)
+      // return props.dispatch({ type: INDENT, id: props.data.id })
       case 'ArrowUp':
         event.preventDefault()
-        return props.dispatch({ type: MOVE_UP, id: props.data.id })
+        return editorCtrl.moveUp(props.data.id)
+      // return props.dispatch({ type: MOVE_UP, id: props.data.id })
       case 'ArrowDown':
         event.preventDefault()
-        return props.dispatch({ type: MOVE_DOWN, id: props.data.id })
+        return editorCtrl.moveDown(props.data.id)
+      // return props.dispatch({ type: MOVE_DOWN, id: props.data.id })
       default:
       // console.log(`Some other key: ${event.key}`)
     }
@@ -67,7 +76,8 @@ function Editable(props: Props) {
   // I'm actually not sure this is going to work. Hitting enter will add divs within the
   // editing div, and I probably want newlines?
   const handleChange = (evt: ContentEditableEvent) => {
-    return props.dispatch({ type: EDIT, id: props.data.id, text: evt.target.value })
+    return editorCtrl.editNode(props.data.id, evt.target.value)
+    // return props.dispatch({ type: EDIT, id: props.data.id, text: evt.target.value })
   }
 
   const className = `node-text ${props.class !== undefined ? props.class : ''}`

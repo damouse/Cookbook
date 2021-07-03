@@ -9,12 +9,7 @@ function HeaderNode(props: NodeComponentProps) {
   let children =
     props.data.children.length > 0 ? (
       props.data.children.map(x => (
-        <NodeFactory
-          data={x}
-          dispatch={props.dispatch}
-          focus={props.focus}
-          depth={props.depth + 1}
-        />
+        <NodeFactory data={x} focus={props.focus} depth={props.depth + 1} />
       ))
     ) : (
       <></>

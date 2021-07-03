@@ -3,23 +3,18 @@ import Editable from '../../widgets/editible/editable'
 import CommentNode from '../comment/comment_node'
 import './code.scss'
 import { NodeComponentProps } from '../node_factory'
-import { COLLAPSE_ITEM } from '../../services/state/state_resolver'
 import { useDeps } from '../../services/context'
 
 /**
  * Editable code block
  */
 function CodeNode(props: NodeComponentProps) {
-  const { apiService } = useDeps()
-
-  console.log(`Counter: ${apiService.getCounter()}`)
-
   return (
     <div className="code-flex-wrapper">
       <Collapse
+        id={props.data.id}
         collapsible={props.data.children.length > 0}
         collapsed={!props.data.isExpanded}
-        onClick={_ => props.dispatch({ type: COLLAPSE_ITEM, id: props.data.id })}
       />
       <div className="code-node">
         <div className="node-row">

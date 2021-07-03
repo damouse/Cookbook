@@ -3,7 +3,6 @@ import Collapse from '../../widgets/collapse/collapse'
 import { NodeChildrenFactory, NodeComponentProps } from '../node_factory'
 import Editable from '../../widgets/editible/editable'
 import './text.scss'
-import { COLLAPSE_ITEM } from '../../services/state/state_resolver'
 
 /**
  * Simple lines of text, no headers
@@ -13,9 +12,9 @@ function TextNode(props: NodeComponentProps) {
     <div className="node">
       <div className="node-row">
         <Collapse
+          id={props.data.id}
           collapsible={props.data.children.length > 0}
           collapsed={!props.data.isExpanded}
-          onClick={_ => props.dispatch({ type: COLLAPSE_ITEM, id: props.data.id })}
         />
         <DotLink id={props.data.id} />
         <Editable {...props} />

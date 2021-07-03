@@ -12,24 +12,23 @@ import './subheader.scss'
 function SubheaderNode(props: NodeComponentProps) {
   // console.log(`Subheader: ${props.data.id}`)
   // props.data.children.forEach(x => console.log(`  ${x.id}`))
-
   return (
     <div className="node">
       <div className="node-row subheader-text-row ">
         <Collapse
+          id={props.data.id}
           collapsible={props.data.children.length > 0}
           collapsed={!props.data.isExpanded}
-          onClick={_ => props.dispatch({ type: COLLAPSE_ITEM, id: props.data.id })}
         />
         <DotLink id={props.data.id} />
         <Editable {...props} class={'text-subheader'} />
         <div className={'text-subheader-line'} />
       </div>
 
-      {/* <NodeChildrenFactory {...props} /> */}
+      <NodeChildrenFactory {...props} />
 
       {/* So this does work, but have to be careful of element widths */}
-      <div className="node-children">
+      {/* <div className="node-children">
         <Masonry
           breakpointCols={3}
           className="my-masonry-grid"
@@ -44,7 +43,7 @@ function SubheaderNode(props: NodeComponentProps) {
             />
           ))}
         </Masonry>
-      </div>
+      </div> */}
     </div>
   )
 }

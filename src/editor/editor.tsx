@@ -32,16 +32,22 @@ function Editor(props: EditorProps) {
   // console.log(`Counter: ${apiService.getCounter()}`)
   // apiService.increment()
 
-  const [state, dispatch] = useReducer(stateReducer, initialState)
+  const { editorCtrl } = useDeps()
+  const { state, loadFromJson } = editorCtrl
+
+  // const [state, dispatch] = useReducer(stateReducer, initialState)
 
   // This should only run once, on startup. Its not.
   useEffect(() => {
-    dispatch({ type: LOAD, source: props.source })
+    // dispatch({ type: LOAD, source: props.source })
+    loadFromJson(props.source)
   }, [props.source])
 
   useEffect(() => {
+    // BUG: route changes don't work on the root
+    console.log(`On route change: ${props.hash}`)
     if (props.hash !== undefined && props.hash !== state.target) {
-      dispatch({ type: CHANGE, target: props.hash })
+      // dispatch({ type: CHANGE, target: props.hash })
     }
   }, [props.hash])
 
@@ -60,7 +66,7 @@ function Editor(props: EditorProps) {
       <div id="listContainer">
         <div id="currentFilters"></div>
         <div id="list" className="root-children">
-          <NodeFactory data={state.active} dispatch={dispatch} focus={state.focus} depth={0} />
+          <NodeFactory data={state.active} focus={state.focus} depth={0} />
           {/* <div className="loader"></div> */}
         </div>
       </div>
