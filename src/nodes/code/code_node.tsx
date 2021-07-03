@@ -4,11 +4,16 @@ import CommentNode from '../comment/comment_node'
 import './code.scss'
 import { NodeComponentProps } from '../node_factory'
 import { COLLAPSE_ITEM } from '../../services/state/state_resolver'
+import { useDeps } from '../../services/context'
 
 /**
  * Editable code block
  */
 function CodeNode(props: NodeComponentProps) {
+  const { apiService } = useDeps()
+
+  console.log(`Counter: ${apiService.getCounter()}`)
+
   return (
     <div className="code-flex-wrapper">
       <Collapse
