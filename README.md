@@ -1,15 +1,12 @@
 # Notes
 
-Setup
-
-```
-npm init react-app myapp --use-npm --template typescript
-```
+WIP
 
 ##
 
 TODO
 
+- Review dot-link style
 - Review Down arrow Algo
 - Review up arrow Algo
 
