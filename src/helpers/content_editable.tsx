@@ -59,9 +59,9 @@ export default class ContentEditable extends React.Component<Props> {
         ref:
           typeof innerRef === 'function'
             ? (current: HTMLElement) => {
-                innerRef(current)
-                this.el.current = current
-              }
+              innerRef(current)
+              this.el.current = current
+            }
             : innerRef || this.el,
         onInput: this.emitChange,
         onBlur: this.props.onBlur || this.emitChange,
@@ -135,10 +135,10 @@ export default class ContentEditable extends React.Component<Props> {
 
     // NOTE: this works to get the current position on the line, but it doesn't tell you
     // which line it is.
-    var sel = window.getSelection()
-    console.log(
-      `Selection: ${sel?.focusOffset} ${sel?.anchorOffset} ${sel?.anchorNode} ${sel?.focusNode}`
-    )
+    // var sel = window.getSelection()
+    // console.log(
+    // `Selection: ${sel?.focusOffset} ${sel?.anchorOffset} ${sel?.anchorNode} ${sel?.focusNode}`
+    // )
 
     this.lastHtml = html
   }
