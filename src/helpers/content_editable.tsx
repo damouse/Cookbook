@@ -52,6 +52,7 @@ export default class ContentEditable extends React.Component<Props> {
   render() {
     const { tagName, html, innerRef, ...props } = this.props
 
+    // eslint-disable-next-line react/no-danger-with-children
     return React.createElement(
       tagName || 'div',
       {
@@ -136,8 +137,11 @@ export default class ContentEditable extends React.Component<Props> {
     // NOTE: this works to get the current position on the line, but it doesn't tell you
     // which line it is.
     var sel = window.getSelection()
+    const anchor = sel?.anchorNode as any
+    const parent = anchor.parent
+
     console.log(
-      `Selection: ${sel?.focusOffset} ${sel?.anchorOffset} ${sel?.anchorNode} ${sel?.focusNode}`
+      `Selection: ${sel?.focusOffset} ${sel?.anchorOffset} ${sel?.anchorNode} ${sel?.focusNode} ${parent}`
     )
 
     this.lastHtml = html

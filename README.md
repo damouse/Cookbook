@@ -8,13 +8,9 @@ npm run start
 
 TODO
 
-- Review dot-link style
-- Review Down arrow Algo
-- Review up arrow Algo
-
+- Fix root node encoding
+- Code button, and review button position (check laptop progress)
 - Understand cursor position-- need to know when we can delete and move to the
-  next line and arrows and all that jazz
-- Code button, and review button position
 - Delete when empty
 - shift + delete
 

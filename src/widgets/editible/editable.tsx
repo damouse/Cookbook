@@ -29,8 +29,13 @@ function Editable(props: Props) {
     // Deshifft
     if (event.shiftKey && event.key === 'Tab') {
       event.preventDefault()
-      // return props.dispatch({ type: DEDENT, id: props.data.id })
-      editorCtrl.dedent(props.data.id)
+      return editorCtrl.dedent(props.data.id)
+    }
+
+    // Delete Line
+    if (event.shiftKey && event.key === 'Delete') {
+      event.preventDefault()
+      return editorCtrl.deleteNode(props.data.id)
     }
 
     // Soft newlines
@@ -62,6 +67,26 @@ function Editable(props: Props) {
   // I'm actually not sure this is going to work. Hitting enter will add divs within the
   // editing div, and I probably want newlines?
   const handleChange = (evt: ContentEditableEvent) => {
+    // var myElement: any = document.getElementById(`node-body-${props.data.id}`)
+    // var startPosition = myElement.selectionStart
+    // var endPosition = myElement.selectionEnd
+    // console.log(`Positions: ${startPosition} ${endPosition} id ${`node-body-${props.data.id}`}`)
+
+    // // Check if you've selected text
+    // if (startPosition === endPosition) {
+    //   alert('The position of the cursor is (' + startPosition + '/' + myElement.value.length + ')')
+    // } else {
+    //   alert(
+    //     'Selected text from (' +
+    //       startPosition +
+    //       ' to ' +
+    //       endPosition +
+    //       ' of ' +
+    //       myElement.value.length +
+    //       ')'
+    //   )
+    // }
+
     return editorCtrl.editNode(props.data.id, evt.target.value)
     // return props.dispatch({ type: EDIT, id: props.data.id, text: evt.target.value })
   }
@@ -71,6 +96,7 @@ function Editable(props: Props) {
   return (
     <ContentEditable
       className={className}
+      id={`node-body-${props.data.id}`}
       key={`node-body-${props.data.id}`}
       html={props.data.text}
       onChange={handleChange}

@@ -244,6 +244,8 @@ function EditorController(): IEditorController {
 
   /**
    * Remove the node from the tree, including its descendants.
+   *
+   * Boy oh by are we going to need an undo function...
    */
   function deleteNode(node_id: string) {}
 
@@ -260,7 +262,18 @@ function EditorController(): IEditorController {
     if (node === undefined || parent === undefined) return
     const idx = parent.children.indexOf(node)
 
-    // Move to the parent
+    // If this node is not the last node and it has siblings and is uncollapsed, move to that node
+    if (
+      idx !== 0 &&
+      parent.children[idx - 1].isExpanded &&
+      parent.children[idx - 1].children.length > 0
+    ) {
+      const prevNode = parent.children[idx - 1]
+      setState({ ...state, focus: prevNode.children[prevNode.children.length - 1].id })
+      return
+    }
+
+    // Move to the parent if no shared children are present
     if (idx === 0) {
       setState({ ...state, focus: parent.id })
       return
@@ -277,32 +290,40 @@ function EditorController(): IEditorController {
    * If the current node is at the end of its list, change focus to the parent's next sibling
    */
   function moveDown(node_id: string): void {
+    if (node_id === state.active.id) {
+      return
+    }
+
     const [node, parent] = getNodeAndParent(node_id)
     if (node === undefined || parent === undefined) return
+    const idx = parent.children.indexOf(node)
 
-    console.log('Move Down')
+    // If this node is uncollapsed and has children, go to one of them
+    if (node.children.length > 0 && node.isExpanded) {
+      setState({ ...state, focus: node.children[0].id })
+      return
+    }
 
-    while (true) {
-      const [node, parent] = getNodeAndParent(node_id)
-      if (node === undefined || parent === undefined) return
-      const idx = parent.children.indexOf(node)
+    // This node has a sibling in its parents-- move down one
+    if (idx < parent.children.length - 1) {
+      setState({ ...state, focus: parent.children[idx + 1].id })
+      return
+    }
 
-      // TODO: take collapsed into account!
-      // This node has a descendant
-      // NOTE: this breaks with parents!
-      // if (node.children.length > 0 && node.isExpanded) {
-      //   setState({ ...state, focus: node.children[0].id })
-      //   return
-      // }
+    // Otherwise this node is the last node in its parents.
+    // Move up a level and down, if possible
 
-      // This node has a sibling in its parents
-      if (idx < parent.children.length - 1) {
-        setState({ ...state, focus: parent.children[idx + 1].id })
+    // If this node is the last node in its children, step up a level
+    if (idx === parent.children.length - 1) {
+      const [sameParent, grandparent] = getNodeAndParent(parent!.id)
+      if (grandparent === undefined || sameParent === undefined) return
+      const parentIdx = grandparent.children.indexOf(parent)
+
+      if (parentIdx < grandparent.children.length - 1) {
+        // If the parent is not
+        setState({ ...state, focus: grandparent.children[parentIdx + 1].id })
         return
       }
-
-      // Otherwise step up a level and try again with the parent
-      node_id = parent.id
     }
   }
 
