@@ -14,7 +14,8 @@ $themes: (
     // list-card-color: #f1f3f5
     seperator-color: rgba(85, 102, 119, 0.18),
     // Not sure how to get the box shadow in the right way
-    box-shadow: 0 3px 4px rgba(85, 102, 119, 0.2)
+    box-shadow: 0 3px 4px rgba(85, 102, 119, 0.2),
+    bullet-color: rgb(220, 224, 226)
   ),
   dark: (
     color-background: #1e1f1c,
@@ -29,7 +30,8 @@ $themes: (
     background-color: #1e1f1c,
     // list-card-color: #272822
     seperator-color: rgba(85, 102, 119, 0.18),
-    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2)
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2),
+    bullet-color: #272822
   )
 );
 

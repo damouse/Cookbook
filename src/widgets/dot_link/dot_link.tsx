@@ -8,7 +8,9 @@ interface Props {
 function DotLink(props: Props) {
   return (
     <Link to={{ pathname: `/${props.id}` }} className="node-bullet noselect">
-      &#9679;
+      <svg viewBox="0 0 18 18" className="zoomBulletIcon">
+        <circle cx="9" cy="9" r="3.5"></circle>
+      </svg>
     </Link>
   )
 }

@@ -1,6 +1,8 @@
 # Notes
 
-WIP
+```
+npm run start
+```
 
 ##
 
