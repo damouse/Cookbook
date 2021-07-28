@@ -10,11 +10,15 @@
   text-decoration: none;
   // color: var(--secondary-text-color);
   @include theme-aware('background', 'bullet-color');
-  background: rgb(220, 224, 226);
+  // background: rgb(220, 224, 226);
 
   width: 18px;
   height: 18px;
   border-radius: 9px;
+}
+
+.node-bullet-no-children {
+  @include theme-aware('background', 'color-background');
 }
 
 .node-bullet:visited {

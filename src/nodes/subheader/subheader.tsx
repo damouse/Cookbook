@@ -18,7 +18,7 @@ function SubheaderNode(props: NodeComponentProps) {
           collapsible={props.data.children.length > 0}
           collapsed={!props.data.isExpanded}
         />
-        <DotLink id={props.data.id} />
+        <DotLink id={props.data.id} children={props.data.children.length > 0} />
         <Editable {...props} class={'text-subheader'} />
         <div className={'text-subheader-line'} />
       </div>

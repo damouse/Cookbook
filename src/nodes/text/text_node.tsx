@@ -16,7 +16,7 @@ function TextNode(props: NodeComponentProps) {
           collapsible={props.data.children.length > 0}
           collapsed={!props.data.isExpanded}
         />
-        <DotLink id={props.data.id} />
+        <DotLink id={props.data.id} children={props.data.children.length > 0} />
         <Editable {...props} />
       </div>
       <NodeChildrenFactory {...props} />
