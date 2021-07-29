@@ -66,7 +66,7 @@ const rawJson = `{
     },
     {
       "id": "d",
-      "text": "My Code Block<br>Now with newlines!",
+      "text": "My Code Block\\nNow with newlines!",
       "isCode": true,
       "children": [
         {

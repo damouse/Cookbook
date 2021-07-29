@@ -89,32 +89,19 @@ function Editable(props: Props) {
     //   )
     // }
 
+    const input = document.getElementById(`input-${props.data.id}`) as any
+    let Ipos = null
+
+    if (input.selectionDirection === 'forward') Ipos = input.selectionEnd
+    else if (input.selectionDirection === 'backward') Ipos = input.selectionStart
+
+    console.log(`Cursor position: ${Ipos}`)
+
     return editorCtrl.editNode(props.data.id, evt.target.value)
     // return props.dispatch({ type: EDIT, id: props.data.id, text: evt.target.value })
   }
 
   const className = `node-text ${props.class !== undefined ? props.class : ''}`
-
-  // Testing with textarea
-  const onChange = (evt: ContentEditableEvent) => {
-    const input = document.getElementById(`input-${props.data.id}`) as any
-    let Ipos = null
-
-    if (input.selectionDirection === 'forward') Ipos = input.selectionEnd
-    else if (input.selectionDirection === 'backward') Ipos = input.selectionStart
-
-    console.log(`Cursor position: ${Ipos}`)
-  }
-
-  const onFocus2 = (x: any) => {
-    const input = document.getElementById(`input-${props.data.id}`) as any
-    let Ipos = null
-
-    if (input.selectionDirection === 'forward') Ipos = input.selectionEnd
-    else if (input.selectionDirection === 'backward') Ipos = input.selectionStart
-
-    console.log(`Cursor position: ${Ipos}`)
-  }
 
   return (
     <>
@@ -127,13 +114,13 @@ function Editable(props: Props) {
       <TextareaAutosize
         className={`${className} input-editable`}
         id={`input-${props.data.id}`}
+        key={`node-body-${props.data.id}`}
         onChange={handleChange}
         onFocus={onFocus}
         onKeyDown={onKeyDown}
         ref={input => input && props.data.id === props.focus && input.focus()}
-      >
-        {props.data.text}
-      </TextareaAutosize>
+        defaultValue={props.data.text}
+      />
 
       {/* <ContentEditable
         className={className}
