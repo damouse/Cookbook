@@ -13,7 +13,6 @@ interface Props {
 function Menu(props: Props) {
   let menuList: JSX.Element[] = []
   let curr: NodeData | null = props.state.active
-  // console.log('Menu construction')
 
   while (curr !== null) {
     menuList.push(
@@ -44,7 +43,6 @@ function Menu(props: Props) {
     <div id="listHeader">
       <div id="nodePath">
         {menuList}
-        {/* {menu} */}
       </div>
       <label className="switch">
         <input id="showCompletedSwitch" type="checkbox" onChange={_ => props.onThemeChange()} />

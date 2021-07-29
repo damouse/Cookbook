@@ -27,11 +27,11 @@ function Editor(props: EditorProps) {
 
   return (
     <div>
-      <div id="pageHeader">
-        <h1>
-          <a href="/">Cookbook</a>
-        </h1>
-      </div>
+      {/* <div id="pageHeader"> */}
+      {/* <h1> */}
+      {/* <a href="/">Cookbook</a> */}
+      {/* </h1> */}
+      {/* </div> */}
 
       <div id="listHeader">
         <Menu onThemeChange={props.onThemeChange} state={state}></Menu>
