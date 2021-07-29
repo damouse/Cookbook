@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import ContentEditable, { ContentEditableEvent } from '../../helpers/content_editable'
 import { NodeComponentProps } from '../../nodes/node_factory'
 import { useDeps } from '../../services/context'
+import TextareaAutosize from 'react-textarea-autosize'
+
 import './editable.scss'
 
 interface Props extends NodeComponentProps {
@@ -23,7 +25,7 @@ function Editable(props: Props) {
     // return props.dispatch({ type: CLEAR_FOCUS })
   }
 
-  function onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+  function onKeyDown(event: React.KeyboardEvent<any>) {
     // console.log(`Keypress: ${event.key}`)
 
     // Deshifft
@@ -93,31 +95,71 @@ function Editable(props: Props) {
 
   const className = `node-text ${props.class !== undefined ? props.class : ''}`
 
+  // Testing with textarea
+  const onChange = (evt: ContentEditableEvent) => {
+    const input = document.getElementById(`input-${props.data.id}`) as any
+    let Ipos = null
+
+    if (input.selectionDirection === 'forward') Ipos = input.selectionEnd
+    else if (input.selectionDirection === 'backward') Ipos = input.selectionStart
+
+    console.log(`Cursor position: ${Ipos}`)
+  }
+
+  const onFocus2 = (x: any) => {
+    const input = document.getElementById(`input-${props.data.id}`) as any
+    let Ipos = null
+
+    if (input.selectionDirection === 'forward') Ipos = input.selectionEnd
+    else if (input.selectionDirection === 'backward') Ipos = input.selectionStart
+
+    console.log(`Cursor position: ${Ipos}`)
+  }
+
   return (
-    <ContentEditable
-      className={className}
-      id={`node-body-${props.data.id}`}
-      key={`node-body-${props.data.id}`}
-      html={props.data.text}
-      onChange={handleChange}
-      onFocus={onFocus}
-      onKeyDown={onKeyDown}
-      innerRef={(input: HTMLDivElement | null) => {
-        if (input == null) {
-          return
-        }
+    <>
+      {/* Appears to work with textarea, wont work with contenteditable... 
+      Worth trying a little styling. The data is kinda meh
 
-        // console.log(`Have ref: ${input}`)
-        // TEMP
-        // nestedRef = input
-        // refUpdated(input)
+      NOTE: this does not automatically resize itself, which I find very strange since contenteditable
+      handles this out of the box. 
+      */}
+      <TextareaAutosize
+        className={`${className} input-editable`}
+        id={`input-${props.data.id}`}
+        onChange={handleChange}
+        onFocus={onFocus}
+        onKeyDown={onKeyDown}
+        ref={input => input && props.data.id === props.focus && input.focus()}
+      >
+        {props.data.text}
+      </TextareaAutosize>
 
-        if (props.data.id === props.focus) {
-          input.focus()
-          // console.log(`Input: ${input.selectionStart}`)
-        }
-      }}
-    />
+      {/* <ContentEditable
+        className={className}
+        id={`node-body-${props.data.id}`}
+        key={`node-body-${props.data.id}`}
+        html={props.data.text}
+        onChange={handleChange}
+        onFocus={onFocus}
+        onKeyDown={onKeyDown}
+        innerRef={(input: HTMLDivElement | null) => {
+          if (input == null) {
+            return
+          }
+
+          // console.log(`Have ref: ${input}`)
+          // TEMP
+          // nestedRef = input
+          // refUpdated(input)
+
+          if (props.data.id === props.focus) {
+            input.focus()
+            // console.log(`Input: ${input.selectionStart}`)
+          }
+        }}
+      /> */}
+    </>
   )
 }
 

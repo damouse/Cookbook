@@ -1,0 +1,13 @@
+@import '../../variables.scss';
+
+.input-editable {
+  background: none;
+  border: none;
+  overflow: none;
+  resize: none;
+  outline: none;
+
+  .scroll::-webkit-scrollbar {
+    display: none;
+  }
+}
