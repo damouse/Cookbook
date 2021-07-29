@@ -136,13 +136,10 @@ export default class ContentEditable extends React.Component<Props> {
 
     // NOTE: this works to get the current position on the line, but it doesn't tell you
     // which line it is.
-    var sel = window.getSelection()
-    const anchor = sel?.anchorNode as any
-    const parent = anchor.parent
-
-    console.log(
-      `Selection: ${sel?.focusOffset} ${sel?.anchorOffset} ${sel?.anchorNode} ${sel?.focusNode} ${parent}`
-    )
+    // var sel = window.getSelection()
+    // console.log(
+    // `Selection: ${sel?.focusOffset} ${sel?.anchorOffset} ${sel?.anchorNode} ${sel?.focusNode}`
+    // )
 
     this.lastHtml = html
   }

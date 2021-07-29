@@ -1,0 +1,12 @@
+@import '../../variables.scss';
+
+.code-toggle {
+    opacity: 0;
+}
+
+// I'm doing something silly here, I'm sure.
+.node:hover {
+    .code-toggle {
+        opacity: 1;
+    }
+}

@@ -3,13 +3,15 @@ import Editable from '../../widgets/editible/editable'
 import CommentNode from '../comment/comment_node'
 import './code.scss'
 import { NodeComponentProps } from '../node_factory'
+import CodeButton from '../../widgets/code_button/code_button'
 
 /**
  * Editable code block
  */
 function CodeNode(props: NodeComponentProps) {
   return (
-    <div className="code-flex-wrapper">
+    <div className="node code-flex-wrapper">
+      <CodeButton isCode={props.data.isCode} id={props.data.id}></CodeButton>
       <Collapse
         id={props.data.id}
         collapsible={props.data.children.length > 0}

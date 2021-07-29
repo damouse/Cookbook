@@ -25,6 +25,7 @@ export interface IEditorController {
 
   setActive(target: string): void
   toggleCollapsed(node_id: string): void
+  toggleCode(node_id: string): void
   clearFocus(): void
 
   indent(node_id: string): void
@@ -279,6 +280,8 @@ function EditorController(): IEditorController {
       return
     }
 
+    // TODO: sibling with nested, uncollapsed children
+
     setState({ ...state, focus: parent.children[idx - 1].id })
   }
 
@@ -325,6 +328,52 @@ function EditorController(): IEditorController {
         return
       }
     }
+    /*
+    let [node, parent] = getNodeAndParent(node_id)
+    if (node === undefined || parent === undefined) return
+    const idx = parent.children.indexOf(node)
+
+    // This node has a descendant that is not collapsed 
+    // NOTE: this breaks with parents!
+    if (node.children.length > 0 && node.isExpanded) {
+      setState({ ...state, focus: node.children[0].id })
+      return
+    }
+
+    // This node has a sibling in its parents
+    if (idx < parent.children.length - 1) {
+      setState({ ...state, focus: parent.children[idx + 1].id })
+      return
+    }
+
+    node_id = parent.id
+
+    // Otherwise keep looping on the parent until we find the next sibling
+    while (true) {
+      const [node, parent] = getNodeAndParent(node_id)
+      if (node === undefined || parent === undefined) return
+      const idx = parent.children.indexOf(node)
+
+      // This node has a sibling in its parents
+      if (idx < parent.children.length - 1) {
+        setState({ ...state, focus: parent.children[idx + 1].id })
+        return
+      }
+    }
+  }
+  */
+  }
+
+  function toggleCode(node_id: string): void {
+    const node = state.nodes.get(node_id)
+
+    if (node === undefined) {
+      console.log(`Cant find node ${node_id}`)
+      return
+    }
+
+    node.isCode = !node.isCode
+    setState({ ...state })
   }
 
   return {
@@ -339,7 +388,8 @@ function EditorController(): IEditorController {
     moveDown,
     toggleCollapsed,
     clearFocus,
-    editNode
+    editNode,
+    toggleCode
   }
 }
 
