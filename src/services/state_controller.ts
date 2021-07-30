@@ -248,7 +248,25 @@ function EditorController(): IEditorController {
    *
    * Boy oh by are we going to need an undo function...
    */
-  function deleteNode(node_id: string) {}
+  function deleteNode(node_id: string) {
+    const [node, parent] = getNodeAndParent(node_id)
+    if (node === undefined || parent === undefined) return
+
+    const idx = parent?.children.indexOf(node)
+    parent.children.splice(idx, 1)
+
+    // Cleanup
+    state.parents.delete(node.id)
+    state.nodes.delete(node.id)
+
+    let newFocus = parent.id
+
+    if (idx > 0) {
+      newFocus = parent.children[idx - 1].id
+    }
+
+    setState({ ...state, focus: newFocus })
+  }
 
   /**
    * Move focus up the tree. Called by arrow up/down keyboard presses.

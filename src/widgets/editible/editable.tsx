@@ -25,6 +25,17 @@ function Editable(props: Props) {
     // return props.dispatch({ type: CLEAR_FOCUS })
   }
 
+  function getCursorPosition() {
+    const input = document.getElementById(`input-${props.data.id}`) as any
+    let Ipos = null
+
+    if (input.selectionDirection === 'forward') Ipos = input.selectionEnd
+    else if (input.selectionDirection === 'backward') Ipos = input.selectionStart
+
+    console.log(`Cursor position: ${Ipos}`)
+    return Ipos
+  }
+
   function onKeyDown(event: React.KeyboardEvent<any>) {
     // console.log(`Keypress: ${event.key}`)
 
@@ -35,7 +46,12 @@ function Editable(props: Props) {
     }
 
     // Delete Line
-    if (event.shiftKey && event.key === 'Delete') {
+    if (event.shiftKey && event.key === 'Backspace') {
+      event.preventDefault()
+      return editorCtrl.deleteNode(props.data.id)
+    }
+
+    if (event.key === 'Backspace' && getCursorPosition() === 0) {
       event.preventDefault()
       return editorCtrl.deleteNode(props.data.id)
     }
@@ -88,14 +104,6 @@ function Editable(props: Props) {
     //       ')'
     //   )
     // }
-
-    const input = document.getElementById(`input-${props.data.id}`) as any
-    let Ipos = null
-
-    if (input.selectionDirection === 'forward') Ipos = input.selectionEnd
-    else if (input.selectionDirection === 'backward') Ipos = input.selectionStart
-
-    console.log(`Cursor position: ${Ipos}`)
 
     return editorCtrl.editNode(props.data.id, evt.target.value)
     // return props.dispatch({ type: EDIT, id: props.data.id, text: evt.target.value })
