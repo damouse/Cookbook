@@ -9,18 +9,12 @@ npm run start
 TODO
 
 - Fix root node encoding
-- Code button, and review button position (check laptop progress)
-- Understand cursor position-- need to know when we can delete and move to the
-- Delete when empty
-- shift + delete
-
+- Styling + hover for code button and collapsibles
 - Menu review: add better buttons
-
   - Collapse/Expand All
   - Theme button
   - Columns button
-
-- Make intermediate text fields multi-column
+-
 
 Deferred
 
@@ -29,6 +23,9 @@ Deferred
 - Newline persistence management
 - Backend
 - Undo system
+- maybe making a newline in code block should make a comment, not a new code block
+- Consider adding Help sider
+- Consider making a code block keyboard shortcut
 
 BUGS
 
@@ -42,3 +39,5 @@ I'm not sure I like the current state passthrough to widget components. It feels
 I might try moving that to node components again.
 
 Passing the state down through components is not too bad.
+
+mobx-tree could provide undo functionality out of the box, but at the cost of
