@@ -12,11 +12,11 @@ function CodeNode(props: NodeComponentProps) {
   return (
     <div className="node code-flex-wrapper">
       <CodeButton isCode={props.data.isCode} id={props.data.id}></CodeButton>
-      <Collapse
+      {/* <Collapse
         id={props.data.id}
         collapsible={props.data.children.length > 0}
         collapsed={!props.data.isExpanded}
-      />
+      /> */}
       <div className="code-node">
         <div className="node-row">
           <Editable {...props} class={'code-text'} />
