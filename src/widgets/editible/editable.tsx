@@ -128,6 +128,7 @@ function Editable(props: Props) {
         onKeyDown={onKeyDown}
         ref={input => input && props.data.id === props.focus && input.focus()}
         defaultValue={props.data.text}
+        spellCheck={false}
       />
 
       {/* <ContentEditable

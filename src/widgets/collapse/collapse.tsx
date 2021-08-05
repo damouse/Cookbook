@@ -19,13 +19,14 @@ function Collapse(props: Props) {
       {props.collapsible ? (
         <div className="node-arrow noselect" onClick={_ => toggleCollapsed(props.id)}>
           {props.collapsed ? (
-            <DownArrow />
-          ) : (
             <DownArrow className="right-arrow-rotation collapse-arrow" />
+            ) : (
+            <DownArrow />
           )}
         </div>
       ) : (
-        <div className="no-node-arrow noselect"></div>
+        <></>
+        // <div className="no-node-arrow noselect"></div>
       )}
     </>
   )

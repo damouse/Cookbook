@@ -5,7 +5,7 @@ import { DepsProvider } from '../services/context'
 
 const rawJson = `{
   "id": "a",
-  "text": "a",
+  "text": "blah blah",
   "children": [{
       "id": "b",
       "text": "b",
@@ -62,19 +62,34 @@ const rawJson = `{
     },
     {
       "id": "c",
-      "text": "c"
+      "text": "Python Lists"
     },
     {
       "id": "d",
-      "text": "My Code Block\\nNow with newlines!",
+      "text": "a = [1, 2, 3, 4, 5]\\na[2:3]    # => 3, 4",
       "isCode": true,
       "children": [
         {
           "id": "h",
-          "text": "Some insightful comment"
+          "text": "Python list slicing from index 2 up to 3, not inclusive"
         },
         {
           "id": "i",
+          "text": "Another Insightful Comment"
+        }
+      ]
+    },
+    {
+      "id": "j",
+      "text": "a = [1, 2, 3, 4, 5]\\na[2:3]    # => 3, 4",
+      "isCode": true,
+      "children": [
+        {
+          "id": "k",
+          "text": "Python list slicing from index 2 up to 3, not inclusive"
+        },
+        {
+          "id": "l",
           "text": "Another Insightful Comment"
         }
       ]

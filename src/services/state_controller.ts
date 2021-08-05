@@ -102,6 +102,9 @@ function EditorController(): IEditorController {
       }
     }
 
+    // The root node is special? 
+    root.text = "Cookbook"
+
     // NOTE: root doesn't have an entry in sibling index currently
     // Nodes aren't able to get to the top level as written, this may be why
     recursiveBuilder(root, null)
@@ -292,13 +295,20 @@ function EditorController(): IEditorController {
       return
     }
 
-    // Move to the parent if no shared children are present
-    if (idx === 0) {
+    // Move to the parent if no shared children are present as long as the parent is not the root
+    if (idx === 0 && parent.id !== state.root.id) {
       setState({ ...state, focus: parent.id })
       return
     }
 
+    // Do not allow navigation to the root node
+    console.log(`Root, parent ${state.root} ${parent.id}`)
+    if (idx === 0 && parent.id === state.root.id) {
+      return
+    }
+
     // TODO: sibling with nested, uncollapsed children
+    // Note: this seems to work
 
     setState({ ...state, focus: parent.children[idx - 1].id })
   }

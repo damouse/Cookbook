@@ -23,6 +23,7 @@
 .collapse-arrow {
   @include theme-aware('fill', 'secondary-text-color');
   @include theme-aware('stroke', 'secondary-text-color');
+  // padding-top: 3px;
 }
 
 .right-arrow-rotation {
